@@ -9,7 +9,7 @@ class Auth
 
     public function handle($request, \Closure $next)
     {
-
+        
         //dump($request->pathinfo());
         // 前置中间件
         if (empty(session(config("user.session_front"))) && !preg_match("/login/", $request->pathinfo()))

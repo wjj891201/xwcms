@@ -14,10 +14,11 @@ class FrontBaseController extends BaseController
     {
 
         parent::initialize();
-        // 判断是否登录  判断是否登录 切换到 中间件Auth中
-        //if(empty($this->isLogin())) {
-        //return $this->redirect(url("login/index"), 302);
-        //}
+        //判断是否登录
+        if (empty($this->isLogin()))
+        {
+            return $this->redirect(url("login/index"));
+        }
     }
 
     /**

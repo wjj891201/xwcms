@@ -4,7 +4,7 @@ declare (strict_types = 1);
 
 namespace app\front\controller;
 
-class IndexController
+class IndexController extends FrontBaseController
 {
 
     public function index()
