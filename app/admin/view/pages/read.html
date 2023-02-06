@@ -1,0 +1,38 @@
+{extend name="common/base"/}
+<!-- 主体 -->
+{block name="body"}
+<div class="layui-form p-4">
+    <h3 class="pb-3">单页面详情</h3>
+    <table class="layui-table layui-table-form">
+        <tr>
+            <td class="layui-td-gray-2">页面名称</td>
+            <td>{$detail.title}</td>
+            <td class="layui-td-gray-2">阅读量</td>
+            <td>{$detail.read}</td>
+        </tr>
+        <tr>
+            <td class="layui-td-gray-2">排序</td>
+            <td>{$detail.sort_order}</td>
+        </tr>
+        <tr>
+            <td class="layui-td-gray-2">创建人</td>
+            <td>{$detail.admin_id}</td>
+            <td class="layui-td-gray-2">创建时间</td>
+            <td>{$detail.created_at}</td>
+            <td colspan='2'></td>
+        </tr>
+        <tr>
+            <td class="layui-td-gray-2">页面摘要</td>
+            <td colspan="5">{$detail.desc}</td>
+        </tr>
+
+        <tr>
+            <td class="layui-td-gray-2">内容描述</td>
+            <td colspan="5">
+                {$detail.content}
+            </td>
+        </tr>
+    </table>
+</div>
+{/block}
+<!-- /主体 -->

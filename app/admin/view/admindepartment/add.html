@@ -1,0 +1,95 @@
+{extend name="common/base"/}
+<!-- 主體 -->
+{block name="body"}
+<form class="layui-form p-4">
+	<h3 class="pb-3">部門架構</h3>
+	{eq name="$id" value="0"}
+	<table class="layui-table">
+		<tr>
+			<td class="layui-td-gray">部門名稱<span>*</span></td>
+			<td>
+				<input type="text" name="title" lay-verify="required" autocomplete="off" placeholder="請輸入部門名稱" lay-reqText="請輸入部門名稱" class="layui-input">
+			</td>
+			<td class="layui-td-gray">上級部門<span>*</span></td>
+			<td>
+				<select name="pid" lay-verify="required" lay-reqText="請選擇上級部門">
+					<option value="0">作為頂級部門</option>
+					{volist name="department" id="v"}
+					<option value="{$v.id}" {eq name="$pid" value="$v.id"} selected{/eq}>{$v.title}</option>
+					{/volist}
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td class="layui-td-gray-2">部門聯繫電話</td>
+			<td colspan="3">
+				<input type="text" name="phone" placeholder="請輸入部門聯繫電話，可空" autocomplete="off" class="layui-input">
+			</td>
+		</tr>
+	</table>
+	{else/}
+	<table class="layui-table">
+		<tr>
+			<td class="layui-td-gray">部門名稱<span>*</span></td>
+			<td>
+				<input type="text" name="title" value="{$detail.title}" lay-verify="required" autocomplete="off" placeholder="請輸入部門名稱" lay-reqText="請輸入部門名稱" class="layui-input">
+			</td>
+			<td class="layui-td-gray">上級部門<span>*</span></td>
+			<td>
+				<select name="pid" lay-verify="required" lay-reqText="請選擇上級部門">
+					<option value="0">作為頂級部門</option>
+					{volist name="department" id="v"}
+					<option value="{$v.id}" {eq name="$detail.pid" value="$v.id"} selected{/eq}>{$v.title}</option>
+					{/volist}
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td class="layui-td-gray-2">部門負責人</td>
+			<td>
+				<select name="leader_id">
+					<option value="0">請選擇部門負責人</option>
+					{volist name="users" id="v"}
+					<option value="{$v.id}" {eq name="detail.leader_id" value="$v.id"} selected{/eq}>{$v.nickname}</option>
+					{/volist}
+				</select>
+			</td>
+			<td class="layui-td-gray-2">部門聯繫電話</td>
+			<td>
+				<input type="text" name="phone" value="{$detail.phone}" placeholder="請輸入部門聯繫電話，可空" autocomplete="off" class="layui-input">
+			</td>
+		</tr>
+	</table>
+	{/eq}
+	<div class="flex justify-center py-4" >
+		<input type="hidden" name="id" value="{$id}">
+		<button class="layui-btn layui-btn-normal" lay-submit="" lay-filter="webform">立即提交</button>
+		<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+	</div>
+</form>
+{/block}
+<!-- /主體 -->
+
+<!-- 腳本 -->
+{block name="script"}
+<script>
+	const moduleInit = ['tool'];
+	function xuwenInit() {
+		var form = layui.form,tool=layui.tool;
+		//監聽提交
+		form.on('submit(webform)', function(data){
+			let callback = function (e) {
+				layer.msg(e.msg);
+				if (e.code == 0) {
+					setTimeout(function () {
+						parent.location.reload();
+					}, 1000);
+				}
+			}
+			tool.post("/admin/admindepartment/add", data.field, callback);
+			return false;
+		});
+	}
+</script>
+{/block}
+<!-- /腳本 -->

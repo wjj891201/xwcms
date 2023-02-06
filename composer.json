@@ -1,0 +1,54 @@
+{
+    "name": "topthink/think",
+    "description": "the new php framework",
+    "type": "project",
+    "keywords": [
+        "framework",
+        "thinkphp",
+        "ORM"
+    ],
+    "homepage": "http://gogole.com",
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "xw",
+            "email": "xw@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.2.5",
+        "topthink/framework": "^6.1",
+		"topthink/think-filesystem": "^2.0",
+        "topthink/think-orm": "^2.0",
+        "topthink/think-multi-app": "^1.0",
+        "topthink/think-view": "^1.0",
+        "topthink/think-captcha": "^3.0",
+        "phpmailer/phpmailer": "^6.6",
+		"firebase/php-jwt": "6.1.2",
+		"symfony/var-exporter": "5.4.10",
+        "nesbot/carbon": "*",
+        "guzzlehttp/guzzle": "^7.0",
+        "malkusch/lock": "^2.2"
+    },
+    "require-dev": {
+        "symfony/var-dumper": "^4.2",
+        "topthink/think-trace":"^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "app\\": "app"
+        },
+        "psr-0": {
+            "": "extend/"
+        }
+    },
+    "config": {
+        "preferred-install": "dist"
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "@php think service:discover",
+            "@php think vendor:publish"
+        ]
+    }
+}

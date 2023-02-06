@@ -1,0 +1,97 @@
+{extend name="common/base"/}
+<!-- 主體 -->
+{block name="body"}
+<div class="p-3">
+	<form class="layui-form gg-form-bar border-t border-x">
+		<div class="layui-input-inline" style="width:300px;">
+			<input type="text" name="keywords" placeholder="昵稱/運算元據id/操作描述" class="layui-input" autocomplete="off" />
+		</div>
+		<div class="layui-input-inline">
+			<select name="action">
+				<option value="">請選擇類型</option>
+				{volist name="$type_action" id="vo"}
+				<option value="{$vo}">{$vo}</option>
+				{/volist}
+			</select>
+		</div>
+		<button class="layui-btn layui-btn-normal" lay-submit="" lay-filter="webform">提交搜索</button>
+	</form>
+	<table class="layui-hide" id="log" lay-filter="log"></table>
+</div>
+{/block}
+<!-- /主體 -->
+
+<!-- 腳本 -->
+{block name="script"}
+<script>
+	const moduleInit = ['tool'];
+	function xuwenInit() {
+		var table = layui.table, form = layui.form;
+		var tableIns = table.render({
+			elem: '#log',
+			title: '用戶操作日誌列表',
+			toolbar: '#toolbarDemo',
+			url: '/admin/member/log', //數據介面
+			page: true, //開啟分頁
+			limit: 20,
+			cols: [
+				[
+					{
+						field: 'id',
+						title: 'ID號',
+						align: 'center',
+						width: 80
+					}, {
+					field: 'title',
+					title: '操作類型',
+					align: 'center',
+					width: 80
+				}, {
+					field: 'content',
+					title: '操作描述',
+					width: 300
+				},{
+					field: 'param_id',
+					title: '運算元據ID',
+					align: 'center',
+					width: 100
+				}, {
+					field: 'param',
+					title: '運算元據'
+				}, {
+					field: 'nickname',
+					title: '昵稱',
+					align: 'center',
+					width: 90
+				}, {
+					field: 'ip',
+					title: 'IP地址',
+					align: 'center',
+					width: 130
+				}, {
+					field: 'created_at',
+					title: '操作時間',
+					align: 'center',
+					width: 160
+				}
+				]
+			]
+		});
+
+		//監聽搜索提交
+		form.on('submit(webform)', function (data) {
+			tableIns.reload({
+				where: {
+					keywords: data.field.keywords,
+					action: data.field.action
+				},
+				page: {
+					curr: 1
+				}
+			});
+			return false;
+		});
+	}
+</script>
+{/block}
+<!-- /腳本 -->

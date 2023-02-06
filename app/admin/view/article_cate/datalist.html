@@ -1,0 +1,74 @@
+{extend name="common/base"/}
+<!-- 主體 -->
+{block name="body"}
+<div class="p-3">
+    <div class="gg-form-bar border-t border-x">
+        <button class="layui-btn layui-btn-sm add-menu layui-btn-normal">+ 添加分類</button>
+    </div>
+    <div>
+        <table class="layui-hide" id="treeTable" lay-filter="treeTable"></table>
+    </div>
+</div>
+{/block}
+<!-- /主體 -->
+
+<!-- 腳本 -->
+{block name="script"}
+<script>
+    const moduleInit = ['tool', 'treeGrid'];
+    function xuwenInit() {
+        var treeGrid = layui.treeGrid,table = layui.table, tool = layui.tool;
+        var pageTable = treeGrid.render({
+            id:'treeTable'
+            ,elem: '#treeTable'
+            ,idField:'id'
+            ,url:'/admin/article_cate/datalist'
+            ,treeId:'id'//樹形id字段名稱
+            ,treeUpId:'pid'//樹形父id字段名稱
+            ,treeShowName:'title'//以樹形式顯示的字段
+            ,page:false
+            ,cols: [[
+                {field:'id',title: 'ID號', align:'center'}
+                ,{field: 'sort_order', title: '排序', align:'center'}
+                ,{field:'title', title: '分類名稱'}
+                ,{field:'pid', title: '父級ID',align:'center'}
+                ,{title: '操作', align:'center',templet: function(d){
+                        var html = '<span class="layui-btn-group"><span class="layui-btn layui-btn-normal layui-btn-xs" lay-event="add">添加子分類</span><span class="layui-btn layui-btn-xs" lay-event="edit">編輯</span><span class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">刪除</span></span>';
+                        return html;
+                    }
+                }
+            ]]
+        });
+        //表頭工具欄事件
+        $('.add-menu').on('click', function(){
+            tool.side("/admin/article_cate/add");
+            return;
+        });
+
+        //操作按鈕
+        treeGrid.on('tool(treeTable)',function (obj) {
+            if (obj.event === 'add') {
+                tool.side("/admin/article_cate/add?pid="+obj.data.id);
+                return;
+            }
+            if (obj.event === 'edit') {
+                tool.side("/admin/article_cate/edit?id="+obj.data.id);
+                return;
+            }
+            if(obj.event === 'del'){
+                layer.confirm('確定要刪除嗎?', {icon: 3, title:'提示'}, function(index){
+                    let callback = function (e) {
+                        layer.msg(e.msg);
+                        if (e.code == 0) {
+                            obj.del();
+                        }
+                    }
+                    tool.delete("/admin/article_cate/del", { id: obj.data.id}, callback);
+                    layer.close(index);
+                });
+            }
+        });
+    }
+</script>
+{/block}
+<!-- /腳本 -->

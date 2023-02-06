@@ -1,0 +1,104 @@
+{extend name="common/base"/}
+<!-- 主體 -->
+{block name="body"}
+<div class="p-3">
+	<table class="layui-hide" id="test" lay-filter="test"></table>
+</div>
+
+<script type="text/html" id="status">
+	<i class="layui-icon {{#  if(d.status == 1){ }}green layui-icon-ok{{#  } else { }}yellow layui-icon-close{{#  } }}"></i>
+</script>
+<script type="text/html" id="toolbarDemo">
+	<div class="layui-btn-container">
+		<button class="layui-btn layui-btn-sm layui-btn-normal" lay-event="add">+ 添加崗位</button>
+	</div>
+</script>
+<script type="text/html" id="barDemo">
+	<div class="layui-btn-group"><button class="layui-btn layui-btn-xs" lay-event="edit">編輯</button><button class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">刪除</button></div>
+</script>
+
+{/block}
+<!-- /主體 -->
+
+<!-- 腳本 -->
+{block name="script"}
+<script>
+	const moduleInit = ['tool'];
+	function xuwenInit() {
+		var table = layui.table, tool = layui.tool;
+		layui.pageTable = table.render({
+			elem: '#test',
+			title: '崗位列表',
+			toolbar: '#toolbarDemo',
+			url: "/admin/adminposition/index", //數據介面
+			page: false, //開啟分頁
+			cols: [
+				[
+					{
+						field: 'id',
+						title: 'ID號',
+						align: 'center',
+						width: 80
+					}, {
+					field: 'title',
+					title: '崗位名稱',
+					align: 'center',
+					width: 120
+				},{
+					field: 'remark',
+					title: '備註'
+				}, {
+					field: 'status',
+					title: '狀態',
+					toolbar: '#status',
+					align: 'center',
+					width: 60
+				}, {
+					field: 'right',
+					title: '操作',
+					toolbar: '#barDemo',
+					width: 120,
+					align: 'center'
+				}
+				]
+			]
+		});
+
+		//表頭工具欄事件
+		table.on('toolbar(test)', function(obj){
+			if (obj.event === 'add') {
+				tool.side("/admin/adminposition/add");
+				return;
+			}
+		});
+		//監聽行工具事件
+		table.on('tool(test)', function (obj) {
+			var data = obj.data;
+			if(obj.event === 'edit'){
+				tool.side('/admin/adminposition/add?id='+data.id);
+				return;
+			}
+			if (obj.event === 'del') {
+				if (data.id == 1) {
+					layer.msg('董事長職位不能刪除');
+					return;
+				}
+				layer.confirm('您確定要刪除該崗位', {
+					icon: 3,
+					title: '提示'
+				}, function (index) {
+					let callback = function (e) {
+						layer.msg(e.msg);
+						if (e.code == 0) {
+							obj.del();
+						}
+					}
+					tool.delete("/admin/adminposition/delete", { id: obj.data.id }, callback);
+					layer.close(index);
+				});
+			}
+		});
+	}
+</script>
+{/block}
+<!-- /腳本 -->

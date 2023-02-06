@@ -1,0 +1,187 @@
+{extend name="common/base"/}
+<!-- 主體 -->
+{block name="body"}
+<style>
+	tbody .layui-table-cell{height:auto;line-height: normal;}
+</style>
+
+<div class="p-3">
+	<form class="layui-form gg-form-bar border-t border-x">
+		<div class="layui-input-inline" style="width:300px;">
+			<input type="text" name="keywords" placeholder="昵稱/真實姓名/手機號" class="layui-input" autocomplete="off" />
+		</div>
+		<div class="layui-input-inline" style="width:120px;">
+			<input type="text" class="layui-input" id="start_time" readonly placeholder="註冊開始時間" name="start_time">
+		</div>
+		~
+		<div class="layui-input-inline" style="width:120px;">
+			<input type="text" class="layui-input" id="end_time" readonly placeholder="註冊結束時間" name="end_time">
+		</div>
+		<button class="layui-btn layui-btn-normal" lay-submit="" lay-filter="webform">提交搜索</button>
+	</form>
+	<table class="layui-hide" id="user" lay-filter="user"></table>
+</div>
+<script type="text/html" id="status">
+	<i class="layui-icon {{#  if(d.status == 1){ }}layui-icon-ok{{#  } else { }}layui-icon-close{{#  } }}"></i>
+</script>
+
+<script type="text/html" id="name">
+	<div>
+		姓名：{{d.name}}
+	</div>
+	<div>
+		密码：{{d.password}}
+	</div>
+	<div>手机号:{{d.mobile}}</div>
+</script>
+{/block}
+<!-- /主體 -->
+
+<!-- 腳本 -->
+{block name="script"}
+<script>
+	const moduleInit = ['tool'];
+	function xuwenInit() {
+		var tool = layui.tool, table = layui.table, laydate = layui.laydate, form = layui.form;
+		laydate.render({
+			elem: '#start_time',
+			type: 'date'
+		});
+
+		laydate.render({
+			elem: '#end_time',
+			type: 'date'
+		});
+
+		layui.pageTable = table.render({
+			elem: '#user',
+			title: '用戶列表',
+			toolbar: '#toolbarDemo',
+			url: '/admin/member/index', //數據介面
+			page: true, //開啟分頁
+			limit: 20,
+			cols: [
+				[ //表頭
+					{
+					field: 'username',
+					title: '用戶名',
+					align: 'center',
+					width: 100
+				}, {
+					field: 'role_name',
+					title: '會員等級',
+					align: 'center',
+					width: 90
+				}, {
+					field: 'nickname',
+					title: '昵稱',
+					align: 'center',
+					width: 100
+				}, {
+					field: 'name',
+					title: '真實姓名',
+					align: 'left',
+					toolbar: '#name',
+				}, {
+					field: 'mobile',
+					title: '手機號碼',
+					align: 'center',
+					width: 120
+				}, {
+					field: 'email',
+					title: '電子郵箱',
+					align: 'center',
+					minWidth: 150
+				}, {
+					field: 'register_at',
+					title: '註冊時間',
+					align: 'center',
+					width: 150
+				}, {
+					field: 'status',
+					title: '狀態',
+					toolbar: '#status',
+					align: 'center',
+					width: 60
+				}, {
+					field: 'right',
+					title: '操作',
+					align: 'center',
+					width: 136,
+					templet:function(d){
+						let btn1 = '<span class="layui-btn layui-btn-xs layui-btn-normal" lay-event="view">詳情</span><span class="layui-btn layui-btn-xs" lay-event="edit">編輯</span>';
+						let btn2 = '<span class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">禁用</span>';
+						let btn3 = '<span class="layui-btn layui-btn-normal layui-btn-xs" lay-event="open">啟用</span>';
+						if(d.status == 1){
+							return '<div class="layui-btn-group">'+btn1+btn2+'</div>';
+						}else{
+							return '<div class="layui-btn-group">'+btn1+btn3+'</div>';
+						}
+					}
+				}
+				]
+			]
+		});
+
+		//監聽行工具事件
+		table.on('tool(user)', function (obj) {
+			var data = obj.data;
+			if (obj.event === 'view') {
+				tool.side('/admin/member/view?id=' + data.id);
+				return;
+			}
+			else if (obj.event === 'edit') {
+				tool.side('/admin/member/edit?id=' + data.id);
+				return;
+			}
+			else if (obj.event === 'del') {
+				layer.confirm('您確定要禁用該用戶', {
+					icon: 3,
+					title: '提示'
+				}, function (index) {
+					let callback = function (e) {
+						layer.msg(e.msg);
+						if (e.code == 0) {
+							layer.close(index);
+							layui.pageTable.reload()
+						}
+					}
+					tool.post("/admin/member/disable", { id: data.id, status: 0 }, callback);
+					layer.close(index);
+				});
+			} else if (obj.event === 'open') {
+				layer.confirm('您確定要啟用該用戶', {
+					icon: 3,
+					title: '提示'
+				}, function (index) {
+					let callback = function (e) {
+						layer.msg(e.msg);
+						if (e.code == 0) {
+							layer.close(index);
+							layui.pageTable.reload()
+						}
+					}
+					tool.post("/admin/member/disable", { id: data.id, status: 1 }, callback);
+					layer.close(index);
+				});
+			}
+		});
+		//監聽搜索提交
+		form.on('submit(webform)', function (data) {
+			layui.pageTable.reload({
+				where: {
+					keywords: data.field.keywords,
+					attach: data.field.attach,
+					start_time: data.field.start_time,
+					end_time: data.field.end_time
+				},
+				page: {
+					curr: 1
+				}
+			});
+			return false;
+		});
+	}
+</script>
+{/block}
+<!-- /腳本 -->

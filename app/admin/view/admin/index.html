@@ -1,0 +1,139 @@
+{extend name="common/base"/}
+<!-- 主體 -->
+{block name="body"}
+<div class="p-3">
+    <table class="layui-hide" id="admin" lay-filter="admin"></table>
+</div>
+
+
+<script type="text/html" id="status">
+    <i class="layui-icon {{#  if(d.status == 1){ }}layui-icon-ok{{#  } else { }}layui-icon-close{{#  } }}"></i>
+</script>
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+        <span class="layui-btn layui-btn-sm add-user layui-btn-normal">+ 添加管理員</span>
+    </div>
+</script>
+<script type="text/html" id="barDemo">
+    <div class="layui-btn-group"><span class="layui-btn layui-btn-xs layui-btn-normal" lay-event="view">詳情</span><span
+            class="layui-btn layui-btn-xs" lay-event="edit">編輯</span><span
+            class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">刪除</span></div>
+</script>
+
+{/block}
+<!-- /主體 -->
+
+<!-- 腳本 -->
+{block name="script"}
+<script>
+    const moduleInit = ['tool'];
+
+    function xuwenInit() {
+        var table = layui.table, tool = layui.tool, form = layui.form;
+        layui.pageTable = table.render({
+            elem: '#admin',
+            title: '管理員列表',
+            toolbar: '#toolbarDemo',
+            url: '/admin/admin/index', //數據介面
+            page: true, //開啟分頁
+            limit: 20,
+            cols: [
+                [
+                    {
+                        field: 'id',
+                        title: 'ID號',
+                        align: 'center',
+                        width: 80
+                    }, {
+                    field: 'username',
+                    title: '登入帳號',
+                    width: 120
+                }, {
+                    field: 'nickname',
+                    title: '用戶名',
+                    width: 120
+                }, {
+                    field: 'groupName',
+                    title: '角色'
+                }, {
+                    field: 'login_num',
+                    title: '累計登入',
+                    align: 'center',
+                    width: 80
+                }, {
+                    field: 'last_login_time',
+                    title: '最後登入時間',
+                    align: 'center',
+                    width: 142
+                }, {
+                    field: 'last_login_ip',
+                    title: '最後登入IP',
+                    width: 130
+                }, {
+                    field: 'status',
+                    title: '狀態',
+                    toolbar: '#status',
+                    align: 'center',
+                    width: 60
+                }, {
+                    field: 'right',
+                    fixed: 'right',
+                    title: '操作',
+                    toolbar: '#barDemo',
+                    width: 132,
+                    align: 'center'
+                }
+                ]
+            ]
+        });
+        //表頭工具欄事件
+        $('body').on('click', '.add-user', function () {
+            tool.side("/admin/admin/add");
+            return;
+        });
+        //監聽行工具事件
+        table.on('tool(admin)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'view') {
+                tool.side('/admin/admin/view?id=' + data.id);
+                return;
+            } else if (obj.event === 'edit') {
+                tool.side('/admin/admin/add?id=' + data.id);
+                return;
+            } else if (obj.event === 'del') {
+                if (data.id == 1) {
+                    layer.msg('超級管理員不能刪除');
+                    return;
+                }
+                layer.confirm('您確定要刪除該帳戶', {
+                    icon: 3,
+                    title: '提示'
+                }, function (index) {
+                    let callback = function (e) {
+                        layer.msg(e.msg);
+                        if (e.code == 0) {
+                            obj.del();
+                        }
+                    }
+                    tool.delete("/admin/admin/delete", {id: data.id}, callback);
+                    layer.close(index);
+                });
+            }
+        });
+
+        //監聽搜索提交
+        form.on('submit(webform)', function (data) {
+            layui.pageTable.reload({
+                where: {
+                    keywords: data.field.keywords
+                },
+                page: {
+                    curr: 1
+                }
+            });
+            return false;
+        });
+    }
+</script>
+{/block}
+<!-- /腳本 -->

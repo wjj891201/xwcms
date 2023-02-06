@@ -1,0 +1,74 @@
+{extend name="common/base"/}
+<!-- 主體 -->
+{block name="body"}
+<form class="layui-form p-4">
+	<h3 class="pb-3">配置項</h3>
+	<table class="layui-table layui-table-form">
+		<tr>
+			<td class="layui-td-gray">配置名稱<font>*</font>
+			</td>
+			<td>
+				<input type="hidden" name="id" value="{$id}" />
+				<input type="text" name="title" lay-verify="required" autocomplete="off" placeholder="請輸入配置名稱"
+					   lay-reqText="請輸入配置名稱" class="layui-input" {notempty name="$config.title" } value="{$config.title}"
+					   {/notempty}>
+			</td>
+			<td class="layui-td-gray">狀態<font>*</font>
+			</td>
+			<td>{if condition="$id eq 0"}
+				<input type="radio" name="status" value="1" title="正常" checked>
+				<input type="radio" name="status" value="0" title="禁用">
+				{else/}
+				<input type="radio" name="status" value="1" title="正常" {eq name="$config.status" value="1"
+					   }checked{/eq}>
+				<input type="radio" name="status" value="0" title="禁用" {eq name="$config.status" value="0"
+					   }checked{/eq}>
+				{/if}
+			</td>
+		</tr>
+		<tr>
+			<td class="layui-td-gray">
+				配置標識<font>*</font>
+			</td>
+			<td colspan="3">
+				<input type="text" name="name" lay-verify="required" placeholder="請輸入配置標識" lay-reqText="請輸入配置標識"
+					   autocomplete="off" class="layui-input" {notempty name="$config.name" } value="{$config.name}"
+					   {/notempty}>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="4">
+            <span
+					style="color: red; font-size: 12px;">注意：新增配置項以後，需要對應新增範本檔，範本檔案名稱需與標識名稱一致，建議複製現有的配置範本檔，然後根據需求修改對應的表單即可。</span>
+			</td>
+		</tr>
+	</table>
+	<div class="flex justify-center py-4" >
+		<button class="layui-btn layui-btn-normal" lay-submit="" lay-filter="webform">立即提交</button>
+		<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+	</div>
+</form>
+{/block}
+<!-- /主體 -->
+
+<!-- 腳本 -->
+{block name="script"}
+<script>
+	const moduleInit = ['tool'];
+	function xuwenInit() {
+		var form = layui.form, tool = layui.tool;
+		//監聽提交
+		form.on('submit(webform)', function (data) {
+			let callback = function (e) {
+				layer.msg(e.msg);
+				if (e.code == 0) {
+					parent.layui.tool.close(1000);
+				}
+			}
+			tool.post("/admin/conf/add", data.field, callback);
+			return false;
+		});
+	}
+</script>
+{/block}
+<!-- /腳本 -->

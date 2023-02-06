@@ -1,0 +1,63 @@
+{extend name="common/base"/}
+<!-- 主體 -->
+{block name="body"}
+<form class="layui-form p-4">
+	<h3 class="pb-3">輪播組</h3>
+	<table class="layui-table layui-table-form">
+		<tr>
+			<td class="layui-td-gray">標題<span>*</span></td>
+			<td>
+				<input type="hidden" name="id" value="{$id}" />
+				<input type="text" name="title" lay-verify="required" lay-reqText="請輸入標題" autocomplete="off" placeholder="請輸入標題" class="layui-input" {notempty name="$slide.title" }value="{$slide.title}" {/notempty}>
+			</td>
+			<td class="layui-td-gray">標識</td>
+			<td><input type="text" name="name" lay-verify="required" autocomplete="off" placeholder="請輸入標識" lay-reqText="請輸入標識" class="layui-input" {notempty name="$slide.name" }value="{$slide.name}" {/notempty}></td>
+		</tr>
+		<tr>
+			<td class="layui-td-gray">狀態<span>*</span></td>
+			<td colspan="3">
+				{if condition="$id eq 0"}
+				<input type="radio" name="status" value="1" title="正常" checked>
+				<input type="radio" name="status" value="-1" title="禁用">
+				{else/}
+				<input type="radio" name="status" value="1" title="正常" {eq name="$banner_cate.status" value="1" }checked{/eq}>
+				<input type="radio" name="status" value="-1" title="禁用" {eq name="$banner_cate.status" value="-1"}checked{/eq}>
+				{/if}
+			</td>
+		</tr>
+		<tr>
+			<td class="layui-td-gray">備註</td>
+			<td colspan="3">
+				<textarea name="desc" placeholder="請輸入備註" class="layui-textarea">{notempty name="$slide.desc" }{$slide.desc}{/notempty}</textarea>
+			</td>
+		</tr>
+	</table>
+	<div class="flex justify-center py-4" >
+		<button class="layui-btn layui-btn-normal" lay-submit="" lay-filter="webform">立即提交</button>
+		<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+	</div>
+</form>
+{/block}
+<!-- /主體 -->
+
+<!-- 腳本 -->
+{block name="script"}
+<script>
+	const moduleInit = ['tool'];
+	function xuwenInit() {
+		var form = layui.form,tool=layui.tool;
+		//監聽提交
+		form.on('submit(webform)', function (data) {
+			let callback = function (e) {
+				layer.msg(e.msg);
+				if (e.code == 0) {
+					parent.layui.tool.close(1000);
+				}
+			}
+			tool.post("/admin/banner/cate_add", data.field, callback);
+			return false;
+		});
+	}
+</script>
+{/block}
+<!-- /腳本 -->

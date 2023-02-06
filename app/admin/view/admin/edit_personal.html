@@ -1,0 +1,59 @@
+{extend name="common/base"/}
+<!-- 主體 -->
+{block name="body"}
+<form class="layui-form p-4">
+	<h3 class="pb-3">修改個人資訊</h3>
+	<div style="">
+		<table class="layui-table layui-table-form">
+			<tr>
+				<td class="layui-td-gray">用戶名<span>*</span></td>
+				<td><input type="text" lay-verify="required" autocomplete="off" placeholder="請輸入節點名稱" class="layui-input"
+						   value="{$admin.username}" disabled></td>
+			</tr>
+			<tr>
+				<td class="layui-td-gray">昵稱<span>*</span></td>
+				<td>
+					<input type="text" name="nickname" lay-verify="required" placeholder="請輸入昵稱" lay-reqText="請輸入昵稱"
+						   autocomplete="off" class="layui-input" value="{$admin.nickname}">
+				</td>
+			</tr>
+			<tr>
+				<td class="layui-td-gray">手機號碼</td>
+				<td><input type="text" name="mobile" lay-verify="required" placeholder="請輸入手機" autocomplete="off"
+						   class="layui-input" value="{$admin.mobile}"></td>
+			</tr>
+		</table>
+	</div>
+	<div class="py-10 flex justify-center">
+		<button class="layui-btn layui-btn-normal" lay-submit="" lay-filter="webform">立即提交</button>
+		<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+	</div>
+</form>
+{/block}
+<!-- /主體 -->
+
+<!-- 腳本 -->
+{block name="script"}
+<script>
+	const moduleInit = ['tool'];
+	function xuwenInit() {
+		var form = layui.form, tool = layui.tool, upload = layui.upload;
+		//監聽提交
+		form.on('submit(webform)', function (data) {
+			let callback = function (e) {
+				layer.msg(e.msg);
+				if (e.code == 0) {
+					layer.confirm('保存成功,關閉本頁面嗎?', { icon: 3, title: '提示' }, function (index) {
+						tool.tabClose();
+						layer.close(index);
+					});
+				}
+			}
+			tool.post("/admin/api/personal_submit", data.field, callback);
+			return false;
+		});
+	}
+
+</script>
+{/block}
+<!-- /腳本 -->

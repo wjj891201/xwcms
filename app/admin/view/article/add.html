@@ -1,0 +1,179 @@
+{extend name="common/base"/}
+{block name="style"}
+<style type="text/css">
+	.editormd-code-toolbar select {display: inline-block}
+	.editormd li {list-style: inherit;}
+</style>
+{/block}
+<!-- 主體 -->
+{block name="body"}
+<form class="layui-form p-4">
+	<h3 class="pb-3">新建文章</h3>
+	<table class="layui-table layui-table-form">
+		<tr>
+			<td class="layui-td-gray">文章標題<span>*</span></td>
+			<td colspan="7"><input type="text" name="title" lay-verify="required" lay-reqText="請輸入文章標題"
+								   autocomplete="off" placeholder="請輸入文章標題" class="layui-input"></td>
+		</tr>
+		<tr>
+			<td class="layui-td-gray">文章分類<span>*</span></td>
+			<td>
+				<select name="cate_id" lay-verify="required" lay-reqText="請選擇分類">
+					<option value="">請選擇分類</option>
+					{volist name=":set_recursion(get_article_cate())" id="v"}
+					<option value="{$v.id}">{$v.title}</option>
+					{/volist}
+				</select>
+			</td>
+			<td class="layui-td-gray">狀態<span>*</span></td>
+			<td>
+				<input type="radio" name="status" value="1" title="正常" checked>
+				<input type="radio" name="status" value="0" title="下架">
+			</td>
+		</tr>
+		<tr>
+			<td class="layui-td-gray">排序</td>
+			<td>
+				<input type="text" name="sort" value="0" placeholder="請輸入排序，數字" autocomplete="off" class="layui-input">
+			</td>
+			<td class="layui-td-gray">首頁顯示</td>
+			<td>
+				<input type="radio" name="is_home" value="1" title="是" checked>
+				<input type="radio" name="is_home" value="0" title="否">
+			</td>
+			<td class="layui-td-gray">文章屬性</td>
+			<td>
+				<select name="type">
+					<option value="">請選擇屬性</option>
+					<option value="1">精華</option>
+					<option value="2">熱門</option>
+					<option value="3">推薦</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td class="layui-td-gray" style="vertical-align:top;">文章摘要</td>
+			<td colspan="3">
+				<textarea name="desc" placeholder="請輸入摘要，不能超過200個字" class="layui-textarea"></textarea>
+			</td>
+		</tr>
+		{eq name="$editor" value="1"}
+		<tr>
+			<td colspan="6" class="layui-td-gray" style="text-align:left">文章內容<span>*</span><span class="ml-4 red">當前為TinyMCE富文本編輯器，可在【系統管理->系統配置->其他配置】中切換為mardown編輯器</span></td>
+		</tr>
+		<tr>
+			<td colspan="6">
+				<textarea class="layui-textarea" id="container_content"></textarea>
+			</td>
+		</tr>
+		{else/}
+		<tr>
+			<td colspan="6" class="layui-td-gray" style="text-align:left">文章內容<span>*</span><span class="ml-4 red">當前為mardown編輯器，可在【系統管理->系統配置->其他配置】中切換為ueditor富文本編輯器</span></td>
+		</tr>
+		<tr>
+			<td colspan="6">
+				<div>
+					<textarea id="mdContent" style="display:none;"></textarea>
+					<div id="docContent"></div>
+				</div>
+			</td>
+		</tr>
+		{/eq}
+	</table>
+	<div class="flex justify-center py-4" >
+		<button class="layui-btn layui-btn-normal" lay-submit="" lay-filter="webform">立即提交</button>
+		<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+	</div>
+</form>
+{/block}
+<!-- /主體 -->
+
+<!-- 腳本 -->
+{block name="script"}
+<script>
+	const editorType = '{$editor}';
+	var moduleInit;
+	if (editorType == 1) {
+		moduleInit = ['tool', 'tagpicker', 'tinymce'];
+	}
+	else {
+		moduleInit = ['tool', 'tagpicker', 'editormd'];
+	}
+
+	function xuwenInit() {
+		var form = layui.form, tool = layui.tool,tagspicker = layui.tagpicker;
+
+		var tags = new tagspicker({
+			'url': '/admin/api/get_keyword_cate',
+			'target': 'keyword_name',
+			'tag_ids': 'keyword_id',
+			'tag_tags': 'keyword_name',
+			'height': 500,
+			'isDiy': 1
+		});
+
+		//上傳縮略圖
+		var upload_thumb = layui.upload.render({
+			elem: '#upload_btn_thumb',
+			url: '/admin/api/upload',
+			done: function (res) {
+				//如果上傳失敗
+				if (res.code == 1) {
+					return layer.msg('上傳失敗');
+				}
+				//上傳成功
+				$('#upload_box_thumb input').attr('value', res.data.id);
+				$('#upload_box_thumb img').attr('src', res.data.filepath);
+			}
+		});
+
+		if (editorType == 1) {
+			var editor = layui.tinymce;
+			var edit = editor.render({
+				selector: "#container_content",
+				height: 500
+			});
+			//監聽提交
+			form.on('submit(webform)', function (data) {
+				data.field.content = tinyMCE.editors['container_content'].getContent();
+				if (data.field.content == '') {
+					layer.msg('請先完善文章內容');
+					return false;
+				}
+				let callback = function (e) {
+					layer.msg(e.msg);
+					if (e.code == 0) {
+						tool.tabRefresh(71);
+						tool.sideClose(1000);
+					}
+				}
+				tool.post("/admin/article/add", data.field, callback);
+				return false;
+			});
+		}
+		else {
+			var editor = layui.editormd;
+			var edit = editor.render('docContent', {
+				markdown: document.getElementById('mdContent').value
+			});
+			//監聽提交
+			form.on('submit(webform)', function (data) {
+				if (data.field.mdContent == '') {
+					layer.msg('請先完善文章內容');
+					return false;
+				}
+				let callback = function (e) {
+					layer.msg(e.msg);
+					if (e.code == 0) {
+						tool.tabRefresh(71);
+						tool.sideClose(1000);
+					}
+				}
+				tool.post("/admin/article/add", data.field, callback);
+				return false;
+			});
+		}
+	}
+</script>
+{/block}
+<!-- /腳本 -->

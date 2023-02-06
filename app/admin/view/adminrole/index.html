@@ -1,0 +1,84 @@
+{extend name="common/base" /}
+<!-- 主體 -->
+{block name="body"}
+<div class="p-3">
+	<table class="layui-hide" id="role" lay-filter="role"></table>
+</div>
+
+<script type="text/html" id="status">
+	<i class="layui-icon {{#  if(d.status == 1){ }}layui-icon-ok{{#  } else { }}layui-icon-close{{#  } }}"></i>
+</script>
+<script type="text/html" id="toolbarDemo">
+	<div class="layui-btn-container">
+		<button class="layui-btn layui-btn-sm layui-btn-normal" lay-event="add">+ 添加許可權組</button>
+	</div>
+</script>
+{/block}
+<!-- /主體 -->
+
+<!-- 腳本 -->
+{block name="script"}
+<script>
+	const moduleInit = ['tool'];
+	function xuwenInit() {
+		var table = layui.table, tool = layui.tool, form = layui.form;
+		layui.pageTable = table.render({
+			elem: '#role',
+			toolbar: '#toolbarDemo',
+			url: "/admin/adminrole/index", //數據介面
+			page: true, //開啟分頁
+			limit: 20,
+			cols: [[ //表頭
+				{ field: 'id', title: 'ID號', align: 'center', width: 80 }
+				, { field: 'title', title: '許可權組名稱', width: 200 }
+				, { field: 'desc', title: '備註' }
+				, { field: 'status', title: '狀態', toolbar: '#status', align: 'center', width: 80 }
+				, {    width: 100,title: '操作',align: 'center',templet: function (d) {
+						var html = '<div class="layui-btn-group"><button class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit">編輯</button><button class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">刪除</button></div>';
+						return html;
+					}
+				}
+			]]
+		});
+
+		//表頭工具欄事件
+		table.on('toolbar(role)', function(obj){
+			if (obj.event === 'add') {
+				tool.side("/admin/adminrole/add");
+				return;
+			}
+		});
+		//監聽行工具事件
+		table.on('tool(role)', function (obj) {
+			var data = obj.data;
+			if (obj.event === 'edit') {
+				tool.side('/admin/adminrole/add?id='+obj.data.id);
+				return;
+			}
+			if (obj.event === 'del') {
+				layer.confirm('確定要刪除該許可權角色嗎？', { icon: 3, title: '提示' }, function (index) {
+					let callback = function (res) {
+						layer.msg(res.msg);
+						if (res.code == 0) {
+							obj.del();
+						}
+					}
+					tool.delete("/admin/adminrole/delete", { id: obj.data.id }, callback);
+					layer.close(index);
+				});
+			}
+		});
+
+		//監聽搜索提交
+		form.on('submit(webform)', function (data) {
+			layui.pageTable.reload({
+				where: { keywords: data.field.keywords },
+				page: { curr: 1 }
+			});
+			return false;
+		});
+	}
+
+</script>
+{/block}
+<!-- /腳本 -->

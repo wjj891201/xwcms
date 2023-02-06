@@ -1,0 +1,121 @@
+{extend name="common/base"/}
+{block name="style"}
+<style>
+	.left-note{span-weight:800; vertical-align:top; padding-top:28px!important; text-align:center}
+	.left-note .layui-form-checkbox span{background-color: #bbbbbb!important;}
+	.left-note .layui-form-checkbox:hover span{background-color: #808080;}
+
+	.layui-form-checked.layui-checkbox-disabled i{background-color:#ababab!important;color: #ffffff!important;border-color:#ababab!important;}
+	.layui-form-checked.layui-checkbox-disabled[lay-skin=primary] i{background-color:#ababab!important;}
+	.right-note .layui-checkbox-disabled span {color: #808080!important;}
+</style>
+{/block}
+<!-- 主體 -->
+{block name="body"}
+<form class="layui-form p-4">
+	<h3 class="pb-3">管理員資訊</h3>
+	<table class="layui-table layui-table-form">
+		<tr>
+			<td class="layui-td-gray">登入帳號</td>
+			<td>
+				{$admin.username}
+			</td>
+			<td class="layui-td-gray">用戶名</td>
+			<td>
+				{$admin.nickname}
+			</td>
+		</tr>
+		<tr>
+			<td class="layui-td-gray">手機號碼</td>
+			<td>
+				{$admin.mobile}
+			</td>
+			<td class="layui-td-gray">電子郵箱</td>
+			<td>
+				{$admin.email}
+			</td>
+		</tr>
+		<tr>
+			<td class="layui-td-gray">所在部門</td>
+			<td>
+				{volist name="department" id="v"}
+				{eq name="$v.id" value="$admin.did"}{$v.title}{/eq}
+				{/volist}
+			</td>
+			<td class="layui-td-gray">崗位職稱</td>
+			<td>
+				{volist name="position" id="v"}
+				{eq name="$v.id" value="$admin.position_id"}{$v.title}{/eq}
+				{/volist}
+			</td>
+		</tr>
+		<tr>
+			<td class="layui-td-gray">用戶角色</td>
+			<td>
+				{volist name=":get_admin_role()" id="v"}
+				{volist name="$admin.role_id" id="a"}{eq name="$a" value="$v.id" }{$v.title},{/eq}{/volist}
+				{/volist}
+			</td>
+		</tr>
+		<tr>
+			<td class="layui-td-gray">狀態</td>
+			<td>
+				{eq name="$admin.status" value="1" }正常{/eq}
+				{eq name="$admin.status" value="0" }禁止登入{/eq}
+			</td>
+			<td class="layui-td-gray">累計登入</td>
+			<td>
+				{$admin.login_num}次
+			</td>
+		</tr>
+		<tr>
+			<td class="layui-td-gray-2">最後登入時間</td>
+			<td>
+				{$admin.last_login_at | date='Y-m-d H:i:s'}
+			</td>
+			<td class="layui-td-gray-2">最後登入IP</td>
+			<td>
+				{$admin.last_login_ip}
+			</td>
+
+		</tr>
+		<tr>
+			<td class="layui-td-gray">備註</td>
+			<td colspan="5">
+				{$admin.desc}
+			</td>
+		</tr>
+	</table>
+	<h3 class="py-3">權限</h3>
+	<table class="layui-table layui-table-form">
+		{volist name="role_rule" id="vo"}
+		<tr>
+			<td class="left-note">
+				<input type="checkbox" disabled value="{$vo.id}" title="{$vo.title}" {eq name="$vo.checked" value="true" }checked{/eq}>
+			</td>
+			{notempty name="vo.children"}
+			<td class="right-note">
+				<div style="padding:0 0 0 10px;">
+					{volist name="vo.children" key="k" id="voo"}
+					<div class="checkbox16" style="padding:10px 0;">
+						<input type="checkbox" disabled lay-filter="rule" name="rule[]" value="{$voo.id}" lay-skin="primary" title="{$voo.title}" {eq name="$voo.checked" value="true" }checked{/eq}>
+					</div>
+					{notempty name="voo.children"}
+					<div style="padding:0 0 3px; {if condition='$k != count($vo.children)'}margin-bottom:3px; padding-bottom:16px; border-bottom:1px solid #eee;{/if}">
+						{volist name="voo.children" id="vooo"}
+						<div class="layui-input-inline" style="margin-right:10px;">
+							<input type="checkbox" disabled data-rule="{$voo.id}" name="rule[]" value="{$vooo.id}" lay-skin="primary" title="{$vooo.title}" {eq name="$vooo.checked" value="true" }checked{/eq}>
+						</div>
+						{/volist}
+					</div>
+					{/notempty}
+					{/volist}
+				</div>
+			</td>
+			{/notempty}
+		</tr>
+		{/volist}
+	</table>
+</form>
+{/block}
+<!-- /主體 -->

@@ -1,0 +1,150 @@
+{extend name="common/base" /}
+<!-- 主體 -->
+{block name="body"}
+<form class="layui-form p-4">
+	<h3 class="pb-3">功能菜單</h3>
+	{if condition="$id eq 0"}
+	<table class="layui-table layui-table-form">
+		<tr>
+			<td class="layui-td-gray-2">父級菜單<span>*</span>
+			</td>
+			<td>
+				<select name="pid" lay-verify="required" lay-reqText="請選擇父級菜單/節點">
+					<option value="0">作為頂級菜單</option>
+					{volist name=":set_recursion(get_admin_menu())" id="v"}
+					<option value="{$v.id}" {eq name="pid" value="$v.id" }selected="" {/eq}>{$v.title} </option>
+					{/volist}
+				</select>
+			</td>
+			<td class="layui-td-gray-2">左側菜單顯示<span>*</span>
+			</td>
+			<td>
+				<input type="radio" name="menu" value="1" title="是">
+				<input type="radio" name="menu" value="2" title="不是">
+			</td>
+		</tr>
+		<tr>
+			<td class="layui-td-gray">菜單名稱<span>*</span>
+			</td>
+			<td>
+				<input type="text" name="title" lay-verify="required" autocomplete="off" placeholder="請輸入菜單/節點名稱"
+					   lay-reqText="請輸入菜單/節點名稱" class="layui-input">
+			</td>
+			<td class="layui-td-gray">操作日誌名稱<span>*</span>
+			</td>
+			<td>
+				<input type="text" name="name" lay-verify="required" placeholder="請輸入操作日誌名稱" lay-reqText="請輸入操作日誌名稱"
+					   autocomplete="off" class="layui-input">
+			</td>
+		</tr>
+		<tr>
+			<td class="layui-td-gray">菜單URL</td>
+			<td>
+				<input type="text" name="src" placeholder="請輸入菜單/節點URL，可空" autocomplete="off" class="layui-input">
+			</td>
+			<td class="layui-td-gray">菜單排序</td>
+			<td>
+				<input type="text" name="sort" value="0" placeholder="請輸入數字，越小越靠前" autocomplete="off"
+					   class="layui-input">
+			</td>
+		</tr>
+		<tr>
+			<td class="layui-td-gray">菜單圖示</td>
+			<td colspan="3">
+				<input type="text" name="icon" style="width:150px; display:inline" placeholder="請輸入圖示，可空"
+					   autocomplete="off" class="layui-input">
+				如：bi-gear<a href="{__ASSETS__}/icon/index.html" target="_blank" style="margin-left:10px; color:#007AFF">[查看圖示]</a>
+			</td>
+		</tr>
+	</table>
+	{else/}
+	<table class="layui-table layui-table-form">
+		<tr>
+			<td class="layui-td-gray-2">父級菜單<span>*</span>
+			</td>
+			<td>
+				<select name="pid" lay-verify="required" lay-reqText="請選擇父級菜單">
+					<option value="0">作為頂級節點</option>
+					{volist name=":set_recursion(get_admin_menu())" id="v"}
+					<option value="{$v.id}" {eq name="$detail.pid" value="$v.id" }selected="" {/eq}>{$v.title} </option>
+					{/volist}
+				</select>
+			</td>
+			<td class="layui-td-gray-2">左側菜單顯示<span>*</span>
+			</td>
+			<td>
+				<input type="radio" name="menu" value="1" title="是" {eq name="$detail.menu" value="1" } checked{/eq}>
+				<input type="radio" name="menu" value="2" title="不是" {eq name="$detail.menu" value="2" } checked{/eq}>
+			</td>
+		</tr>
+		<tr>
+			<td class="layui-td-gray">菜單名稱<span>*</span>
+			</td>
+			<td>
+				<input type="text" name="title" value="{$detail.title}" lay-verify="required" autocomplete="off"
+					   placeholder="請輸入菜單/節點名稱" lay-reqText="請輸入菜單/節點名稱" class="layui-input">
+			</td>
+			<td class="layui-td-gray">操作日誌名稱<span>*</span>
+			</td>
+			<td>
+				<input type="text" name="name" value="{$detail.name}" lay-verify="required" placeholder="請輸入操作日誌名稱"
+					   lay-reqText="請輸入操作日誌名稱" autocomplete="off" class="layui-input">
+			</td>
+		</tr>
+		<tr>
+			<td class="layui-td-gray">菜單URL</td>
+			<td>
+				<input type="text" name="src" value="{$detail.src}" placeholder="請輸入菜單/節點URL，可空" autocomplete="off"
+					   class="layui-input">
+			</td>
+			<td class="layui-td-gray">菜單排序</td>
+			<td>
+				<input type="text" name="sort" value="{$detail.sort_order}" placeholder="請輸入數字，越小越靠前" autocomplete="off"
+					   class="layui-input">
+			</td>
+		</tr>
+		<tr>
+			<td class="layui-td-gray">菜單圖示</td>
+			<td colspan="3">
+				<input style="width:150px; display:inline" type="text" name="icon" value="{$detail.icon}" placeholder="請輸入圖示，可空" autocomplete="off" class="layui-input">
+				<i class="bi {$detail.icon}"></i><a href="{__ASSETS__}/icon/index.html" target="_blank" style="margin-left:10px; color:#007AFF">[查看圖示]</a>
+			</td>
+		</tr>
+	</table>
+	{/if}
+	<div  class="flex justify-center py-4" >
+		<input type="hidden" name="id" value="{$id}">
+		<button class="layui-btn layui-btn-normal" lay-submit="" lay-filter="webform">立即提交</button>
+		<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+	</div>
+</form>
+{/block}
+<!-- /主體 -->
+
+<!-- 腳本 -->
+{block name="script"}
+<script>
+	const moduleInit = ['tool'];
+	function xuwenInit() {
+		var form = layui.form,tool=layui.tool;
+		//監聽提交
+		form.on('submit(webform)', function (data) {
+			if (!data.field.menu || data.field.menu == '') {
+				layer.msg('請選擇是否在左側菜單顯示');
+				return false;
+			}
+			let callback = function (e) {
+				layer.msg(e.msg);
+				if (e.code == 0) {
+					setTimeout(function () {
+						parent.location.reload();
+					}, 1000);
+				}
+			}
+			tool.post("/admin/adminmenu/add", data.field, callback);
+			return false;
+		});
+	}
+</script>
+{/block}
+<!-- /腳本 -->

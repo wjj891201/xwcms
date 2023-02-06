@@ -1,0 +1,155 @@
+{extend name="common/base" /}
+{block name="style"}
+<style>
+	.left-note{span-weight:800; vertical-align:top; padding-top:28px!important; text-align:center}
+	.left-note .layui-form-checkbox span{background-color: #969696;}
+	.left-note .layui-form-checkbox:hover span{background-color: #808080;}
+
+	.left-note .layui-form-checked span, .left-note .layui-form-checked:hover span { background-color: #5fb878;}
+	.checkbox14 .layui-form-checkbox span{span-size:15px;span-weight:800;}
+	.right-note .layui-checkbox-disabled span {color: #666666!important;}
+</style>
+{/block}
+<!-- 主體 -->
+{block name="body"}
+
+<form class="layui-form p-4">
+	<h3 class="pb-3">角色管理</h3>
+	<table class="layui-table layui-table-form">
+		<tr>
+			<td class="layui-td-gray">角色名稱<span>*</span>
+			</td>
+			<td>
+				<input type="hidden" name="id" value="{$id}" />
+				<input class="layui-input" type="text" name="title" lay-verify="required" lay-reqText="請輸入角色名稱" {notempty name="$role.title"
+					   }value="{$role.title}" {/notempty} placeholder="請輸入角色名稱" autocomplete="off" />
+			</td>
+			<td class="layui-td-gray">狀態<span>*</span>
+			</td>
+			<td>
+				{if condition="$id eq 0"}
+				<input type="radio" name="status" value="1" title="正常" checked>
+				<input type="radio" name="status" value="-1" title="禁用">
+				{else/}
+				<input type="radio" name="status" value="1" title="正常" {eq name="$role.status" value="1" }checked{/eq}>
+				<input type="radio" name="status" value="-1" title="禁用" {eq name="$role.status" value="-1" }checked{/eq}>
+				{/if}
+			</td>
+		</tr>
+		<tr>
+			<td class="layui-td-gray-2">許可權配置說明<span>*</span></td>
+			<td colspan="3"><strong class="red">注意：如果右側子級許可權有節點被勾選了，左側的頂級許可權就必須勾選，否則無法查看右側的子級菜單。</strong></td>
+		</tr>
+		<tr>
+			<td colspan="4">
+				<table style="width:100%" id="rule">
+					<tr>
+						<td style="text-align:center; background-color:#f8f8f8; width:160px;">選擇可操作的頂級許可權 <span style="color:red">↓</span></td>
+						<td style="text-align:left; background-color:#f8f8f8;">選擇可操作的子級許可權  <span style="color:red">↓</span></td>
+					</tr>
+					{volist name="role_rule" id="vo"}
+					<tr>
+						<td class="left-note">
+							<input type="checkbox" name="rule[]" value="{$vo.id}" title="{$vo.title}" class="aaa" {eq name="$vo.checked" value="true" }checked{/eq}>
+						</td>
+						{notempty name="vo.children"}
+						<td class="right-note">
+							<div style="padding:0 0 0 10px;">
+								{volist name="vo.children" key="k" id="voo"}
+								<div class="checkbox15" style="padding:10px 0;">
+									<input type="checkbox" lay-filter="rule" name="rule[]" value="{$voo.id}" lay-skin="primary" title="{$voo.title}" {eq name="$voo.checked" value="true" }checked{/eq}>
+								</div>
+								{notempty name="voo.children"}
+								<div style="padding:0 0 3px; {if condition='$k != count($vo.children)'}margin-bottom:3px; padding-bottom:16px; border-bottom:1px solid #eee;{/if}">
+									{volist name="voo.children" id="vooo"}
+									<div class="layui-input-inline" style="margin-right:10px;">
+										<input type="checkbox" data-rule="{$voo.id}" name="rule[]" value="{$vooo.id}" lay-skin="primary" title="{$vooo.title}" {eq name="$vooo.checked" value="true" }checked{/eq}>
+									</div>
+									{notempty name="vooo.children"}
+									<div style="padding:0 0 3px; {if condition='$k != count($vo.children)'}margin-bottom:3px; padding-bottom:16px; border-bottom:1px solid #eee;{/if}">
+										{volist name="vooo.children" id="voooo"}
+										<div class="layui-input-inline" style="margin-right:10px;">
+											<input type="checkbox" data-rule="{$vooo.id}" name="rule[]" value="{$voooo.id}" lay-skin="primary" title="{$voooo.title}" {eq name="$voooo.checked" value="true" }checked{/eq}>
+										</div>
+										{/volist}
+									</div>
+									{/notempty}
+									{/volist}
+								</div>
+								{/notempty}
+								{/volist}
+							</div>
+						</td>
+						{/notempty}
+					</tr>
+					{/volist}
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td class="layui-td-gray" style="vertical-align: top;">備註內容</td>
+			<td colspan="3">
+				<textarea name="desc" placeholder="請輸入備註" class="layui-textarea">{notempty name="$role.desc" }{$role.desc}{/notempty}</textarea>
+			</td>
+		</tr>
+	</table>
+	<div style="padding: 10px 0" class="flex justify-center">
+		<button class="layui-btn layui-btn-normal" lay-submit="" lay-filter="webform">立即提交</button>
+		<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+	</div>
+</form>
+{/block}
+<!-- /主體 -->
+
+<!-- 腳本 -->
+{block name="script"}
+<script>
+	const moduleInit = ['tool'];
+	function xuwenInit() {
+		var form = layui.form,tool=layui.tool, tree = layui.tree;
+		//監聽提交
+		form.on('submit(webform)', function (obj) {
+			$.ajax({
+				url: "/admin/adminrole/add",
+				data: obj.field,
+				type: 'post',
+				success: function (e) {
+					layer.msg(e.msg);
+					if (e.code == 0) {
+						parent.layui.tool.close(1000);
+					}
+				}
+			});
+			return false;
+		});
+
+
+		//監聽多選框點擊事件  通過 lay-filter="menu"來監聽
+		form.on('checkbox(menu)', function (data) {
+			let val = data.value;
+			if(data.elem.checked){
+				//判斷當前多選框是選中還是取消選中
+				$("input[data-menu='"+val+"']").prop("checked", true);//true:選中 false:不選中
+			}
+			else{
+				$("input[data-menu='"+val+"']").prop("checked", false);
+			}
+			form.render();//即時渲染選中和不選中的樣式
+		});
+
+		//監聽多選框點擊事件  通過 lay-filter="rule"來監聽
+		form.on('checkbox(rule)', function (data) {
+			let val = data.value;
+			if(data.elem.checked){
+				//判斷當前多選框是選中還是取消選中
+				$("input[data-rule='"+val+"']").prop("checked", true);//true:選中 false:不選中
+			}
+			else{
+				$("input[data-rule='"+val+"']").prop("checked", false);
+			}
+			form.render();//即時渲染選中和不選中的樣式
+		});
+	}
+</script>
+{/block}
+<!-- /腳本 -->

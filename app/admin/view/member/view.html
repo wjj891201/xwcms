@@ -1,0 +1,74 @@
+{extend name="common/base"/}
+<!-- 主體 -->
+{block name="body"}
+<div class="layui-form p-4">
+    <h3 class="pb-3">用戶資訊</h3>
+    <table class="layui-table layui-table-form">
+        <tr>
+            <td class="layui-td-gray">登錄帳號</td>
+            <td>
+                {$user.username}
+            </td>
+            <td class="layui-td-gray">會員等級</td>
+            <td>
+                {$user.role_name}
+            </td>
+        </tr>
+        <tr>
+            <td class="layui-td-gray">昵稱</td>
+            <td>
+                {$user.nickname}
+            </td>
+            <td class="layui-td-gray">真實姓名</td>
+            <td>
+                {$user.name}
+            </td>
+        </tr>
+        <tr>
+            <td class="layui-td-gray">註冊時間</td>
+            <td>
+                {$user.register_at}
+            </td>
+            <td class="layui-td-gray">註冊IP</td>
+            <td>
+                {$user.register_ip}
+            </td>
+        </tr>
+
+        <tr>
+            <td class="layui-td-gray">手機號碼</td>
+            <td>
+                {$user.mobile}
+            </td>
+            <td class="layui-td-gray">電子郵箱</td>
+            <td>
+                {$user.email}
+            </td>
+        </tr>
+        <tr>
+
+            <td class="layui-td-gray">狀態</td>
+            <td>
+                {eq name="$user.status" value="1" }正常{/eq}
+                {eq name="$user.status" value="0" }禁止登錄{/eq}
+            </td>
+            <td class="layui-td-gray">累計登錄</td>
+            <td>
+                {$user.login_num}次
+            </td>
+        </tr>
+        <tr>
+            <td class="layui-td-gray-2">最後登錄IP</td>
+            <td>
+                {$user.last_login_ip}
+            </td>
+            <td class="layui-td-gray-2">最後登錄時間</td>
+            <td>
+                {$user.last_login_at}
+            </td>
+
+        </tr>
+    </table>
+</div>
+{/block}
+<!-- /主體 -->

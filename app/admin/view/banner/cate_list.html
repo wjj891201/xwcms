@@ -1,0 +1,120 @@
+{extend name="common/base"/}
+<!-- 主體 -->
+{block name="body"}
+<div class="p-3">
+	<table class="layui-hide" id="slide" lay-filter="slide"></table>
+</div>
+
+<script type="text/html" id="status">
+	<i class="layui-icon {{#  if(d.status == 1){ }}layui-icon-ok{{#  } else { }}layui-icon-close{{#  } }}"></i>
+</script>
+<script type="text/html" id="toolbarDemo">
+	<div class="layui-btn-container">
+		<button class="layui-btn layui-btn-sm layui-btn-normal" lay-event="add">+ 添加輪播組</button>
+	</div>
+</script>
+<script type="text/html" id="barDemo">
+	<div class="layui-btn-group"><a class="layui-btn layui-btn-xs" lay-event="edit">編輯</a>
+		<a class="layui-btn layui-btn-xs layui-btn-normal" href="/admin/banner/info?id={{d.id}}">管理輪播</a>
+		<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">刪除</a>
+	</div>
+</script>
+{/block}
+<!-- /主體 -->
+
+<!-- 腳本 -->
+{block name="script"}
+<script>
+	const moduleInit = ['tool'];
+	function xuwenInit() {
+		var table = layui.table, tool = layui.tool, form = layui.form;
+		layui.pageTable = table.render({
+			elem: '#slide',
+			title: '輪播組列表',
+			toolbar: '#toolbarDemo',
+			url: '/admin/banner/cate_list', //數據介面
+			page: true, //開啟分頁
+			limit: 20,
+			cols: [
+				[
+					{
+						field: 'id',
+						title: 'ID號',
+						align: 'center',
+						width: 80
+					}, {
+					field: 'title',
+					title: '標題',
+					width: 240
+				}, {
+					field: 'name',
+					title: '標識',
+					align: 'center',
+					width: 160
+				}, {
+					field: 'desc',
+					title: '備註'
+				}, {
+					field: 'status',
+					title: '狀態',
+					toolbar: '#status',
+					align: 'center',
+					width: 80
+				}, {
+					field: 'right',
+					title: '操作',
+					toolbar: '#barDemo',
+					width: 160,
+					align: 'center'
+				}
+				]
+			]
+		});
+
+		//表頭工具欄事件
+		table.on('toolbar(slide)', function (obj) {
+			if (obj.event === 'add') {
+				tool.side("/admin/banner/cate_add");
+				return;
+			}
+		});
+		//監聽行工具事件
+		table.on('tool(slide)', function (obj) {
+			var data = obj.data;
+			if (obj.event === 'edit') {
+				tool.side('/admin/banner/cate_add?id=' + obj.data.id);
+				return;
+			}
+			if (obj.event === 'del') {
+				layer.confirm('確定刪除該輪播組嗎？', {
+					icon: 3,
+					title: '提示'
+				}, function (index) {
+					let callback = function (e) {
+						layer.msg(e.msg);
+						if (e.code == 0) {
+							obj.del();
+						}
+					}
+					tool.delete("/admin/banner/cate_delete", { id: data.id }, callback);
+					layer.close(cate_list);
+				});
+			}
+		});
+
+		//監聽搜索提交
+		form.on('submit(webform)', function (data) {
+			layui.pageTable.reload({
+				where: {
+					keywords: data.field.keywords
+				},
+				page: {
+					curr: 1
+				}
+			});
+			return false;
+		});
+	}
+</script>
+{/block}
+<!-- /腳本 -->

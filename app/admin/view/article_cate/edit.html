@@ -1,0 +1,66 @@
+{extend name="common/base"/}
+<!-- 主體 -->
+{block name="body"}
+<form class="layui-form p-4">
+	<h3 class="pb-3">編輯文章分類</h3>
+	<table class="layui-table layui-table-form">
+		<tr>
+			<td class="layui-td-gray">父級分類<span>*</span></td>
+			<td>
+				<select name="pid" lay-verify="required" lay-reqText="請選擇父級分類">
+					<option value="0">作為頂級分類</option>
+					{volist name=":set_recursion(get_article_cate())" id="v"}
+					<option value="{$v.id}" {eq name="$detail.pid" value="$v.id" }selected="" {/eq}>{$v.title}</option>
+					{/volist}
+				</select>
+			</td>
+			<td class="layui-td-gray">排序</td>
+			<td>
+				<input type="text" name="sort_order" placeholder="請輸入排序，數字" autocomplete="off" class="layui-input" value="{$detail.sort_order}">
+			</td>
+		</tr>
+		<tr>
+			<td class="layui-td-gray">分類名稱<span>*</span></td>
+			<td>
+				<input type="text" name="title" lay-verify="required" autocomplete="off" placeholder="請輸入分類名稱" class="layui-input" value="{$detail.title}">
+			</td>
+		</tr>
+		<tr>
+			<td class="layui-td-gray">描述</td>
+			<td colspan="3">
+				<textarea name="desc" placeholder="請輸入描述，可空" class="layui-textarea">{$detail.desc}</textarea>
+			</td>
+		</tr>
+	</table>
+	<div class="flex justify-center py-4" >
+		<input type="hidden" name="id" value="{$detail.id}" />
+		<button class="layui-btn layui-btn-normal" lay-submit="" lay-filter="webform">立即提交</button>
+		<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+	</div>
+</form>
+{/block}
+<!-- /主體 -->
+
+<!-- 腳本 -->
+{block name="script"}
+<script>
+	const moduleInit = ['tool'];
+	function xuwenInit() {
+		var form = layui.form, tool = layui.tool;
+		//監聽提交
+		form.on('submit(webform)', function (data) {
+			let callback = function (e) {
+				layer.msg(e.msg);
+				if (e.code == 0) {
+					setTimeout(function () {
+						parent.location.reload();
+					}, 1000);
+				}
+			}
+			tool.post("/admin/article_cate/edit", data.field, callback);
+			return false;
+		});
+	}
+</script>
+{/block}
+<!-- /腳本 -->

@@ -1,0 +1,173 @@
+{extend name="common/base"/}
+{block name="style"}
+<style>
+    .upload-img {
+        width: 120px;
+        height: 90px;
+        overflow: hidden;
+        position: relative;
+        border: 1px solid #eee;
+        padding: 1px;
+        margin: 5px;
+        float: left;
+    }
+
+    .upload-close {
+        position: absolute;
+        top: 1px;
+        right: 1px;
+    }
+</style>
+{/block}
+<!-- 主體 -->
+{block name="body"}
+<form class="layui-form p-4">
+    <h3 class="pb-3">編輯單頁面</h3>
+    <table class="layui-table layui-table-form">
+        <tr>
+            <td class="layui-td-gray">頁面標題<span>*</span></td>
+            <td colspan="3"><input type="text" name="title" lay-verify="required" lay-reqText="請輸入頁面標題"
+                                   placeholder="請輸入頁面標題" class="layui-input" value="{$detail.title}"></td>
+
+        </tr>
+
+        <tr>
+            <td class="layui-td-gray" style="vertical-align:top;">頁面摘要</td>
+            <td colspan="3">
+                <textarea name="desc" placeholder="請輸入頁面摘要，200字以內" class="layui-textarea">{$detail.desc}</textarea>
+            </td>
+        </tr>
+
+        <tr>
+
+            <td class="layui-td-gray">狀態<span>*</span></td>
+            <td>
+                <input type="radio" name="status" value="1" title="正常" {eq name="$detail.status" value="1" }checked{/eq}>
+                <input type="radio" name="status" value="0" title="下架" {eq name="$detail.status" value="0" }checked{/eq}>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="6" class="layui-td-gray" style="text-align:left">頁面內容<span>*</span></td>
+        </tr>
+        <tr>
+            <td colspan="6">
+                <textarea placeholder="請輸入內容" class="layui-textarea" id="container_content">{$detail.content}</textarea>
+            </td>
+        </tr>
+    </table>
+    <div class="flex justify-center py-4" >
+        <input type="hidden" name="id" value="{$detail.id}"/>
+        <button class="layui-btn layui-btn-normal" lay-submit="" lay-filter="webform">立即提交</button>
+        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+    </div>
+</form>
+{/block}
+<!-- /主體 -->
+
+<!-- 腳本 -->
+{block name="script"}
+<script>
+    // 查找指定的元素在數組中的位置
+    Array.prototype.indexOf = function (val) {
+        for (var i = 0; i < this.length; i++) {
+            if (this[i] == val) {
+                return i;
+            }
+        }
+        return -1;
+    };
+    // 通過索引刪除數組元素
+    Array.prototype.remove = function (val) {
+        var index = this.indexOf(val);
+        if (index > -1) {
+            this.splice(index, 1);
+        }
+    };
+    var moduleInit = ['tool', 'tagpicker', 'tinymce'];
+
+    function xuwenInit() {
+        var form = layui.form, tool = layui.tool, tagpicker = layui.tagpicker;
+
+        //上傳縮略圖
+        var upload_thumb = layui.upload.render({
+            elem: '#upload_btn_thumb',
+            url: '/admin/api/upload',
+            done: function (res) {
+                //如果上傳失敗
+                if (res.code == 1) {
+                    return layer.msg('上傳失敗');
+                }
+                //上傳成功
+                $('#upload_box_thumb input').attr('value', res.data.id);
+                $('#upload_box_thumb img').attr('src', res.data.filepath);
+            }
+        });
+
+        var tags = new tagpicker({
+            'url': '/admin/api/get_keyword_cate',
+            'target': 'keyword_name',
+            'tag_ids': 'keyword_id',
+            'tag_tags': 'keyword_name',
+            'height': 500,
+            'isDiy': 1
+        });
+
+        //banner圖上傳
+        var uploadInst2 = layui.upload.render({
+            elem: '#uploadBtn2'
+            , url: '/admin/api/upload'
+            , done: function (res) {
+                //如果上傳失敗
+                if (res.code == 1) {
+                    return layer.msg('上傳失敗');
+                }
+                //上傳成功
+                var idsStr = $('#demo2 input').val();
+                var idsArray = [];
+                if (idsStr != '') {
+                    idsArray = idsStr.split(",");
+                }
+                idsArray.push(res.data.id);
+                $('#demo2 input').attr('value', idsArray.join(','));
+                $('#demo2').append('<div class="upload-img img-cover" id="uploadImg' + res.data.id + '"><div class="gg-img-cover cover-4-3"><img src="' + res.data.filepath + '"><div class="upload-close"><a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="delimg" data-id="' + res.data.id + '">刪除</a></div></div></div>');
+            }
+        });
+
+        $('#demo2').on('click', '[lay-event="delimg"]', function () {
+            var _id = $(this).data('id');
+            var idsStr = $('#demo2 input').val();
+            var idsArray = [];
+            if (idsStr != '') {
+                idsArray = idsStr.split(",");
+            }
+            idsArray.remove(_id);
+            $('#demo2 input').attr('value', idsArray.join(','));
+            $('#uploadImg' + _id).remove();
+        })
+
+        //內容描述富文本編輯器
+        var edit = layui.tinymce.render({
+            selector: '#container_content',
+            height: 500
+        });
+
+        //監聽提交
+        form.on('submit(webform)', function (data) {
+            data.field.content = tinyMCE.editors['container_content'].getContent();
+            if (data.field.content == '') {
+                layer.msg('請先完善內容描述內容');
+                return false;
+            }
+            let callback = function (e) {
+                layer.msg(e.msg);
+                if (e.code == 0) {
+                    tool.sideClose(1000);
+                }
+            }
+            tool.post("/admin/pages/edit", data.field, callback);
+            return false;
+        });
+    }
+</script>
+{/block}
+<!-- /腳本 -->

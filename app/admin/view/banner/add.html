@@ -1,0 +1,107 @@
+{extend name="common/base"/}
+<!-- 主體 -->
+{block name="body"}
+<form class="layui-form p-4">
+  <h3 class="pb-3">輪播</h3>
+  <table class="layui-table layui-table-form">
+    <tr>
+      <td class="layui-td-gray">標題<span>*</span>
+      </td>
+      <td colspan="3">
+        <input type="hidden" name="id" value="{$id}" />
+        <input type="text" name="title" lay-verify="required" lay-reqText="請輸入標題" autocomplete="off" placeholder="請輸入標題"
+               class="layui-input" {notempty name="$banner.title" }value="{$banner.title}" {/notempty}>
+      </td>
+      <td class="layui-td-gray" rowspan="3">圖片<span>*</span>
+      </td>
+      <td rowspan="3" style="vertical-align:top">
+        <div class="layui-upload" style="text-align:center;">
+          <button type="button" class="layui-btn layui-btn-sm layui-btn-normal" id="uploadBtn">選擇要上傳的圖片</button>
+          <div class="layui-upload-list" id="demo1" style="width: 100%;height:100px; overflow:hidden;">
+            <img {notempty name="$banner.img" }src="{:get_file($banner.img)}" {/notempty}
+            style="max-width: 120px;" />
+            <input type="hidden" lay-verify="required" lay-reqText="請選擇要上傳的圖片" name="img" {notempty
+                   name="$banner.img" }value="{$banner.img}" {/notempty}>
+                   name="$banner.img" }value="{$banner.img}" {/notempty}>
+          </div>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td class="layui-td-gray">鏈接</td>
+      <td colspan="3">
+        <input type="text" name="src" autocomplete="off" placeholder="請輸入鏈接" class="layui-input" {notempty
+               name="$banner.src" }value="{$banner.src}" {/notempty}>
+      </td>
+    </tr>
+    <tr>
+      <td class="layui-td-gray">狀態<span>*</span>
+      </td>
+      <td>
+        {if condition="$id eq 0"}
+        <input type="radio" name="status" value="1" title="正常" checked>
+        <input type="radio" name="status" value="-1" title="禁用">
+        {else/}
+        <input type="radio" name="status" value="1" title="正常" {eq name="$banner.status" value="1" }checked{/eq}>
+        <input type="radio" name="status" value="-1" title="禁用" {eq name="$banner.status" value="-1" }checked{/eq}>
+        {/if}
+      </td>
+      <td class="layui-td-gray">排序</td>
+      <td><input type="text" name="sort" placeholder="請輸入排序，數字" autocomplete="off" class="layui-input" {notempty
+                 name="$banner.sort" }value="{$banner.sort}" {/notempty}></td>
+    </tr>
+    <tr>
+      <td class="layui-td-gray">備註</td>
+      <td colspan="5">
+        <textarea name="desc" placeholder="請輸入備註"
+                  class="layui-textarea">{notempty name="$banner.desc" }{$banner.desc}{/notempty}</textarea>
+      </td>
+    </tr>
+  </table>
+
+  <div class="flex justify-center py-4" >
+    <input type="hidden" name="cate_id" value="{$cate_id}">
+    <button class="layui-btn layui-btn-normal" lay-submit="" lay-filter="webform">立即提交</button>
+    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+  </div>
+</form>
+{/block}
+<!-- /主體 -->
+
+<!-- 腳本 -->
+{block name="script"}
+<script>
+  const moduleInit = ['tool'];
+  function xuwenInit() {
+    var form = layui.form, tool = layui.tool, upload = layui.upload;
+    //頭像上傳
+    var uploadInst = upload.render({
+      elem: '#uploadBtn'
+      , url: '/admin/api/upload'
+      , done: function (res) {
+        //如果上傳失敗
+        if (res.code == 1) {
+          return layer.msg('上傳失敗');
+        }
+        //上傳成功
+        $('#demo1 input').attr('value', res.data.id);
+        $('#demo1 img').attr('src', res.data.filepath);
+      }
+    });
+
+    //監聽提交
+    form.on('submit(webform)', function (data) {
+      let callback = function (e) {
+        layer.msg(e.msg);
+        if (e.code == 0) {
+          parent.layui.tool.close(1000);
+        }
+      }
+      tool.post("/admin/banner/add", data.field, callback);
+      return false;
+    });
+  }
+
+</script>
+{/block}
+<!-- /腳本 -->

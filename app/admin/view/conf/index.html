@@ -1,0 +1,116 @@
+{extend name="common/base"/}
+<!-- 主體 -->
+{block name="body"}
+<div class="p-3">
+	<table class="layui-hide" id="conf" lay-filter="conf"></table>
+</div>
+
+<script type="text/html" id="status">
+	<i class="layui-icon {{#  if(d.status == 1){ }}layui-icon-ok{{#  } else { }}layui-icon-close{{#  } }}"></i>
+</script>
+<script type="text/html" id="toolbarDemo">
+	<div class="flex items-center">
+		<div class="layui-btn-container">
+			<button class="layui-btn layui-btn-sm layui-btn-normal" lay-event="add">+ 添加配置項</button>
+		</div>
+		<div class="ml-10 text-red-500 font-bold">*功能僅限於修改，不能隨便刪除！</div>
+	</div>
+</script>
+{/block}
+<!-- /主體 -->
+
+<!-- 腳本 -->
+{block name="script"}
+<script>
+	const moduleInit = ['tool'];
+	function xuwenInit() {
+		var table = layui.table, tool = layui.tool, form = layui.form;
+		layui.pageTable = table.render({
+			elem: '#conf',
+			title: '配置列表',
+			toolbar: '#toolbarDemo',
+			url: "/admin/conf/index",
+			page: true, //開啟分頁
+			limit: 20,
+			cols: [
+				[{
+					field: 'id',
+					width: 80,
+					title: 'ID',
+					align: 'center'
+				}, {
+					field: 'title',
+					width: 200,
+					title: '配置名稱'
+				}, {
+					field: 'name',
+					title: '配置標識（新增的範本檔案名稱需與標識名稱一致）'
+				}, {
+					field: 'status',
+					width: 80,
+					title: '狀態',
+					templet: '#status',
+					align: 'center'
+				}, {
+					width: 160,
+					title: '操作',
+					align: 'center',
+					templet: function (d) {
+						var html = '<div class="layui-btn-group"><button class="layui-btn layui-btn-xs" lay-event="add">修改</button><button class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit" >編輯配置</button><button class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">刪除</button></div>';
+						return html;
+					}
+				}]
+			]
+		});
+
+		//表頭工具欄事件
+		table.on('toolbar(conf)', function (obj) {
+			if (obj.event === 'add') {
+				tool.side("/admin/conf/add");
+				return;
+			}
+		});
+
+		//監聽行工具事件
+		table.on('tool(conf)', function (obj) {
+			var data = obj.data;
+			if (obj.event === 'add') {
+				tool.side('/admin/conf/add?id=' + data.id);
+				return;
+			}
+			if (obj.event === 'edit') {
+				tool.side('/admin/conf/edit?id=' + data.id);
+				return;
+			}
+			if (obj.event === 'del') {
+				layer.confirm('確定要刪除嗎?', {
+					icon: 3,
+					title: '提示'
+				}, function (index) {
+					let callback = function (e) {
+						layer.msg(e.msg);
+						if (e.code == 0) {
+							obj.del();
+							layer.close(index);
+						}
+					}
+					tool.delete("/admin/conf/delete", { id: obj.data.id }, callback);
+				});
+			}
+		});
+
+		//監聽搜索提交
+		form.on('submit(webform)', function (data) {
+			if (data.field.keywords) {
+				tableIns.reload({
+					where: { keywords: data.field.keywords }, page: { curr: 1 }
+				});
+			} else {
+				location.reload();
+			}
+			return false;
+		});
+	}
+</script>
+{/block}
+<!-- /腳本 -->

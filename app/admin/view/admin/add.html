@@ -1,0 +1,205 @@
+{extend name="common/base"/}
+<!-- 主體 -->
+{block name="body"}
+<form class="layui-form p-4">
+	{if condition="$id eq 0"}
+	<div class="layui-form-bar">
+		<h3 class="pb-3">新增管理員</h3>
+	</div>
+	<table class="layui-table layui-table-form">
+		<tr>
+			<td class="layui-td-gray">登入帳號<span>*</span></td>
+			<td>
+				<input type="text" name="username" lay-verify="required" autocomplete="off" placeholder="請輸入登入帳號" lay-reqText="請輸入登入帳號" class="layui-input">
+			</td>
+			<td class="layui-td-gray">用戶名<span>*</span></td>
+			<td>
+				<input type="text" name="nickname" lay-verify="required" placeholder="請輸入用戶名" lay-reqText="請輸入用戶名" autocomplete="off" class="layui-input">
+			</td>
+		</tr>
+		<tr>
+			<td class="layui-td-gray">登入密碼<span>*</span></td>
+			<td>
+				<input type="password" name="pwd" lay-verify="required" placeholder="請輸入密碼" lay-reqText="請輸入密碼" autocomplete="off" class="layui-input">
+			</td>
+			<td class="layui-td-gray">確認密碼<span>*</span></td>
+			<td>
+				<input type="password" name="pwd_confirm" lay-verify="required" placeholder="請再次輸入密碼" lay-reqText="請再次輸入密碼" autocomplete="off" class="layui-input">
+			</td>
+		</tr>
+		<tr>
+			<td class="layui-td-gray">手機號碼<span>*</span></td>
+			<td>
+				<input type="text" name="mobile" lay-verify="required" placeholder="請輸入手機" lay-reqText="請輸入手機" autocomplete="off" class="layui-input">
+			</td>
+			<td class="layui-td-gray">電子郵箱</td>
+			<td>
+				<input type="text" name="email" placeholder="電子郵箱" autocomplete="off" class="layui-input">
+			</td>
+		</tr>
+		<tr>
+			<td class="layui-td-gray">所在部門<span>*</span></td>
+			<td>
+				<select name="did" lay-verify="required" lay-reqText="請選擇所屬部門">
+					<option value="">請選擇所屬部門</option>
+					{volist name="department" id="v"}
+					<option value="{$v.id}">{$v.title}</option>
+					{/volist}
+				</select>
+			</td>
+			<td class="layui-td-gray">崗位職稱<span>*</span></td>
+			<td>
+				<select name="position_id" lay-verify="required" lay-reqText="請選擇崗位職稱">
+					<option value="">請選擇崗位職稱</option>
+					{volist name="position" id="v"}
+					<option value="{$v.id}">{$v.title}</option>
+					{/volist}
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td class="layui-td-gray">用戶狀態<span>*</span></td>
+			<td>
+				<input type="radio" name="status" value="1" title="正常" checked>
+				<input type="radio" name="status" value="0" title="禁用">
+			</td>
+		</tr>
+		<tr>
+			<td class="layui-td-gray">用戶角色<span>*</span>
+			</td>
+			<td colspan="5">
+				{volist name=":get_admin_role()" id="v"}
+				<input type="checkbox" name="role_id[]" title="{$v.title}" value="{$v.id}" lay-skin="primary">
+				{/volist}
+			</td>
+		</tr>
+		<tr>
+			<td class="layui-td-gray">備註</td>
+			<td colspan="5">
+				<textarea name="desc" placeholder="請輸入備註" class="layui-textarea"></textarea>
+			</td>
+		</tr>
+	</table>
+	{else/}
+	<div class="layui-form-bar">
+		<h3 class="pb-3">編輯管理員</h3>
+	</div>
+	<table class="layui-table layui-table-form">
+		<tr>
+			<td class="layui-td-gray">登入帳號<span>*</span></td>
+			<td>
+				<input type="hidden" name="id" value="{$admin.id}">
+				<input type="text" name="username" lay-verify="required" autocomplete="off" placeholder="請輸入登入帳號" lay-reqText="請輸入登入帳號" class="layui-input" value="{$admin.username}">
+			</td>
+			<td class="layui-td-gray">用戶名<span>*</span></td>
+			<td>
+				<input type="text" name="nickname" lay-verify="required" placeholder="請輸入用戶名" lay-reqText="請輸入用戶名" autocomplete="off" class="layui-input" value="{$admin.nickname}">
+			</td>
+		</tr>
+		<tr>
+			<td class="layui-td-gray">登入密碼</td>
+			<td>
+				<input type="password" name="edit_pwd" placeholder="請輸入密碼" autocomplete="off" class="layui-input">
+			</td>
+			<td class="layui-td-gray">確認密碼</td>
+			<td>
+				<input type="password" name="edit_pwd_confirm" placeholder="請再次輸入密碼" autocomplete="off" class="layui-input">
+			</td>
+		</tr>
+		<tr>
+			<td class="layui-td-gray">手機號碼<span>*</span></td>
+			<td>
+				<input type="text" name="mobile" lay-verify="required" placeholder="請輸入手機" lay-reqText="請輸入手機"
+					   autocomplete="off" class="layui-input" value="{$admin.mobile}">
+			</td>
+			<td class="layui-td-gray">電子郵箱</td>
+			<td>
+				<input type="text" name="email" placeholder="電子郵箱" autocomplete="off" class="layui-input" value="{$admin.email}">
+			</td>
+		</tr>
+		<tr>
+			<td class="layui-td-gray">所在部門<span>*</span></td>
+			<td>
+				<select name="did" lay-verify="required" lay-reqText="請選擇所屬部門">
+					<option value="">請選擇所屬部門</option>
+					{volist name="department" id="v"}
+					<option value="{$v.id}" {eq name="$v.id" value="$admin.did"}selected{/eq}>{$v.title}</option>
+					{/volist}
+				</select>
+			</td>
+			<td class="layui-td-gray">崗位職稱<span>*</span></td>
+			<td>
+				<select name="position_id" lay-verify="required" lay-reqText="請選擇崗位職稱">
+					<option value="">請選擇崗位職稱</option>
+					{volist name="position" id="v"}
+					<option value="{$v.id}" {eq name="$v.id" value="$admin.position_id"}selected{/eq}>{$v.title}</option>
+					{/volist}
+				</select>
+			</td>
+			<td class="layui-td-gray">用戶狀態<span>*</span></td>
+			<td>
+				<input type="radio" name="status" value="1" title="正常" {eq name="$admin.status" value="1" }checked{/eq}>
+				<input type="radio" name="status" value="0" title="禁用" {eq name="$admin.status" value="0"}checked{/eq}>
+			</td>
+		</tr>
+		<tr>
+			<td class="layui-td-gray">用戶角色<span>*</span></td>
+			<td colspan="5">
+				{volist name=":get_admin_role()" id="v"}
+				<input type="checkbox" name="role_id[]" title="{$v.title}" value="{$v.id}" {volist name="$admin.role_id" id="a" }{eq name="$a" value="$v.id" }checked{/eq}{/volist} lay-skin="primary">
+				{/volist}
+			</td>
+		</tr>
+		<tr>
+			<td class="layui-td-gray">備註</td>
+			<td colspan="5">
+				<textarea name="desc" placeholder="請輸入備註" class="layui-textarea">{$admin.desc}</textarea>
+			</td>
+		</tr>
+	</table>
+	{/if}
+	<div class="flex justify-center py-4" >
+		<button class="layui-btn layui-btn-normal" lay-submit="" lay-filter="webform">立即提交</button>
+		<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+	</div>
+</form>
+{/block}
+<!-- /主體 -->
+
+<!-- 腳本 -->
+{block name="script"}
+<script>
+	const moduleInit = ['tool'];
+	function xuwenInit() {
+		var form = layui.form,tool=layui.tool,upload = layui.upload;
+		//頭像上傳
+		var uploadInst = upload.render({
+			elem: '#uploadBtn'
+			, url: '/admin/api/upload'
+			, done: function (e) {
+				//如果上傳失敗
+				if (e.code == 1) {
+					return layer.msg('上傳失敗');
+				}
+				//上傳成功
+				$('#demo1 input').attr('value', e.data.filepath);
+				$('#demo1 img').attr('src', e.data.filepath);
+			}
+		});
+
+		//監聽提交
+		form.on('submit(webform)', function (data) {
+			let callback = function (e) {
+				layer.msg(e.msg);
+				if (e.code == 0) {
+					parent.layui.tool.close(1000);
+				}
+			}
+			tool.post("/admin/admin/add", data.field, callback);
+			return false;
+		});
+	}
+
+</script>
+{/block}
+<!-- /腳本 -->
