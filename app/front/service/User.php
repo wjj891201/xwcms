@@ -2,7 +2,8 @@
 
 namespace app\front\service;
 
-use app\front\model\UserModel as UserModel;
+use think\Exception;
+use app\front\model\User as UserModel;
 
 class User
 {
@@ -21,19 +22,18 @@ class User
 
         if (!$user)
         {
-            return show(0, "不存在该用户");
+            throw new Exception('不存在该用户');
         }
 
-        if ($user['password'] != md5($data['password'] . "_singwa_abc"))
+        if ($user['password'] != md5($data['password']))
         {
-            return show(0, "输入的密码错误");
+            throw new Exception('密码错误');
         }
-        // 记录session
-        session(config("user.session_front"), $user);
-        // 设置模拟错误陷阱， 比如数据库内容错误等
         // 更新表的数据
         $res = $this->userModelObj->updateById($user['id'], ["last_login_time" => time()]);
-        return $res;
+        // 记录session
+        session(config("user.session_front"), $user);
+        return true;
     }
 
     public function getUserByUsername($username)

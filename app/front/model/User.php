@@ -4,7 +4,7 @@ namespace app\front\model;
 
 use think\Model;
 
-class UserModel extends Model
+class User extends Model
 {
 
     public function getUserByUsername($username)
