@@ -17,7 +17,6 @@ class User
 
     public function login($data)
     {
-        // 常规的做法：
         $user = $this->getUserByUsername($data['username']);
 
         if (!$user)

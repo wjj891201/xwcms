@@ -32,28 +32,28 @@ return [
     'dispatch_error_tmpl'  => app()->getRootPath() . '/public/tpl/dispatch_jump.tpl',
 
     // 错误显示信息,非调试模式有效
-    'error_message'    => '😔错误～',
+    'error_message'    => '错误～',
     // 显示错误信息
     'show_error_msg'   => false,
 	
-	'page_size'    => 20,
-	
-	'session_user'    => 'xw_user',
-	
-	'session_admin'    => 'xw_admin',
+    'page_size'        => 20,
+
+    'session_user'     => 'xw_user',
+
+    'session_admin'    => 'xw_admin',
 
     'http_exception_template'    =>  [
-		// 登录失败
-		401 => public_path() . 'tpl/401.html',
-		// 禁止访问
-		403 => public_path() . 'tpl/403.html',
-		// 无法找到文件
-		404 => public_path() . 'tpl/404.html',
-		// 无权限访问
-		405 => public_path() . 'tpl/405.html',
-		// 找不到数据
-		406 => public_path() . 'tpl/406.html',
-		//内部服务器错误
-		500 => public_path() . 'tpl/500.html',
-	]
+        // 登录失败
+        401 => public_path() . 'tpl/401.html',
+        // 禁止访问
+        403 => public_path() . 'tpl/403.html',
+        // 无法找到文件
+        404 => public_path() . 'tpl/404.html',
+        // 无权限访问
+        405 => public_path() . 'tpl/405.html',
+        // 找不到数据
+        406 => public_path() . 'tpl/406.html',
+        //内部服务器错误
+        500 => public_path() . 'tpl/500.html',
+    ]
 ];
