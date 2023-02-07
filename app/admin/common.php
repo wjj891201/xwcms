@@ -203,7 +203,7 @@ function get_position()
 //讀取文章分類列表
 function get_article_cate()
 {
-    $cate = Db::name('admin_cate')->where(['deleted_at' => get_zero_time()])->order('created_at asc')->select()->toArray();
+    $cate = Db::name('article_cate')->where(['deleted_at' => get_zero_time()])->order('created_at asc')->select()->toArray();
     return $cate;
 }
 
