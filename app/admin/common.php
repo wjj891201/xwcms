@@ -9,21 +9,31 @@ use think\facade\Session;
 function get_login_admin($key = "")
 {
     $session_admin = get_config('app.session_admin');
-    if (Session::has($session_admin)) {
+    if (Session::has($session_admin))
+    {
         $xuwen_admin = Session::get($session_admin);
-        if (!empty($key)) {
-            if (isset($xuwen_admin[$key])) {
+        if (!empty($key))
+        {
+            if (isset($xuwen_admin[$key]))
+            {
                 return $xuwen_admin[$key];
-            } else {
+            }
+            else
+            {
                 return '';
             }
-        } else {
+        }
+        else
+        {
             return $xuwen_admin;
         }
-    } else {
+    }
+    else
+    {
         return '';
     }
 }
+
 /**
  * 截取摘要
  *  @return bool
@@ -39,11 +49,13 @@ function getDescriptionFromContent($content, $count)
     $go_away = array("", "", "", "", "");
     $content = str_replace($space, $go_away, $content);
     $res = mb_substr($content, 0, $count, 'UTF-8');
-    if (mb_strlen($content, 'UTF-8') > $count) {
+    if (mb_strlen($content, 'UTF-8') > $count)
+    {
         $res = $res . "...";
     }
     return $res;
 }
+
 /**
  * PHP格式化位元組大小
  * @param number $size      位元組數
@@ -53,7 +65,8 @@ function getDescriptionFromContent($content, $count)
 function format_bytes($size, $delimiter = '')
 {
     $units = array('B', 'KB', 'MB', 'GB', 'TB', 'PB');
-    for ($i = 0; $size >= 1024 && $i < 5; $i++) {
+    for ($i = 0; $size >= 1024 && $i < 5; $i++)
+    {
         $size /= 1024;
     }
 
@@ -62,18 +75,25 @@ function format_bytes($size, $delimiter = '')
 
 function create_tree_list($pid, $arr, $group, &$tree = [])
 {
-    foreach ($arr as $key => $vo) {
-        if ($key == 0) {
+    foreach ($arr as $key => $vo)
+    {
+        if ($key == 0)
+        {
             $vo['spread'] = true;
         }
-        if (!empty($group) and in_array($vo['id'], $group)) {
+        if (!empty($group) and in_array($vo['id'], $group))
+        {
             $vo['checked'] = true;
-        } else {
+        }
+        else
+        {
             $vo['checked'] = false;
         }
-        if ($vo['pid'] == $pid) {
+        if ($vo['pid'] == $pid)
+        {
             $child = create_tree_list($vo['id'], $arr, $group);
-            if ($child) {
+            if ($child)
+            {
                 $vo['children'] = $child;
             }
             $tree[] = $vo;
@@ -83,39 +103,45 @@ function create_tree_list($pid, $arr, $group, &$tree = [])
 }
 
 //遞歸排序，用於分類選擇
-function set_recursion($result, $pid = 0, $level=-1)
+function set_recursion($result, $pid = 0, $level = -1)
 {
-    /*記錄排序後的類別數組*/
+    /* 記錄排序後的類別數組 */
     static $list = array();
-    static $space = ['','├─','§§├─','§§§§├─','§§§§§§├─'];
+    static $space = ['', '├─', '§§├─', '§§§§├─', '§§§§§§├─'];
     $level++;
-    foreach ($result as $k => $v) {
-        if ($v['pid'] == $pid) {
-            if ($pid != 0) {
+    foreach ($result as $k => $v)
+    {
+        if ($v['pid'] == $pid)
+        {
+            if ($pid != 0)
+            {
                 $v['title'] = $space[$level] . $v['title'];
             }
-            /*將該類別的數據放入list中*/
+            /* 將該類別的數據放入list中 */
             $list[] = $v;
-            set_recursion($result, $v['id'],$level);
+            set_recursion($result, $v['id'], $level);
         }
     }
     return $list;
 }
-
 
 /**
  * 根據id遞歸返回子數據
  * @param  $data 數據
  * @param  $pid 父節點id
  */
-function get_data_node($data=[],$pid=0){
+function get_data_node($data = [], $pid = 0)
+{
     $dep = [];
-    foreach($data as $k => $v){
-        if($v['pid'] == $pid){
-            $node=get_data_node($data, $v['id']);
-            array_push($dep,$v);
-            if(!empty($node)){
-                $dep=array_merge($dep,$node);
+    foreach ($data as $k => $v)
+    {
+        if ($v['pid'] == $pid)
+        {
+            $node = get_data_node($data, $v['id']);
+            array_push($dep, $v);
+            if (!empty($node))
+            {
+                $dep = array_merge($dep, $node);
             }
         }
     }
@@ -133,10 +159,9 @@ function get_admin($id)
 //讀取許可權節點列表
 function get_admin_menu()
 {
-    $rule = Db::name('admin_menu')->where(['status'=>1])->order('sort_order asc,id asc')->select()->toArray();
+    $rule = Db::name('admin_menu')->where(['status' => 1])->order('sort_order asc,id asc')->select()->toArray();
     return $rule;
 }
-
 
 //讀取許可權分組列表
 function get_admin_role()
@@ -166,7 +191,8 @@ function get_department_son($did = 0, $is_self = 1)
     $department = get_department();
     $department_list = get_data_node($department, $did);
     $department_array = array_column($department_list, 'id');
-    if ($is_self == 1) {
+    if ($is_self == 1)
+    {
         //包括自己在內
         $department_array[] = $did;
     }
@@ -174,18 +200,22 @@ function get_department_son($did = 0, $is_self = 1)
 }
 
 //讀取員工所在部門的負責人
-function get_department_leader($uid=0,$pid=0)
+function get_department_leader($uid = 0, $pid = 0)
 {
     $did = get_admin($uid)['did'];
-    if($pid==0){
+    if ($pid == 0)
+    {
         $leader = Db::name('admin_department')->where(['id' => $did])->value('leader_id');
     }
-    else{
+    else
+    {
         $pdid = Db::name('admin_department')->where(['id' => $did])->value('pid');
-        if($pdid == 0){
+        if ($pdid == 0)
+        {
             $leader = 0;
         }
-        else{
+        else
+        {
             $leader = Db::name('admin_department')->where(['id' => $pdid])->value('leader_id');
         }
     }
@@ -199,14 +229,12 @@ function get_position()
     return $position;
 }
 
-
 //讀取文章分類列表
 function get_article_cate()
 {
     $cate = Db::name('article_cate')->where(['deleted_at' => get_zero_time()])->order('created_at asc')->select()->toArray();
     return $cate;
 }
-
 
 /**
  * 管理員操作日誌
@@ -218,12 +246,16 @@ function add_log($type, $param_id = '', $param = [])
 {
     $action = '未知操作';
     $type_action = get_config('log.admin_action');
-    if($type_action[$type]){
+    if ($type_action[$type])
+    {
         $action = $type_action[$type];
     }
-    if ($type == 'login') {
+    if ($type == 'login')
+    {
         $login_admin = Db::name('admin')->where(array('id' => $param_id))->find();
-    } else {
+    }
+    else
+    {
         $session_admin = get_config('app.session_admin');
         $login_admin = Session::get($session_admin);
     }
@@ -239,13 +271,15 @@ function add_log($type, $param_id = '', $param = [])
     $data['function'] = strtolower(app('request')->action());
     $parameter = $data['module'] . '/' . $data['controller'] . '/' . $data['function'];
     $rule_menu = Db::name('admin_menu')->where(array('src' => $parameter))->find();
-    if($rule_menu){
+    if ($rule_menu)
+    {
         $data['title'] = $rule_menu['title'];
         $data['subject'] = $rule_menu['name'];
     }
-    else{
+    else
+    {
         $data['title'] = '';
-        $data['subject'] ='系統';
+        $data['subject'] = '系統';
     }
     $content = $login_admin['nickname'] . '在' . date('Y-m-d H:i:s') . $data['action'] . '了' . $data['subject'];
     $data['content'] = $content;

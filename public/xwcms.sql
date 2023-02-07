@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50726
 File Encoding         : 65001
 
-Date: 2023-02-06 18:04:09
+Date: 2023-02-07 17:52:07
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -7210,7 +7210,7 @@ CREATE TABLE `xw_admin` (
 -- ----------------------------
 -- Records of xw_admin
 -- ----------------------------
-INSERT INTO `xw_admin` VALUES ('1', 'admin', '248e1768163ee229e1ff1ee49da6ea2c', '1yzEMdm76Unr9hsNq0FH', '超级管理员', '/static/admin/images/icon.png', 'black', '0', '', null, '1', '1', '2023-01-28 16:04:49', '2023-01-28 16:04:49', '2023-02-06 10:20:49', '26', '127.0.0.1', '1');
+INSERT INTO `xw_admin` VALUES ('1', 'admin', '248e1768163ee229e1ff1ee49da6ea2c', '1yzEMdm76Unr9hsNq0FH', '超级管理员', '/static/admin/images/icon.png', 'black', '0', '', null, '1', '1', '2023-01-28 16:04:49', '2023-01-28 16:04:49', '2023-02-07 17:24:13', '27', '127.0.0.1', '1');
 
 -- ----------------------------
 -- Table structure for xw_admin_department
@@ -7271,7 +7271,7 @@ CREATE TABLE `xw_admin_log` (
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '0删除 1正常',
   `created_at` datetime NOT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=163 DEFAULT CHARSET=utf8mb4 COMMENT='后台操作日志表';
+) ENGINE=InnoDB AUTO_INCREMENT=179 DEFAULT CHARSET=utf8mb4 COMMENT='后台操作日志表';
 
 -- ----------------------------
 -- Records of xw_admin_log
@@ -7438,6 +7438,22 @@ INSERT INTO `xw_admin_log` VALUES ('159', '1', '超级管理员', 'login', '登�
 INSERT INTO `xw_admin_log` VALUES ('160', '1', '超级管理员', 'edit', '編輯', '配置詳情', '編輯', '超级管理员在2023-02-05 11:09:52編輯了配置詳情', 'admin', 'conf', 'edit', '', '::1', '1', '{\"id\":\"1\",\"admin_title\":\"\\u5f8c\\u53f0\\u7ba1\\u7406\",\"title\":\"\\u5f8c\\u53f0\\u7ba1\\u7406\",\"logo\":\"\\/static\\/admin\\/images\\/nonepic360x360.jpg\",\"file\":\"\",\"editor\":\"1\"}', '1', '2023-02-05 11:09:52');
 INSERT INTO `xw_admin_log` VALUES ('161', '1', '超级管理员', 'login', '登錄', '系統', '', '超级管理员在2023-02-05 20:08:26登錄了系統', 'admin', 'login', 'do_login', '', '127.0.0.1', '1', '{\"last_login_at\":\"2023-02-05 20:08:26\",\"last_login_ip\":\"127.0.0.1\",\"login_num\":25}', '1', '2023-02-05 20:08:26');
 INSERT INTO `xw_admin_log` VALUES ('162', '1', '超级管理员', 'login', '登錄', '系統', '', '超级管理员在2023-02-06 10:20:50登錄了系統', 'admin', 'login', 'do_login', '', '127.0.0.1', '1', '{\"last_login_at\":\"2023-02-06 10:20:49\",\"last_login_ip\":\"127.0.0.1\",\"login_num\":26}', '1', '2023-02-06 10:20:50');
+INSERT INTO `xw_admin_log` VALUES ('163', '1', '超级管理员', 'login', '登錄', '系統', '', '超级管理员在2023-02-07 17:24:13登錄了系統', 'admin', 'login', 'do_login', '', '127.0.0.1', '1', '{\"last_login_at\":\"2023-02-07 17:24:13\",\"last_login_ip\":\"127.0.0.1\",\"login_num\":27}', '1', '2023-02-07 17:24:13');
+INSERT INTO `xw_admin_log` VALUES ('164', '1', '超级管理员', 'delete', '刪除', '功能菜單', '刪除', '超级管理员在2023-02-07 17:26:06刪除了功能菜單', 'admin', 'adminmenu', 'delete', '', '127.0.0.1', '122', '[]', '1', '2023-02-07 17:26:06');
+INSERT INTO `xw_admin_log` VALUES ('165', '1', '超级管理员', 'delete', '刪除', '功能菜單', '刪除', '超级管理员在2023-02-07 17:26:09刪除了功能菜單', 'admin', 'adminmenu', 'delete', '', '127.0.0.1', '121', '[]', '1', '2023-02-07 17:26:10');
+INSERT INTO `xw_admin_log` VALUES ('166', '1', '超级管理员', 'delete', '刪除', '功能菜單', '刪除', '超级管理员在2023-02-07 17:26:12刪除了功能菜單', 'admin', 'adminmenu', 'delete', '', '127.0.0.1', '120', '[]', '1', '2023-02-07 17:26:12');
+INSERT INTO `xw_admin_log` VALUES ('167', '1', '超级管理员', 'delete', '刪除', '功能菜單', '刪除', '超级管理员在2023-02-07 17:26:17刪除了功能菜單', 'admin', 'adminmenu', 'delete', '', '127.0.0.1', '115', '[]', '1', '2023-02-07 17:26:17');
+INSERT INTO `xw_admin_log` VALUES ('168', '1', '超级管理员', 'delete', '刪除', '功能菜單', '刪除', '超级管理员在2023-02-07 17:27:09刪除了功能菜單', 'admin', 'adminmenu', 'delete', '', '127.0.0.1', '123', '[]', '1', '2023-02-07 17:27:09');
+INSERT INTO `xw_admin_log` VALUES ('169', '1', '超级管理员', 'delete', '刪除', '功能菜單', '刪除', '超级管理员在2023-02-07 17:27:12刪除了功能菜單', 'admin', 'adminmenu', 'delete', '', '127.0.0.1', '124', '[]', '1', '2023-02-07 17:27:12');
+INSERT INTO `xw_admin_log` VALUES ('170', '1', '超级管理员', 'delete', '刪除', '功能菜單', '刪除', '超级管理员在2023-02-07 17:27:14刪除了功能菜單', 'admin', 'adminmenu', 'delete', '', '127.0.0.1', '125', '[]', '1', '2023-02-07 17:27:14');
+INSERT INTO `xw_admin_log` VALUES ('171', '1', '超级管理员', 'delete', '刪除', '功能菜單', '刪除', '超级管理员在2023-02-07 17:27:19刪除了功能菜單', 'admin', 'adminmenu', 'delete', '', '127.0.0.1', '116', '[]', '1', '2023-02-07 17:27:19');
+INSERT INTO `xw_admin_log` VALUES ('172', '1', '超级管理员', 'delete', '刪除', '功能菜單', '刪除', '超级管理员在2023-02-07 17:31:01刪除了功能菜單', 'admin', 'adminmenu', 'delete', '', '127.0.0.1', '132', '[]', '1', '2023-02-07 17:31:01');
+INSERT INTO `xw_admin_log` VALUES ('173', '1', '超级管理员', 'delete', '刪除', '功能菜單', '刪除', '超级管理员在2023-02-07 17:31:06刪除了功能菜單', 'admin', 'adminmenu', 'delete', '', '127.0.0.1', '131', '[]', '1', '2023-02-07 17:31:06');
+INSERT INTO `xw_admin_log` VALUES ('174', '1', '超级管理员', 'delete', '刪除', '功能菜單', '刪除', '超级管理员在2023-02-07 17:31:09刪除了功能菜單', 'admin', 'adminmenu', 'delete', '', '127.0.0.1', '130', '[]', '1', '2023-02-07 17:31:09');
+INSERT INTO `xw_admin_log` VALUES ('175', '1', '超级管理员', 'delete', '刪除', '功能菜單', '刪除', '超级管理员在2023-02-07 17:31:11刪除了功能菜單', 'admin', 'adminmenu', 'delete', '', '127.0.0.1', '129', '[]', '1', '2023-02-07 17:31:11');
+INSERT INTO `xw_admin_log` VALUES ('176', '1', '超级管理员', 'delete', '刪除', '功能菜單', '刪除', '超级管理员在2023-02-07 17:31:15刪除了功能菜單', 'admin', 'adminmenu', 'delete', '', '127.0.0.1', '128', '[]', '1', '2023-02-07 17:31:15');
+INSERT INTO `xw_admin_log` VALUES ('177', '1', '超级管理员', 'delete', '刪除', '功能菜單', '刪除', '超级管理员在2023-02-07 17:31:19刪除了功能菜單', 'admin', 'adminmenu', 'delete', '', '127.0.0.1', '127', '[]', '1', '2023-02-07 17:31:19');
+INSERT INTO `xw_admin_log` VALUES ('178', '1', '超级管理员', 'delete', '刪除', '功能菜單', '刪除', '超级管理员在2023-02-07 17:31:25刪除了功能菜單', 'admin', 'adminmenu', 'delete', '', '127.0.0.1', '126', '[]', '1', '2023-02-07 17:31:25');
 
 -- ----------------------------
 -- Table structure for xw_admin_menu
@@ -7520,24 +7536,9 @@ INSERT INTO `xw_admin_menu` VALUES ('111', '108', 'admin/pages/del', '刪除', '
 INSERT INTO `xw_admin_menu` VALUES ('112', '3', 'admin/banner/info', '輪播廣告管理', '輪播圖', '', '2', '1', '1', '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 INSERT INTO `xw_admin_menu` VALUES ('113', '0', '', '幣鏈管理', '幣鏈管理', 'bi-x-diamond', '1', '5', '1', '', '', '2023-02-02 00:00:00', '0000-00-00 00:00:00');
 INSERT INTO `xw_admin_menu` VALUES ('114', '113', 'admin/currency/index', '貨幣管理', '貨幣管理', '', '1', '9999', '1', '', '', '2023-02-02 00:00:00', '0000-00-00 00:00:00');
-INSERT INTO `xw_admin_menu` VALUES ('115', '113', 'admin/chain/index', '公鏈管理', '公鏈管理', '', '1', '9999', '1', '', '', '2023-02-02 00:00:00', '0000-00-00 00:00:00');
-INSERT INTO `xw_admin_menu` VALUES ('116', '113', 'admin/currencychain/index', '幣鏈管理', '幣鏈管理', '', '1', '9999', '1', '', '', '2023-02-02 00:00:00', '0000-00-00 00:00:00');
 INSERT INTO `xw_admin_menu` VALUES ('117', '114', 'admin/currency/add', '新建', '貨幣管理', '', '2', '9999', '1', '', '', '2023-02-02 00:00:00', '0000-00-00 00:00:00');
 INSERT INTO `xw_admin_menu` VALUES ('118', '114', 'admin/currency/edit', '編輯', '貨幣管理', '', '2', '9999', '1', '', '', '2023-02-02 00:00:00', '0000-00-00 00:00:00');
 INSERT INTO `xw_admin_menu` VALUES ('119', '114', 'admin/currency/delete', '刪除', '貨幣管理', '', '2', '9999', '1', '', '', '2023-02-02 00:00:00', '0000-00-00 00:00:00');
-INSERT INTO `xw_admin_menu` VALUES ('120', '115', 'admin/chain/delete', '刪除', '公鏈管理', '', '2', '9999', '1', '', '', '2023-02-02 00:00:00', '0000-00-00 00:00:00');
-INSERT INTO `xw_admin_menu` VALUES ('121', '115', 'admin/chain/edit', '編輯', '公鏈管理', '', '2', '9999', '1', '', '', '2023-02-02 00:00:00', '0000-00-00 00:00:00');
-INSERT INTO `xw_admin_menu` VALUES ('122', '115', 'admin/chain/add', '新建', '公鏈管理', '', '2', '9999', '1', '', '', '2023-02-02 00:00:00', '0000-00-00 00:00:00');
-INSERT INTO `xw_admin_menu` VALUES ('123', '116', 'admin/currencychain/add', '新建', '幣鏈管理', '', '2', '9999', '1', '', '', '2023-02-02 00:00:00', '0000-00-00 00:00:00');
-INSERT INTO `xw_admin_menu` VALUES ('124', '116', 'admin/currencychain/edit', '編輯', '幣鏈管理', '', '2', '9999', '1', '', '', '2023-02-02 00:00:00', '0000-00-00 00:00:00');
-INSERT INTO `xw_admin_menu` VALUES ('125', '116', 'admin/currencychain/delete', '刪除', '幣鏈管理', '', '2', '9999', '1', '', '', '2023-02-02 00:00:00', '0000-00-00 00:00:00');
-INSERT INTO `xw_admin_menu` VALUES ('126', '0', '', '資產管理', '資產管理', 'bi-window-desktop', '1', '6', '1', '', '', '2023-02-02 00:00:00', '0000-00-00 00:00:00');
-INSERT INTO `xw_admin_menu` VALUES ('127', '126', 'admin/account/index', '資產列表', '資產列表', '', '1', '9999', '1', '', '', '2023-02-02 00:00:00', '0000-00-00 00:00:00');
-INSERT INTO `xw_admin_menu` VALUES ('128', '126', 'admin/account/log', '資產日誌', '資產日誌', '', '1', '9999', '1', '', '', '2023-02-02 00:00:00', '0000-00-00 00:00:00');
-INSERT INTO `xw_admin_menu` VALUES ('129', '126', 'admin/account/withdraw', '提現列表', '提現列表', '', '1', '9999', '1', '', '', '2023-02-02 00:00:00', '0000-00-00 00:00:00');
-INSERT INTO `xw_admin_menu` VALUES ('130', '126', 'admin/account/recharge', '充值列表', '充值列表', '', '1', '9999', '1', '', '', '2023-02-02 00:00:00', '0000-00-00 00:00:00');
-INSERT INTO `xw_admin_menu` VALUES ('131', '126', 'admin/account/transfer', '內轉列表', '內轉列表', '', '1', '9999', '1', '', '', '2023-02-02 00:00:00', '0000-00-00 00:00:00');
-INSERT INTO `xw_admin_menu` VALUES ('132', '126', 'admin/account/reward', '獎勵列表', '獎勵列表', '', '1', '9999', '1', '', '', '2023-02-02 00:00:00', '0000-00-00 00:00:00');
 
 -- ----------------------------
 -- Table structure for xw_admin_position
@@ -8013,19 +8014,19 @@ CREATE TABLE `xw_user` (
   `username` varchar(100) NOT NULL COMMENT '用户名',
   `password` char(32) NOT NULL COMMENT '用户密码',
   `status` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '状态码 1正常 0待审核，99删除',
-  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
-  `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
+  `create_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建时间',
+  `update_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '更新时间',
   `last_login_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最后登录时间',
   `last_login_ip` varchar(100) NOT NULL COMMENT '最后登录IP',
-  `operate_user` varchar(100) NOT NULL COMMENT '操作人',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `username` (`username`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of xw_user
 -- ----------------------------
-INSERT INTO `xw_user` VALUES ('4', 'xuwen', 'd6ba76561f818fc9eb3146f547b8818d', '1', '0', '0', '0', '127.0.0.1', 'admin');
+INSERT INTO `xw_user` VALUES ('4', 'xuwen', 'd6ba76561f818fc9eb3146f547b8818d', '1', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '1675738469', '127.0.0.1');
+INSERT INTO `xw_user` VALUES ('9', 'wujiepeng', 'e10adc3949ba59abbe56e057f20f883e', '1', '2023-02-07 15:18:46', '0000-00-00 00:00:00', '0', '');
 
 -- ----------------------------
 -- Table structure for xw_verify_code
