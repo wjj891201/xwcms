@@ -26,8 +26,8 @@
         "phpmailer/phpmailer": "^6.6",
 		"firebase/php-jwt": "6.1.2",
 		"symfony/var-exporter": "5.4.10",
-        "nesbot/carbon": "*",
-        "guzzlehttp/guzzle": "^7.0",
+        "nesbot/carbon": "^2.66",
+        "guzzlehttp/guzzle": "^7.5",
         "malkusch/lock": "^2.2"
     },
     "require-dev": {

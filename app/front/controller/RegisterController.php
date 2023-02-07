@@ -6,6 +6,7 @@ use think\facade\View;
 use app\front\BaseController;
 use app\front\validate\User as UserValidate;
 use app\front\service\User as UserService;
+use Carbon\Carbon;
 
 class RegisterController extends BaseController
 {
@@ -50,6 +51,10 @@ class RegisterController extends BaseController
         }
         else
         {
+//            $now = (string)Carbon::now();
+//            echo $now;
+//            var_dump($now);
+//            exit;
             return View::fetch();
         }
     }

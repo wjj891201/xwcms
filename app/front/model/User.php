@@ -3,6 +3,7 @@
 namespace app\front\model;
 
 use think\Model;
+use Carbon\Carbon;
 
 class User extends Model
 {
@@ -45,7 +46,8 @@ class User extends Model
 
     public function insertUser($data)
     {
-        $result = $this->insert(['username' => $data['username'], 'password' => md5($data['password']), 'status' => 1, 'create_time' => time()]);
+        $now = (string) Carbon::now();
+        $result = $this->insert(['username' => $data['username'], 'password' => md5($data['password']), 'status' => 1, 'create_time' => $now]);
         return $result;
     }
 
