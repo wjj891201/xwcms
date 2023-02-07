@@ -39,7 +39,7 @@ class LoginController extends FrontBaseController
             'captcha' => $captcha,
         ];
         $validate = new UserValidate();
-        if (!$validate->check($data))
+        if (!$validate->scene('login')->check($data))
         {
             return show(0, $validate->getError());
         }

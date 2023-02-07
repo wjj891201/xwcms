@@ -10,11 +10,15 @@ class User extends Validate
     protected $rule = [
         'username' => 'require',
         'password' => 'require',
+        'repassword' => 'require|confirm:password',
         'captcha' => 'require|checkCapcha',
     ];
     protected $message = [
         'username' => '用户名必须,请重新输入',
+        'username.unique' => '该账号已存在',
         'password' => '密码必须',
+        'repassword.require' => '确认密码必须',
+        'repassword.confirm' => '两次密码不一致',
         'captcha' => '验证码必须',
     ];
 
@@ -25,6 +29,17 @@ class User extends Validate
             return "您输入的验证码不正确";
         }
         return true;
+    }
+
+    protected $scene = [
+        'login' => ['username', 'password', 'captcha'],
+        'register' => ['username', 'password', 'repassword', 'captcha']
+    ];
+
+    // register 验证场景定义
+    public function sceneRegister()
+    {
+        return $this->append('username', 'unique:user');
     }
 
 }
