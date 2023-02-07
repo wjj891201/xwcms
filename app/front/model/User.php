@@ -43,4 +43,10 @@ class User extends Model
         return $this->where($where)->save($data);
     }
 
+    public function insertUser($data)
+    {
+        $result = $this->insert(['username' => $data['username'], 'password' => md5($data['password']), 'status' => 1, 'create_time' => time()]);
+        return $result;
+    }
+
 }

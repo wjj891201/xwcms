@@ -5,6 +5,7 @@ namespace app\front\controller;
 use think\facade\View;
 use app\front\BaseController;
 use app\front\validate\User as UserValidate;
+use app\front\service\User as UserService;
 
 class RegisterController extends BaseController
 {
@@ -30,24 +31,22 @@ class RegisterController extends BaseController
             {
                 return show(0, $validate->getError());
             }
-            echo 123;
-            exit;
-//            try
-//            {
-//                $result = (new UserService)->login($data);
-//            } catch (\Exception $e)
-//            {
-//                return show(0, $e->getMessage());
-//            }
-//
-//            if ($result)
-//            {
-//                return show(1, "登录成功");
-//            }
-//            else
-//            {
-//                return show(0, "登录失败");
-//            }
+            try
+            {
+                $result = (new UserService)->register($data);
+            } catch (\Exception $e)
+            {
+                return show(0, $e->getMessage());
+            }
+
+            if ($result)
+            {
+                return show(1, "注册成功");
+            }
+            else
+            {
+                return show(0, "注册失败");
+            }
         }
         else
         {

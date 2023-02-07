@@ -8,13 +8,14 @@ class User extends Validate
 {
 
     protected $rule = [
-        'username' => 'require',
+        'username' => 'require|length:6,10',
         'password' => 'require',
         'repassword' => 'require|confirm:password',
         'captcha' => 'require|checkCapcha',
     ];
     protected $message = [
         'username' => '用户名必须,请重新输入',
+        'username.length' => '用户名长度6-10位',
         'username.unique' => '该账号已存在',
         'password' => '密码必须',
         'repassword.require' => '确认密码必须',

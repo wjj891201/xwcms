@@ -35,6 +35,19 @@ class User
         return true;
     }
 
+    public function register($data)
+    {
+        $res = $this->userModelObj->insertUser($data);
+        if ($res)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     public function getUserByUsername($username)
     {
         $user = $this->userModelObj->getUserByUsername($username);
