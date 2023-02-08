@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50726
 File Encoding         : 65001
 
-Date: 2023-02-07 17:52:07
+Date: 2023-02-08 16:42:32
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -7271,7 +7271,7 @@ CREATE TABLE `xw_admin_log` (
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '0删除 1正常',
   `created_at` datetime NOT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=179 DEFAULT CHARSET=utf8mb4 COMMENT='后台操作日志表';
+) ENGINE=InnoDB AUTO_INCREMENT=181 DEFAULT CHARSET=utf8mb4 COMMENT='后台操作日志表';
 
 -- ----------------------------
 -- Records of xw_admin_log
@@ -7454,6 +7454,8 @@ INSERT INTO `xw_admin_log` VALUES ('175', '1', '超级管理员', 'delete', '刪
 INSERT INTO `xw_admin_log` VALUES ('176', '1', '超级管理员', 'delete', '刪除', '功能菜單', '刪除', '超级管理员在2023-02-07 17:31:15刪除了功能菜單', 'admin', 'adminmenu', 'delete', '', '127.0.0.1', '128', '[]', '1', '2023-02-07 17:31:15');
 INSERT INTO `xw_admin_log` VALUES ('177', '1', '超级管理员', 'delete', '刪除', '功能菜單', '刪除', '超级管理员在2023-02-07 17:31:19刪除了功能菜單', 'admin', 'adminmenu', 'delete', '', '127.0.0.1', '127', '[]', '1', '2023-02-07 17:31:19');
 INSERT INTO `xw_admin_log` VALUES ('178', '1', '超级管理员', 'delete', '刪除', '功能菜單', '刪除', '超级管理员在2023-02-07 17:31:25刪除了功能菜單', 'admin', 'adminmenu', 'delete', '', '127.0.0.1', '126', '[]', '1', '2023-02-07 17:31:25');
+INSERT INTO `xw_admin_log` VALUES ('179', '1', '超级管理员', 'delete', '刪除', '配置項', '刪除', '超级管理员在2023-02-08 10:24:58刪除了配置項', 'admin', 'conf', 'delete', '', '127.0.0.1', '2', '{\"status\":\"-1\",\"id\":\"2\",\"updated_at\":\"2023-02-08 10:24:57\"}', '1', '2023-02-08 10:24:58');
+INSERT INTO `xw_admin_log` VALUES ('180', '1', '超级管理员', 'add', '新增', '配置項', '新建/編輯', '超级管理员在2023-02-08 10:25:54新增了配置項', 'admin', 'conf', 'add', '', '127.0.0.1', '3', '{\"id\":\"0\",\"title\":\"\\u90f5\\u7bb1\\u914d\\u7f6e\",\"status\":\"1\",\"name\":\"email\",\"created_at\":\"2023-02-08 10:25:53\"}', '1', '2023-02-08 10:25:54');
 
 -- ----------------------------
 -- Table structure for xw_admin_menu
@@ -7737,12 +7739,13 @@ CREATE TABLE `xw_config` (
   `created_at` datetime NOT NULL COMMENT '创建时间',
   `updated_at` datetime NOT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='系统配置表';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='系统配置表';
 
 -- ----------------------------
 -- Records of xw_config
 -- ----------------------------
 INSERT INTO `xw_config` VALUES ('1', '基本配置', 'base', 'a:6:{s:2:\"id\";s:1:\"1\";s:11:\"admin_title\";s:12:\"後台管理\";s:5:\"title\";s:12:\"後台管理\";s:4:\"logo\";s:39:\"/static/admin/images/nonepic360x360.jpg\";s:4:\"file\";s:0:\"\";s:6:\"editor\";s:1:\"1\";}', '1', '2023-01-28 15:25:55', '2023-02-05 11:09:52');
+INSERT INTO `xw_config` VALUES ('3', '郵箱配置', 'email', 'a:6:{s:4:\"smtp\";s:12:\"smtp.163.com\";s:9:\"smtp_port\";s:3:\"465\";s:9:\"smtp_user\";s:11:\"15195861092\";s:8:\"smtp_pwd\";s:16:\"KETCZPYTXMWARSPR\";s:5:\"email\";s:19:\"15195861092@163.com\";s:5:\"title\";s:6:\"测试\";}', '1', '2023-02-08 10:25:53', '0000-00-00 00:00:00');
 
 -- ----------------------------
 -- Table structure for xw_currency
@@ -8013,6 +8016,7 @@ CREATE TABLE `xw_user` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '后端用户主键ID',
   `username` varchar(100) NOT NULL COMMENT '用户名',
   `password` char(32) NOT NULL COMMENT '用户密码',
+  `email` varchar(50) NOT NULL,
   `status` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '状态码 1正常 0待审核，99删除',
   `create_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建时间',
   `update_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '更新时间',
@@ -8020,13 +8024,13 @@ CREATE TABLE `xw_user` (
   `last_login_ip` varchar(100) NOT NULL COMMENT '最后登录IP',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `username` (`username`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of xw_user
 -- ----------------------------
-INSERT INTO `xw_user` VALUES ('4', 'xuwen', 'd6ba76561f818fc9eb3146f547b8818d', '1', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '1675738469', '127.0.0.1');
-INSERT INTO `xw_user` VALUES ('9', 'wujiepeng', 'e10adc3949ba59abbe56e057f20f883e', '1', '2023-02-07 15:18:46', '0000-00-00 00:00:00', '0', '');
+INSERT INTO `xw_user` VALUES ('4', 'xuwen', 'd6ba76561f818fc9eb3146f547b8818d', '517987404@qq.com', '1', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '1675738469', '127.0.0.1');
+INSERT INTO `xw_user` VALUES ('11', 'wujiepeng', 'e10adc3949ba59abbe56e057f20f883e', '873525227@qq.com', '1', '2023-02-08 16:26:37', '0000-00-00 00:00:00', '1675845474', '');
 
 -- ----------------------------
 -- Table structure for xw_verify_code
