@@ -8,7 +8,7 @@ class LogoutController extends FrontBaseController
     public function index()
     {
         // 清楚session
-        session(config("user.session_front"), null);
+        session(config("user.session_user"), null);
         // 执行跳转
         return redirect(url("login/index"));
     }

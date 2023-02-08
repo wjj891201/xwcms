@@ -31,7 +31,7 @@ class User
         // 更新表的数据
         $res = $this->userModelObj->updateById($user['id'], ["last_login_time" => time()]);
         // 记录session
-        session(config("user.session_front"), $user);
+        session(config("user.session_user"), $user);
         return true;
     }
 

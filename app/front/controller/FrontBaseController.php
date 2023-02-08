@@ -27,7 +27,7 @@ class FrontBaseController extends BaseController
      */
     public function isLogin()
     {
-        $this->user = session(config("user.session_front"));
+        $this->user = session(config("user.session_user"));
         if (empty($this->user))
         {
             return false;

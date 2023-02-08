@@ -4,6 +4,7 @@ namespace app\front\model;
 
 use think\Model;
 use Carbon\Carbon;
+use think\facade\Cookie;
 
 class User extends Model
 {
@@ -47,7 +48,16 @@ class User extends Model
     public function insertUser($data)
     {
         $now = (string) Carbon::now();
-        $result = $this->insert(['username' => $data['username'], 'password' => md5($data['password']), 'status' => 1, 'create_time' => $now]);
+        $data = [
+            'username' => $data['username'],
+            'password' => md5($data['password']),
+            'email' => $data['email'],
+            'status' => 1,
+            'create_time' => $now
+        ];
+        $result = $this->insert($data);
+        //删除cookie
+        Cookie::delete('email_captcha');
         return $result;
     }
 

@@ -12,7 +12,7 @@ class Auth
         
         //dump($request->pathinfo());
         // 前置中间件
-        if (empty(session(config("user.session_front"))) && !preg_match("/login/", $request->pathinfo()))
+        if (empty(session(config("user.session_user"))) && !preg_match("/login/", $request->pathinfo()))
         {
             return redirect((string) url('login/index'));
         }

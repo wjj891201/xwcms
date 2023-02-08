@@ -7,6 +7,7 @@ use app\front\BaseController;
 use app\front\validate\User as UserValidate;
 use app\front\service\User as UserService;
 use Carbon\Carbon;
+use think\facade\Cookie;
 
 class RegisterController extends BaseController
 {
@@ -59,6 +60,7 @@ class RegisterController extends BaseController
 //            echo $now;
 //            var_dump($now);
 //            exit;
+//            var_dump(Cookie::get('email_captcha'));
             return View::fetch();
         }
     }
@@ -70,7 +72,7 @@ class RegisterController extends BaseController
             $email = $this->request->post("email", "", "trim");
             $email_captcha = set_salt(6);
             $content = '本次验证码为：' . $email_captcha;
-            set_cache('email_captcha', $email_captcha);
+            Cookie::set('email_captcha', $email_captcha, 3600);
 //            $result = send_email($email, '验证码', $content);
             $result = true;
             if ($result)

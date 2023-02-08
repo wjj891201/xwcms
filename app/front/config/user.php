@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'session_front' => 'frontUser',
+    'session_user' => 'xw_user',
 ];
