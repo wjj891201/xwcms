@@ -19,34 +19,38 @@ class RegisterController extends BaseController
             $username = $this->request->param("username", "", "trim");
             $password = $this->request->param("password", "", "trim");
             $repassword = $this->request->param("repassword", "", "trim");
+            $email = $this->request->param("email", "", "trim");
+            $email_captcha = $this->request->param("email_captcha", "", "trim");
             $captcha = $this->request->param("captcha", "", "trim");
 
             $data = [
                 'username' => $username,
                 'password' => $password,
                 'repassword' => $repassword,
+                'email' => $email,
+                'email_captcha' => $email_captcha,
                 'captcha' => $captcha,
             ];
             $validate = new UserValidate();
             if (!$validate->scene('register')->check($data))
             {
-                return show(0, $validate->getError());
+                return output(0, $validate->getError());
             }
             try
             {
                 $result = (new UserService)->register($data);
             } catch (\Exception $e)
             {
-                return show(0, $e->getMessage());
+                return output(0, $e->getMessage());
             }
 
             if ($result)
             {
-                return show(1, "注册成功");
+                return output(1, "注册成功");
             }
             else
             {
-                return show(0, "注册失败");
+                return output(0, "注册失败");
             }
         }
         else
@@ -56,6 +60,27 @@ class RegisterController extends BaseController
 //            var_dump($now);
 //            exit;
             return View::fetch();
+        }
+    }
+
+    public function send_mail()
+    {
+        if ($this->request->isAjax())
+        {
+            $email = $this->request->post("email", "", "trim");
+            $email_captcha = set_salt(6);
+            $content = '本次验证码为：' . $email_captcha;
+            set_cache('email_captcha', $email_captcha);
+//            $result = send_email($email, '验证码', $content);
+            $result = true;
+            if ($result)
+            {
+                output(1, '发送成功');
+            }
+            else
+            {
+                output(0, '发送失败');
+            }
         }
     }
 

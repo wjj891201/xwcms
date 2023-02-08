@@ -26,7 +26,7 @@ class LoginController extends FrontBaseController
     {
         if (!$this->request->isPost())
         {
-            return show(0, "请求方式错误");
+            return output(0, "请求方式错误");
         }
 
         $username = $this->request->param("username", "", "trim");
@@ -41,23 +41,23 @@ class LoginController extends FrontBaseController
         $validate = new UserValidate();
         if (!$validate->scene('login')->check($data))
         {
-            return show(0, $validate->getError());
+            return output(0, $validate->getError());
         }
         try
         {
             $result = (new UserService)->login($data);
         } catch (\Exception $e)
         {
-            return show(0, $e->getMessage());
+            return output(0, $e->getMessage());
         }
 
         if ($result)
         {
-            return show(1, "登录成功");
+            return output(1, "登录成功");
         }
         else
         {
-            return show(0, "登录失败");
+            return output(0, "登录失败");
         }
     }
 

@@ -11,6 +11,8 @@ class User extends Validate
         'username' => 'require|length:6,10',
         'password' => 'require',
         'repassword' => 'require|confirm:password',
+        'email' => 'require|email',
+        'email_captcha' => 'require',
         'captcha' => 'require|checkCapcha',
     ];
     protected $message = [
@@ -18,8 +20,11 @@ class User extends Validate
         'username.length' => '用户名长度6-10位',
         'username.unique' => '该账号已存在',
         'password' => '密码必须',
-        'repassword.require' => '确认密码必须',
+        'repassword' => '确认密码必须',
         'repassword.confirm' => '两次密码不一致',
+        'email' => 'Email必须',
+        'email.email' => 'Email格式不正确',
+        'email_captcha' => 'Email验证码必填',
         'captcha' => '验证码必须',
     ];
 
@@ -34,7 +39,7 @@ class User extends Validate
 
     protected $scene = [
         'login' => ['username', 'password', 'captcha'],
-        'register' => ['username', 'password', 'repassword', 'captcha']
+        'register' => ['username', 'password', 'repassword', 'email', 'email_captcha', 'captcha']
     ];
 
     // register 验证场景定义

@@ -444,7 +444,7 @@ function send_email($to, $subject = '', $content = '')
     //密码
     $mail->Password = $config['smtp_pwd'];
     //Set who the message is to be sent from
-    $mail->setFrom($config['email'], $config['from']);
+    $mail->setFrom($config['email'], $config['title']); //定义邮件及标题
     //回复地址
     //$mail->addReplyTo('replyto@example.com', 'First Last');
     //接收邮件方
@@ -472,8 +472,8 @@ function send_email($to, $subject = '', $content = '')
     }
     else
     {
-        //  echo "Mailer Error: ".$mail->ErrorInfo;// 输出错误信息
-        //  die;
+          echo "Mailer Error: ".$mail->ErrorInfo;// 输出错误信息
+          die;
         return false;
     }
 }
@@ -504,24 +504,4 @@ function uncamelize($camelCaps, $separator = '_')
 function get_zero_time()
 {
     return "00:00:00 00:00:00";
-}
-
-/**
- * 通用化API数据格式输出
- * @param $status
- * @param string $message
- * @param array $data
- * @param int $httpStatus
- * @return \think\response\Json
- */
-function show($status, $message = "error", $data = [], $httpStatus = 200)
-{
-
-    $result = [
-        "status" => $status,
-        "message" => $message,
-        "result" => $data
-    ];
-
-    return json($result, $httpStatus);
 }

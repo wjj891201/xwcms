@@ -41,7 +41,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="panel-foot text-center"><button class="button button-block bg-main text-big" lay-submit="" lay-filter="login">立即登录后台</button></div>
+                            <div class="panel-foot text-center"><button class="button button-block bg-main text-big" lay-submit="" lay-filter="login">立即登录</button></div>
                         </div>
                     </form>
                 </div>
@@ -72,12 +72,12 @@
                     data: $('#login-form').serialize(),
                     dataType: 'json',
                     success: function (res) {
-                        if (res.status == 1) {
+                        if (res.code == 1) {
                             layer.msg('登录成功', function () {
                                 window.location = '/front/index/index';
                             });
                         } else {
-                            layer.msg(res.message);
+                            layer.msg(res.msg);
                             return false;
                         }
                     },

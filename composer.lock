@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7ec4b3fe74f4369c31f017c373ce7767",
+    "content-hash": "a29d75f1376ed845192ffedac0f89f02",
     "packages": [
         {
             "name": "firebase/php-jwt",
@@ -571,7 +571,7 @@
             "version": "v6.7.1",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.tencent.com/repository/composer/phpmailer/phpmailer/v6.7.1/phpmailer-phpmailer-v6.7.1.zip",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/phpmailer/phpmailer/v6.7.1/phpmailer-phpmailer-v6.7.1.zip",
                 "reference": "49cd7ea3d2563f028d7811f06864a53b1f15ff55",
                 "shasum": ""
             },

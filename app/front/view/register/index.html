@@ -40,6 +40,18 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
+                                    <div class="field field-icon-right">
+                                        <input type="text" class="input" name="email" placeholder="Email" />
+                                        <span class="icon icon-user"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="field field-icon-right">
+                                        <input type="text" class="input" name="email_captcha" placeholder="Email验证码" style="width:150px;display: inline-block;"/>
+                                        <button class="button bg-main" id="receipt">获取</button>
+                                    </div>
+                                </div>
+                                <div class="form-group">
                                     <div class="field">
                                         <input type="text" class="input" name="captcha" placeholder="填写右侧的验证码" />
                                         <!--<img src="{__STATIC__}/front/images/passcode.jpg" width="80" height="32" class="passcode" />-->
@@ -47,7 +59,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="panel-foot text-center"><button class="button button-block bg-main text-big" lay-submit="" lay-filter="register">立即注册后台</button></div>
+                            <div class="panel-foot text-center"><button class="button button-block bg-main text-big" lay-submit="" lay-filter="register">立即注册</button></div>
                         </div>
                     </form>
                 </div>
@@ -57,6 +69,32 @@
     <script language="javascript">
         layui.use(['form'], function () {
             var $ = layui.$, layer = layui.layer, form = layui.form;
+
+
+            $('#receipt').click(function () {
+                var email = $("input[name='email']").val();
+                $.ajax({
+                    async: false,
+                    type: 'post',
+                    url: '/front/register/send_mail',
+                    data: {email:email},
+                    dataType: 'json',
+                    success: function (res) {
+                        if (res.code == 1) {
+                            layer.msg(res.msg);
+                        } else {
+                            layer.msg(res.msg);
+                            return false;
+                        }
+                    },
+                    error: function (data) {
+                        alert("操作失败");
+                    }
+                });
+                console.log(email);
+                return false;
+            });
+
             form.on('submit(register)', function (data) {
                 data = data.field;
 //                if (data.username == '') {
@@ -82,12 +120,12 @@
                     data: $('#register-form').serialize(),
                     dataType: 'json',
                     success: function (res) {
-                        if (res.status == 1) {
+                        if (res.code == 1) {
                             layer.msg('注册成功', function () {
                                 window.location = '/front/login/index';
                             });
                         } else {
-                            layer.msg(res.message);
+                            layer.msg(res.msg);
                             return false;
                         }
                     },
