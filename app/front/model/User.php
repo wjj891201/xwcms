@@ -48,17 +48,23 @@ class User extends Model
     public function insertUser($data)
     {
         $now = (string) Carbon::now();
-        $data = [
+        $tempData = [
             'username' => $data['username'],
             'password' => md5($data['password']),
             'email' => $data['email'],
             'status' => 1,
             'create_time' => $now
         ];
-        $result = $this->insert($data);
+        $result = $this->insert($tempData);
         //删除cookie
         Cookie::delete('email_captcha');
         return $result;
+    }
+
+    public function updateByEmail($email, $password)
+    {
+        Cookie::delete('email_captcha');
+        return $this->where(['email' => $email])->save(['password' => md5($password)]);
     }
 
 }

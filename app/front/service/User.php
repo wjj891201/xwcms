@@ -48,6 +48,19 @@ class User
         }
     }
 
+    public function forget($data)
+    {
+        $res = $this->userModelObj->updateByEmail($data['email'], $data['password']);
+        if ($res)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     public function getUserByUsername($username)
     {
         $user = $this->userModelObj->getUserByUsername($username);

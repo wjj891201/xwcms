@@ -50,7 +50,8 @@ class User extends Validate
 
     protected $scene = [
         'login' => ['username', 'password', 'captcha'],
-        'register' => ['username', 'password', 'repassword', 'email', 'email_captcha', 'captcha']
+        'register' => ['username', 'password', 'repassword', 'email', 'email_captcha', 'captcha'],
+        'forget' => ['email', 'email_captcha', 'password'],
     ];
 
     // register 验证场景定义
