@@ -47,7 +47,7 @@ class ForgetController extends BaseController
         }
         else
         {
-            var_dump(Cookie::get('email_captcha'));
+//            var_dump(Cookie::get('email_captcha'));
             return View::fetch();
         }
     }
