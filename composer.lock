@@ -4,8 +4,36 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a29d75f1376ed845192ffedac0f89f02",
+    "content-hash": "e4ba4e3e598c0863c714d82590de39e6",
     "packages": [
+        {
+            "name": "ecpay/sdk",
+            "version": "1.2.20221021",
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.tencent.com/repository/composer/ecpay/sdk/1.2.20221021/ecpay-sdk-1.2.20221021.zip",
+                "reference": "eb9daf0cd1a8f2454588dd39daf149510e5c4f95",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.6.20 || ^7.0 || ^8.0"
+            },
+            "require-dev": {
+                "fzaninotto/faker": "1.9.x-dev",
+                "phpunit/phpunit": "^5.0 || ^6.0 || ^7.0 || ^8.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Ecpay\\Sdk\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "ECPay SDK",
+            "time": "2022-05-24T07:35:22+00:00"
+        },
         {
             "name": "firebase/php-jwt",
             "version": "v6.1.2",

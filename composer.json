@@ -28,7 +28,8 @@
         "symfony/var-exporter": "5.4.10",
         "nesbot/carbon": "^2.66",
         "guzzlehttp/guzzle": "^7.5",
-        "malkusch/lock": "^2.2"
+        "malkusch/lock": "^2.2",
+        "ecpay/sdk": "^1.2"
     },
     "require-dev": {
         "symfony/var-dumper": "^4.2",
