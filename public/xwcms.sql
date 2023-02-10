@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50726
 File Encoding         : 65001
 
-Date: 2023-02-08 16:42:32
+Date: 2023-02-10 18:04:16
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -7210,7 +7210,7 @@ CREATE TABLE `xw_admin` (
 -- ----------------------------
 -- Records of xw_admin
 -- ----------------------------
-INSERT INTO `xw_admin` VALUES ('1', 'admin', '248e1768163ee229e1ff1ee49da6ea2c', '1yzEMdm76Unr9hsNq0FH', '超级管理员', '/static/admin/images/icon.png', 'black', '0', '', null, '1', '1', '2023-01-28 16:04:49', '2023-01-28 16:04:49', '2023-02-07 17:24:13', '27', '127.0.0.1', '1');
+INSERT INTO `xw_admin` VALUES ('1', 'admin', '248e1768163ee229e1ff1ee49da6ea2c', '1yzEMdm76Unr9hsNq0FH', '超级管理员', '/static/admin/images/icon.png', 'black', '0', '', null, '1', '1', '2023-01-28 16:04:49', '2023-01-28 16:04:49', '2023-02-10 15:02:03', '28', '127.0.0.1', '1');
 
 -- ----------------------------
 -- Table structure for xw_admin_department
@@ -7271,7 +7271,7 @@ CREATE TABLE `xw_admin_log` (
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '0删除 1正常',
   `created_at` datetime NOT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=181 DEFAULT CHARSET=utf8mb4 COMMENT='后台操作日志表';
+) ENGINE=InnoDB AUTO_INCREMENT=191 DEFAULT CHARSET=utf8mb4 COMMENT='后台操作日志表';
 
 -- ----------------------------
 -- Records of xw_admin_log
@@ -7456,6 +7456,16 @@ INSERT INTO `xw_admin_log` VALUES ('177', '1', '超级管理员', 'delete', '刪
 INSERT INTO `xw_admin_log` VALUES ('178', '1', '超级管理员', 'delete', '刪除', '功能菜單', '刪除', '超级管理员在2023-02-07 17:31:25刪除了功能菜單', 'admin', 'adminmenu', 'delete', '', '127.0.0.1', '126', '[]', '1', '2023-02-07 17:31:25');
 INSERT INTO `xw_admin_log` VALUES ('179', '1', '超级管理员', 'delete', '刪除', '配置項', '刪除', '超级管理员在2023-02-08 10:24:58刪除了配置項', 'admin', 'conf', 'delete', '', '127.0.0.1', '2', '{\"status\":\"-1\",\"id\":\"2\",\"updated_at\":\"2023-02-08 10:24:57\"}', '1', '2023-02-08 10:24:58');
 INSERT INTO `xw_admin_log` VALUES ('180', '1', '超级管理员', 'add', '新增', '配置項', '新建/編輯', '超级管理员在2023-02-08 10:25:54新增了配置項', 'admin', 'conf', 'add', '', '127.0.0.1', '3', '{\"id\":\"0\",\"title\":\"\\u90f5\\u7bb1\\u914d\\u7f6e\",\"status\":\"1\",\"name\":\"email\",\"created_at\":\"2023-02-08 10:25:53\"}', '1', '2023-02-08 10:25:54');
+INSERT INTO `xw_admin_log` VALUES ('181', '1', '超级管理员', 'edit', '編輯', '文章分類', '編輯', '超级管理员在2023-02-10 14:41:36編輯了文章分類', 'admin', 'article_cate', 'edit', '', '127.0.0.1', '1', '{\"pid\":\"0\",\"sort_order\":\"0\",\"title\":\"\\u4e0a\\u73ed\\u65cf\",\"desc\":\"\\u4e0a\\u73ed\\u65cf\",\"id\":\"1\",\"updated_at\":\"2023-02-10 14:41:36\"}', '1', '2023-02-10 14:41:36');
+INSERT INTO `xw_admin_log` VALUES ('182', '1', '超级管理员', 'add', '新增', '文章分類', '新建', '超级管理员在2023-02-10 14:44:31新增了文章分類', 'admin', 'article_cate', 'add', '', '127.0.0.1', '2', '{\"pid\":\"0\",\"sort_order\":\"0\",\"title\":\"\\u9805\\u76ee\",\"desc\":\"\",\"id\":\"0\",\"created_at\":\"2023-02-10 14:44:31\"}', '1', '2023-02-10 14:44:31');
+INSERT INTO `xw_admin_log` VALUES ('183', '1', '超级管理员', 'edit', '編輯', '文章分類', '編輯', '超级管理员在2023-02-10 14:44:44編輯了文章分類', 'admin', 'article_cate', 'edit', '', '127.0.0.1', '1', '{\"pid\":\"2\",\"sort_order\":\"0\",\"title\":\"\\u4e0a\\u73ed\\u65cf\",\"desc\":\"\\u4e0a\\u73ed\\u65cf\",\"id\":\"1\",\"updated_at\":\"2023-02-10 14:44:44\"}', '1', '2023-02-10 14:44:44');
+INSERT INTO `xw_admin_log` VALUES ('184', '1', '超级管理员', 'add', '新增', '文章分類', '新建', '超级管理员在2023-02-10 14:45:38新增了文章分類', 'admin', 'article_cate', 'add', '', '127.0.0.1', '3', '{\"pid\":\"2\",\"sort_order\":\"0\",\"title\":\"\\u5bb6\\u5ead\\u4e3b\\u5a66\",\"desc\":\"\",\"id\":\"0\",\"created_at\":\"2023-02-10 14:45:38\"}', '1', '2023-02-10 14:45:38');
+INSERT INTO `xw_admin_log` VALUES ('185', '1', '超级管理员', 'add', '新增', '文章分類', '新建', '超级管理员在2023-02-10 14:47:14新增了文章分類', 'admin', 'article_cate', 'add', '', '127.0.0.1', '4', '{\"pid\":\"1\",\"sort_order\":\"0\",\"title\":\"\\u5b55\\u5a66\",\"desc\":\"\",\"id\":\"0\",\"created_at\":\"2023-02-10 14:47:14\"}', '1', '2023-02-10 14:47:14');
+INSERT INTO `xw_admin_log` VALUES ('186', '1', '超级管理员', 'add', '新增', '文章分類', '新建', '超级管理员在2023-02-10 14:48:09新增了文章分類', 'admin', 'article_cate', 'add', '', '127.0.0.1', '5', '{\"pid\":\"1\",\"sort_order\":\"0\",\"title\":\"\\u5168\\u5957\\u8ab2\\u7a0b\",\"desc\":\"\\u8d08\\u9001\\u4e00\\u689d\\u745c\\u4f3d\\u8932\",\"id\":\"0\",\"created_at\":\"2023-02-10 14:48:09\"}', '1', '2023-02-10 14:48:09');
+INSERT INTO `xw_admin_log` VALUES ('187', '1', '超级管理员', 'edit', '編輯', '文章分類', '編輯', '超级管理员在2023-02-10 14:48:52編輯了文章分類', 'admin', 'article_cate', 'edit', '', '127.0.0.1', '2', '{\"pid\":\"1\",\"sort_order\":\"0\",\"title\":\"\\u4e0a\\u73ed\\u65cf\",\"desc\":\"\\u745c\\u4f3d\\u8ab2\\u7a0b\",\"id\":\"2\",\"updated_at\":\"2023-02-10 14:48:52\"}', '1', '2023-02-10 14:48:52');
+INSERT INTO `xw_admin_log` VALUES ('188', '1', '超级管理员', 'edit', '編輯', '文章分類', '編輯', '超级管理员在2023-02-10 14:49:08編輯了文章分類', 'admin', 'article_cate', 'edit', '', '127.0.0.1', '3', '{\"pid\":\"1\",\"sort_order\":\"0\",\"title\":\"\\u5bb6\\u5ead\\u4e3b\\u5a66\",\"desc\":\"\\u745c\\u4f3d\\u8ab2\\u7a0b\",\"id\":\"3\",\"updated_at\":\"2023-02-10 14:49:08\"}', '1', '2023-02-10 14:49:08');
+INSERT INTO `xw_admin_log` VALUES ('189', '1', '超级管理员', 'edit', '編輯', '文章分類', '編輯', '超级管理员在2023-02-10 14:49:14編輯了文章分類', 'admin', 'article_cate', 'edit', '', '127.0.0.1', '4', '{\"pid\":\"1\",\"sort_order\":\"0\",\"title\":\"\\u5b55\\u5a66\",\"desc\":\"\\u745c\\u4f3d\\u8ab2\\u7a0b\",\"id\":\"4\",\"updated_at\":\"2023-02-10 14:49:14\"}', '1', '2023-02-10 14:49:14');
+INSERT INTO `xw_admin_log` VALUES ('190', '1', '超级管理员', 'login', '登錄', '系統', '', '超级管理员在2023-02-10 15:02:03登錄了系統', 'admin', 'login', 'do_login', '', '127.0.0.1', '1', '{\"last_login_at\":\"2023-02-10 15:02:03\",\"last_login_ip\":\"127.0.0.1\",\"login_num\":28}', '1', '2023-02-10 15:02:03');
 
 -- ----------------------------
 -- Table structure for xw_admin_menu
@@ -7476,7 +7486,7 @@ CREATE TABLE `xw_admin_menu` (
   `created_at` datetime NOT NULL COMMENT '創建時間',
   `updated_at` datetime NOT NULL COMMENT '更新時間',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=133 DEFAULT CHARSET=utf8mb4 COMMENT='菜單及許可權表';
+) ENGINE=InnoDB AUTO_INCREMENT=120 DEFAULT CHARSET=utf8mb4 COMMENT='菜單及許可權表';
 
 -- ----------------------------
 -- Records of xw_admin_menu
@@ -7649,12 +7659,16 @@ CREATE TABLE `xw_article_cate` (
   `updated_at` datetime NOT NULL COMMENT '修改时间',
   `deleted_at` datetime NOT NULL COMMENT '删除时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='文章分类';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COMMENT='文章分类';
 
 -- ----------------------------
 -- Records of xw_article_cate
 -- ----------------------------
-INSERT INTO `xw_article_cate` VALUES ('1', '0', '测试分类', '测试分类', '0', '2023-02-01 21:16:36', '2023-02-01 21:16:36', '0000-00-00 00:00:00');
+INSERT INTO `xw_article_cate` VALUES ('1', '0', '項目', '', '0', '2023-02-01 21:16:36', '2023-02-10 14:44:44', '0000-00-00 00:00:00');
+INSERT INTO `xw_article_cate` VALUES ('2', '1', '上班族', '瑜伽課程', '0', '2023-02-10 14:44:31', '2023-02-10 14:48:52', '0000-00-00 00:00:00');
+INSERT INTO `xw_article_cate` VALUES ('3', '1', '家庭主婦', '瑜伽課程', '0', '2023-02-10 14:45:38', '2023-02-10 14:49:08', '0000-00-00 00:00:00');
+INSERT INTO `xw_article_cate` VALUES ('4', '1', '孕婦', '瑜伽課程', '0', '2023-02-10 14:47:14', '2023-02-10 14:49:14', '0000-00-00 00:00:00');
+INSERT INTO `xw_article_cate` VALUES ('5', '1', '全套課程', '贈送一條瑜伽褲', '0', '2023-02-10 14:48:09', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
 -- ----------------------------
 -- Table structure for xw_banner
@@ -8030,7 +8044,7 @@ CREATE TABLE `xw_user` (
 -- Records of xw_user
 -- ----------------------------
 INSERT INTO `xw_user` VALUES ('4', 'xuwen', 'd6ba76561f818fc9eb3146f547b8818d', '517987404@qq.com', '1', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '1675738469', '127.0.0.1');
-INSERT INTO `xw_user` VALUES ('11', 'wujiepeng', 'e10adc3949ba59abbe56e057f20f883e', '873525227@qq.com', '1', '2023-02-08 16:26:37', '0000-00-00 00:00:00', '1675845474', '');
+INSERT INTO `xw_user` VALUES ('11', 'wujiepeng', 'e10adc3949ba59abbe56e057f20f883e', '873525227@qq.com', '1', '2023-02-08 16:26:37', '0000-00-00 00:00:00', '1675847746', '');
 
 -- ----------------------------
 -- Table structure for xw_verify_code
