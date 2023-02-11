@@ -7,14 +7,14 @@
 <!-- 主體 -->
 {block name="body"}
 <div class="layui-form p-4">
-    <h3 class="pb-3">文章詳情</h3>
+    <h3 class="pb-3">課程詳情</h3>
     <table class="layui-table layui-table-form">
         <tr>
-            <td class="layui-td-gray">文章標題</td>
+            <td class="layui-td-gray">課程標題</td>
             <td>{$detail.title}</td>
         </tr>
         <tr>
-            <td class="layui-td-gray">所屬分類</td>
+            <td class="layui-td-gray">瑜伽分類</td>
             <td>
                 {volist name=":set_recursion(get_yoga_cate())" id="v"}
                 {eq name="$detail.cate_id" value="$v.id" }{$v.title}{/eq}

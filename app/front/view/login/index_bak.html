@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <meta name="renderer" content="webkit">
+        <title>登录</title>
+        <link rel="stylesheet" href="{__STATIC__}/assets/layui/css/layui.css">
+        <link rel="stylesheet" href="{__STATIC__}/front/css/pintuer.css">
+        <link rel="stylesheet" href="{__STATIC__}/front/css/admin.css">
+        <script src="{__STATIC__}/front/js/jquery.js"></script>
+        <script src="{__STATIC__}/assets/layui/layui.js"></script>
+    </head>
+
+    <body>
+        <div class="container">
+            <div class="line">
+                <div class="xs6 xm4 xs3-move xm4-move">
+                    <form class="layui-form" action="#" method="post" id="login-form">
+                        <div class="panel">
+                            <div class="panel-head"><strong>登录</strong></div>
+                            <div class="panel-body" style="padding:30px;">
+                                <div class="form-group">
+                                    <div class="field field-icon-right">
+                                        <input type="text" class="input" name="username" placeholder="登录账号" />
+                                        <span class="icon icon-user"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="field field-icon-right">
+                                        <input type="password" class="input" name="password" placeholder="登录密码" />
+                                        <span class="icon icon-key"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="field">
+                                        <input type="text" class="input" name="captcha" placeholder="填写右侧的验证码" />
+                                        <!--<img src="{__STATIC__}/front/images/passcode.jpg" width="80" height="32" class="passcode" />-->
+                                        {:captcha_img()}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-foot text-center"><button class="button button-block bg-main text-big" lay-submit="" lay-filter="login">立即登录</button></div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script language="javascript">
+        layui.use(['form'], function () {
+            var $ = layui.$, layer = layui.layer, form = layui.form;
+            form.on('submit(login)', function (data) {
+                data = data.field;
+//                if (data.username == '') {
+//                    layer.msg('用户名不能为空');
+//                    return false;
+//                }
+//                if (data.password == '') {
+//                    layer.msg('密码不能为空');
+//                    return false;
+//                }
+//                if (data.captcha == '') {
+//                    layer.msg('验证码不能为空');
+//                    return false;
+//                }
+                $.ajax({
+                    async: false,
+                    type: 'post',
+                    url: '/front/login/check',
+                    data: $('#login-form').serialize(),
+                    dataType: 'json',
+                    success: function (res) {
+                        if (res.code == 1) {
+                            layer.msg('登录成功', function () {
+                                window.location = '/front/index/index';
+                            });
+                        } else {
+                            layer.msg(res.msg);
+                            return false;
+                        }
+                    },
+                    error: function (data) {
+                        alert("添加失败");
+                    }
+                });
+                return false;
+            });
+        });
+    </script>
+</html>

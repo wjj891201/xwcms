@@ -61,6 +61,7 @@ class RegisterController extends BaseController
 //            var_dump($now);
 //            exit;
 //            var_dump(Cookie::get('email_captcha'));
+            View::assign('title', '註冊');
             return View::fetch();
         }
     }
