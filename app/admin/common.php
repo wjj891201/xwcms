@@ -236,6 +236,13 @@ function get_article_cate()
     return $cate;
 }
 
+//讀取瑜伽分類列表
+function get_yoga_cate()
+{
+    $cate = Db::name('yoga_cate')->where(['deleted_at' => get_zero_time()])->order('created_at asc')->select()->toArray();
+    return $cate;
+}
+
 /**
  * 管理員操作日誌
  * @param string $type 操作類型 login add edit view delete

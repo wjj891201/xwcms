@@ -2,42 +2,42 @@
 <!-- 主體 -->
 {block name="body"}
 <form class="layui-form p-4">
-    <h3 class="pb-3">編輯文章分類</h3>
+    <h3 class="pb-3">新建文章分類</h3>
     <table class="layui-table layui-table-form">
         <tr>
             <td class="layui-td-gray">父級分類<span>*</span></td>
             <td>
                 <select name="pid" lay-verify="required" lay-reqText="請選擇父級分類">
                     <option value="0">作為頂級分類</option>
-                    {volist name=":set_recursion(get_article_cate())" id="v"}
-                    <option value="{$v.id}" {eq name="$detail.pid" value="$v.id" }selected="" {/eq}>{$v.title}</option>
+                    {volist name=":set_recursion(get_yoga_cate())" id="v"}
+                    <option value="{$v.id}" {eq name="$pid" value="$v.id" }selected="" {/eq}>{$v.title}</option>
                     {/volist}
                 </select>
             </td>
             <td class="layui-td-gray">排序</td>
             <td>
-                <input type="text" name="sort_order" placeholder="請輸入排序，數字" autocomplete="off" class="layui-input" value="{$detail.sort_order}">
+                <input type="text" name="sort_order" placeholder="請輸入排序，數字" value="0" autocomplete="off" class="layui-input">
             </td>
         </tr>
         <tr>
             <td class="layui-td-gray">分類名稱<span>*</span></td>
             <td>
-                <input type="text" name="title" lay-verify="required" autocomplete="off" placeholder="請輸入分類名稱" class="layui-input" value="{$detail.title}">
+                <input type="text" name="title" lay-verify="required" autocomplete="off" value="" placeholder="請輸入分類名稱" lay-reqText="請輸入分類名稱" class="layui-input">
             </td>
             <td class="layui-td-gray">價格</td>
             <td>
-                <input type="text" name="price" lay-verify="required|int" placeholder="請輸入價格" autocomplete="off" class="layui-input" value="{$detail.price}">
+                <input type="text" name="price" lay-verify="required|int" placeholder="請輸入價格" autocomplete="off" class="layui-input">
             </td>
         </tr>
         <tr>
             <td class="layui-td-gray">描述</td>
             <td colspan="3">
-                <textarea name="desc" placeholder="請輸入描述，可空" class="layui-textarea">{$detail.desc}</textarea>
+                <textarea name="desc" placeholder="請輸入描述，可空" class="layui-textarea"></textarea>
             </td>
         </tr>
     </table>
     <div class="flex justify-center py-4" >
-        <input type="hidden" name="id" value="{$detail.id}" />
+        <input type="hidden" name="id" value="0" />
         <button class="layui-btn layui-btn-normal" lay-submit="" lay-filter="webform">立即提交</button>
         <button type="reset" class="layui-btn layui-btn-primary">重置</button>
     </div>
@@ -60,8 +60,8 @@
                         parent.location.reload();
                     }, 1000);
                 }
-            }
-            tool.post("/admin/article_cate/edit", data.field, callback);
+            };
+            tool.post("/admin/yoga_cate/add", data.field, callback);
             return false;
         });
     }
