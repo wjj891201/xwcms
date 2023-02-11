@@ -19,7 +19,7 @@ class LoginController extends FrontBaseController
 
     public function index()
     {
-        View::assign('title', '登陆');
+        View::assign('title', '登入');
         return View::fetch();
     }
 

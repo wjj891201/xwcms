@@ -48,6 +48,7 @@ class ForgetController extends BaseController
         else
         {
 //            var_dump(Cookie::get('email_captcha'));
+            View::assign('title', '忘記密碼');
             return View::fetch();
         }
     }
