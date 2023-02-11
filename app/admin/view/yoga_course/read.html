@@ -1,54 +1,46 @@
 {extend name="common/base"/}
 {block name="style"}
 <style>
-	.content-article img{max-width:88%!important; height:auto!important; margin:6px 0!important; border-radius:4px;}
+    .content-article img{max-width:88%!important; height:auto!important; margin:6px 0!important; border-radius:4px;}
 </style>
 {/block}
 <!-- 主體 -->
 {block name="body"}
 <div class="layui-form p-4">
-	<h3 class="pb-3">文章詳情</h3>
-	<table class="layui-table layui-table-form">
-		<tr>
-			<td class="layui-td-gray">文章標題</td>
-			<td colspan="3">{$detail.title}</td>
-			<td class="layui-td-gray">所屬分類</td>
-			<td>
-				{volist name=":set_recursion(get_article_cate())" id="v"}
-				{eq name="$detail.cate_id" value="$v.id" }{$v.title}{/eq}
-				{/volist}
-			</td>
-		</tr>
-		<tr>
-			<td class="layui-td-gray">排序</td>
-			<td>{$detail.sort}</td>
-			<td class="layui-td-gray-2">是否首頁顯示</td>
-			<td>
-				{eq name="$detail.is_home" value="1"}是{/eq}
-				{eq name="$detail.is_home" value="0"}否{/eq}
-			</td>
-
-		</tr>
-		<tr>
-			<td class="layui-td-gray">創建時間</td>
-			<td>{$detail.created_at}</td>
-			<td class="layui-td-gray">狀態</td>
-			<td>
-				{eq name="$detail.status" value="1"}正常{/eq}
-				{eq name="$detail.status" value="0"}下架{/eq}
-			</td>
-		</tr>
-		<tr>
-			<td class="layui-td-gray">文章摘要</td>
-			<td colspan="3">{$detail.desc}</td>
-		</tr>
-		<tr>
-			<td class="layui-td-gray">文章內容</td>
-			<td colspan="5" class="content-article">
-				{$detail.content|raw}
-			</td>
-		</tr>
-	</table>
+    <h3 class="pb-3">文章詳情</h3>
+    <table class="layui-table layui-table-form">
+        <tr>
+            <td class="layui-td-gray">文章標題</td>
+            <td>{$detail.title}</td>
+        </tr>
+        <tr>
+            <td class="layui-td-gray">所屬分類</td>
+            <td>
+                {volist name=":set_recursion(get_yoga_cate())" id="v"}
+                {eq name="$detail.cate_id" value="$v.id" }{$v.title}{/eq}
+                {/volist}
+            </td>
+        </tr>
+        <tr>
+            <td class="layui-td-gray">課程鏈接</td>
+            <td>{$detail.course_url}</td>
+        </tr>
+        <tr>
+            <td class="layui-td-gray">排序</td>
+            <td>{$detail.sort_order}</td>
+        </tr>
+        <tr>
+            <td class="layui-td-gray">創建時間</td>
+            <td>{$detail.created_at}</td>
+        </tr>
+        <tr>
+            <td class="layui-td-gray">狀態</td>
+            <td>
+                {eq name="$detail.status" value="1"}正常{/eq}
+                {eq name="$detail.status" value="0"}下架{/eq}
+            </td>
+        </tr>
+    </table>
 </div>
 {/block}
 <!-- /主體 -->
