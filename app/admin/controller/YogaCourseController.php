@@ -5,8 +5,8 @@ declare (strict_types = 1);
 namespace app\admin\controller;
 
 use app\admin\BaseController;
-use app\admin\model\ArticleModel;
-use app\admin\validate\ArticleValidate;
+use app\admin\model\YogaCourseModel;
+use app\admin\validate\YogaCourseValidate;
 use think\exception\HttpException;
 use think\exception\ValidateException;
 use think\facade\Db;
@@ -20,14 +20,14 @@ class YogaCourseController extends BaseController
      */
     public function __construct()
     {
-        $this->model = new ArticleModel();
+        $this->model = new YogaCourseModel();
         $this->uid = get_login_admin('id');
     }
 
     /**
      * 数据列表
      */
-    public function datalist()
+    public function course_list()
     {
         if (request()->isAjax())
         {
@@ -42,8 +42,8 @@ class YogaCourseController extends BaseController
                 $where[] = ['a.cate_id', '=', $param['cate_id']];
             }
             $where[] = ['a.deleted_at', '=', get_zero_time()];
-            $ArticleModel = new ArticleModel();
-            $list = $ArticleModel->getArticleList($where, $param);
+            $YogaCourseModel = new YogaCourseModel();
+            $list = $YogaCourseModel->getArticleList($where, $param);
             return table_output(0, '', $list);
         }
         else
@@ -60,38 +60,22 @@ class YogaCourseController extends BaseController
         if (request()->isAjax())
         {
             $param = get_params();
-            if (isset($param['table-align']))
-            {
-                unset($param['table-align']);
-            }
-            if (isset($param['content']))
-            {
-                $param['md_content'] = '';
-            }
-            if (isset($param['docContent-html-code']))
-            {
-                $param['content'] = $param['docContent-html-code'];
-                $param['md_content'] = $param['docContent-markdown-doc'];
-                unset($param['docContent-html-code']);
-                unset($param['docContent-markdown-doc']);
-            }
             $param['admin_id'] = $this->uid;
             // 检验完整性
             try
             {
-                validate(ArticleValidate::class)->check($param);
+                validate(YogaCourseValidate::class)->check($param);
             } catch (ValidateException $e)
             {
                 // 验证失败 输出错误信息
                 return output(1, $e->getError());
             }
 
-            $ArticleModel = new ArticleModel();
-            $ArticleModel->addArticle($param);
+            $YogaCourseModel = new YogaCourseModel();
+            $YogaCourseModel->addYogaCourse($param);
         }
         else
         {
-            View::assign('editor', get_system_config('base', 'editor'));
             return view();
         }
     }
@@ -102,47 +86,27 @@ class YogaCourseController extends BaseController
     public function edit()
     {
         $param = get_params();
-        $ArticleModel = new ArticleModel();
+        $YogaCourseModel = new YogaCourseModel();
 
         if (request()->isAjax())
         {
-            if (isset($param['table-align']))
-            {
-                unset($param['table-align']);
-            }
-            if (isset($param['content']))
-            {
-                $param['md_content'] = '';
-            }
-            if (isset($param['docContent-html-code']))
-            {
-                $param['content'] = $param['docContent-html-code'];
-                $param['md_content'] = $param['docContent-markdown-doc'];
-                unset($param['docContent-html-code']);
-                unset($param['docContent-markdown-doc']);
-            }
             // 检验完整性
             try
             {
-                validate(ArticleValidate::class)->check($param);
+                validate(YogaCourseValidate::class)->check($param);
             } catch (ValidateException $e)
             {
                 // 验证失败 输出错误信息
                 return output(1, $e->getError());
             }
-            $ArticleModel->editArticle($param);
+            $YogaCourseModel->editYogaCourse($param);
         }
         else
         {
             $id = isset($param['id']) ? $param['id'] : 0;
-            $detail = $ArticleModel->getArticleById($id);
-            View::assign('editor', get_system_config('base', 'editor'));
+            $detail = $YogaCourseModel->getYogaCourseById($id);
             if (!empty($detail))
             {
-                if (!empty($article['md_content']))
-                {
-                    View::assign('editor', 1);
-                }
                 View::assign('detail', $detail);
                 return view();
             }
@@ -160,8 +124,8 @@ class YogaCourseController extends BaseController
     {
         $param = get_params();
         $id = isset($param['id']) ? $param['id'] : 0;
-        $ArticleModel = new ArticleModel();
-        $detail = $ArticleModel->getArticleById($id);
+        $YogaCourseModel = new YogaCourseModel();
+        $detail = $YogaCourseModel->getYogaCourseById($id);
         if (!empty($detail))
         {
             View::assign('detail', $detail);
@@ -182,8 +146,8 @@ class YogaCourseController extends BaseController
         $id = isset($param['id']) ? $param['id'] : 0;
         $type = isset($param['type']) ? $param['type'] : 0;
 
-        $ArticleModel = new ArticleModel();
-        $ArticleModel->delArticleById($id, 1);
+        $YogaCourseModel = new YogaCourseModel();
+        $YogaCourseModel->delYogaCourseById($id, 1);
     }
 
 }

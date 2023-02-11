@@ -1,0 +1,76 @@
+{extend name="common/base"/}
+{block name="style"}
+<style type="text/css">
+    .editormd-code-toolbar select {display: inline-block}
+    .editormd li {list-style: inherit;}
+</style>
+{/block}
+<!-- 主體 -->
+{block name="body"}
+<form class="layui-form p-4">
+    <h3 class="pb-3">編輯文章表</h3>
+    <table class="layui-table layui-table-form">
+        <tr>
+            <td class="layui-td-gray">文章標題<span>*</span></td>
+            <td colspan="7"> <input type="text" name="title" lay-verify="required" lay-reqText="請輸入文章標題" autocomplete="off" placeholder="請輸入文章標題" class="layui-input" value="{$detail.title}"></td>
+        </tr>
+        <tr>
+            <td class="layui-td-gray">文章分類<span>*</span></td>
+            <td>
+                <select name="cate_id" lay-verify="required" lay-reqText="請選擇分類">
+                    <option value="">請選擇分類</option>
+                    {volist name=":set_recursion(get_yoga_cate())" id="v"}
+                    <option value="{$v.id}" {eq name="$detail.cate_id" value="$v.id" }selected{/eq}>{$v.title}</option>
+                    {/volist}
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td class="layui-td-gray">課程鏈接<span>*</span></td>
+            <td><input type="text" name="course_url" lay-verify="required|url" lay-reqText="請輸入課程鏈接" autocomplete="off" placeholder="請輸入課程鏈接" class="layui-input" value="{$detail.course_url}"></td>
+        </tr>
+        <tr>
+            <td class="layui-td-gray">狀態<span>*</span></td>
+            <td>
+                <input type="radio" name="status" value="1" title="正常" {eq name="$detail.status" value="1"}checked{/eq}>
+                <input type="radio" name="status" value="0" title="下架" {eq name="$detail.status" value="0"}checked{/eq}>
+            </td>
+        </tr>
+        <tr>
+            <td class="layui-td-gray">排序</td>
+            <td>
+                <input type="text" name="sort_order" placeholder="請輸入排序，數字" autocomplete="off" class="layui-input" value="{$detail.sort_order}">
+            </td>
+        </tr>
+    </table>
+    <div class="flex justify-center py-4" >
+        <input type="hidden" name="id" value="{$detail.id}"/>
+        <button class="layui-btn layui-btn-normal" lay-submit="" lay-filter="webform">立即提交</button>
+        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+    </div>
+</form>
+{/block}
+<!-- /主體 -->
+
+<!-- 腳本 -->
+{block name="script"}
+<script>
+    moduleInit = ['tool'];
+    function xuwenInit() {
+        var form = layui.form, tool = layui.tool;
+        //監聽提交
+        form.on('submit(webform)', function (data) {
+            let callback = function (e) {
+                layer.msg(e.msg);
+                if (e.code == 0) {
+                    tool.tabRefresh(71);
+                    tool.sideClose(1000);
+                }
+            };
+            tool.post("/admin/yoga_course/edit", data.field, callback);
+            return false;
+        });
+    }
+</script>
+{/block}
+<!-- /腳本 -->
