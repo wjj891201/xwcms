@@ -6,6 +6,7 @@
 <style>
     .code{border: none !important;}
     .code img{width:183px;height: 61px;}
+    .not_click{pointer-events: none;background-color: #bbbbbb !important;}
 </style>
 {/block}
 {block name="body"}
@@ -78,7 +79,7 @@
             var email = $("input[name='email']").val();
             var email_reg = /^([\.a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/;
             if (!email || !email_reg.test(email)) {
-                layer.msg('请正确填写Email', {icon: 5, shift: 6});
+                layer.msg('請正確填寫Email', {icon: 5, shift: 6});
                 return false;
             } else {
                 $.ajax({
@@ -89,19 +90,37 @@
                     dataType: 'json',
                     success: function (res) {
                         if (res.code == 1) {
-                            layer.msg(res.msg, {icon: 5, shift: 6});
+                            layer.msg(res.msg, {icon: 6, shift: 6});
+                            var time = setInterval(function () {
+                                settime(time);
+                            }, 1000);
                         } else {
                             layer.msg(res.msg, {icon: 5, shift: 6});
                             return false;
                         }
                     },
                     error: function (data) {
-                        alert("操作失败");
+                        alert("操作失敗");
                     }
                 });
             }
             return false;
         });
+
+        var countdown = 60;
+        //60秒后可重新发送
+        function settime(time) {
+            if (countdown <= 0) {
+                clearInterval(time);
+                $('#receipt').removeClass("not_click");
+                $('#receipt').html("獲取驗證碼");
+                countdown = 60;
+            } else {
+                $('#receipt').addClass("not_click");
+                $('#receipt').html("已發送(" + countdown + ")");
+                countdown--;
+            }
+        }
 
         form.on('submit(register)', function (data) {
             data = data.field;
@@ -117,7 +136,7 @@
                     dataType: 'json',
                     success: function (res) {
                         if (res.code == 1) {
-                            layer.msg('注册成功', function () {
+                            layer.msg('註冊成功', function () {
                                 window.location = '/front/login/index';
                             });
                         } else {
@@ -127,7 +146,7 @@
                         }
                     },
                     error: function (data) {
-                        alert("添加失败");
+                        alert("添加失敗");
                     }
                 });
             }

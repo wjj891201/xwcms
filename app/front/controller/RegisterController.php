@@ -73,7 +73,7 @@ class RegisterController extends BaseController
         {
             $email = $this->request->post("email", "", "trim");
             $email_captcha = set_salt(6);
-            $content = '本次验证码为：' . $email_captcha;
+            $content = '本次驗證碼為：' . $email_captcha;
             Cookie::set('email_captcha', $email_captcha, 3600);
             try
             {

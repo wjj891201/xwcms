@@ -2,6 +2,11 @@
 {block name="css"}
 <link rel="stylesheet" href="{__STATIC__}/front/css/login.css">
 {/block}
+{block name="style"}
+<style>
+    .not_click{pointer-events: none;background-color: #bbbbbb !important;}
+</style>
+{/block}
 {block name="body"}
 <section>
     <div class="login_container">
@@ -18,27 +23,23 @@
                 <div class="login_r">
                     <div class="login_form">
                         <p class="tle">忘記密碼</p>
-                        <form action="#" method="#">
+                        <form class="layui-form" action="#" method="#" id="forget-form">
                             <div class="form_item">
-                                <span>输入email:</span><input type="text" name="taskName" /><br>
+                                <span>輸入Email:</span><input type="text" lay-verify="required|email" lay-reqText="請輸入正確的Email" name="email" /><br>
                             </div>
                             <div class="form_item">
-                                输入验证码:
+                                輸入驗證碼:
                                 <div class="inp_cod">
-                                    <input type="text" name="tarLink" />
-                                    <div class="send_code">
-                                        獲取驗證碼
-                                    </div>
+                                    <input type="text" lay-verify="required" name="email_captcha" />
+                                    <div class="send_code" id="receipt">獲取驗證碼</div>
                                 </div>
                             </div>
-
                             <div class="form_item">
-                                输入新密码:<input type="text" name="srcLink" /><br>
+                                輸入密碼:<input type="password" lay-verify="required" name="password" /><br>
                             </div>
-
-                            <input class="btn" type="submit" value="更改密码">
+                            <input class="btn" type="submit" value="更改密码" lay-submit="" lay-filter="forget">
                             <div class="no_num">
-                                没有账号<p>立即注册</p>
+                                没有账号<p class="register_now">立即注册</p>
                             </div>
                         </form>
                     </div>
@@ -47,4 +48,89 @@
         </div>
     </div>
 </section>
+{/block}
+{block name="js"}
+<script src="{__STATIC__}/assets/layui/layui.js"></script>
+{/block}
+{block name="script"}
+<script language="javascript">
+    $('.register_now').click(function () {
+        window.location.href = "/front/register/index";
+    });
+
+    layui.use(['form'], function () {
+        var $ = layui.$, layer = layui.layer, form = layui.form;
+        $('#receipt').click(function () {
+            var email = $("input[name='email']").val();
+            var email_reg = /^([\.a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/;
+            if (!email || !email_reg.test(email)) {
+                layer.msg('請正確填寫Email', {icon: 5, shift: 6});
+                return false;
+            } else {
+                $.ajax({
+                    async: false,
+                    type: 'post',
+                    url: '/front/register/send_mail',
+                    data: {email: email},
+                    dataType: 'json',
+                    success: function (res) {
+                        if (res.code == 1) {
+                            layer.msg(res.msg, {icon: 6, shift: 6});
+                            var time = setInterval(function () {
+                                settime(time);
+                            }, 1000);
+                        } else {
+                            layer.msg(res.msg, {icon: 5, shift: 6});
+                            return false;
+                        }
+                    },
+                    error: function (data) {
+                        alert("操作失敗");
+                    }
+                });
+            }
+            return false;
+        });
+
+        var countdown = 60;
+        //60秒后可重新发送
+        function settime(time) {
+            if (countdown <= 0) {
+                clearInterval(time);
+                $('#receipt').removeClass("not_click");
+                $('#receipt').html("獲取驗證碼");
+                countdown = 60;
+            } else {
+                $('#receipt').addClass("not_click");
+                $('#receipt').html("已發送(" + countdown + ")");
+                countdown--;
+            }
+        }
+
+        form.on('submit(forget)', function (data) {
+            data = data.field;
+            $.ajax({
+                async: false,
+                type: 'post',
+                url: '/front/forget/index',
+                data: $('#forget-form').serialize(),
+                dataType: 'json',
+                success: function (res) {
+                    if (res.code == 1) {
+                        layer.msg('密碼修改成功', function () {
+                            window.location = '/front/login/index';
+                        });
+                    } else {
+                        layer.msg(res.msg, {icon: 5, shift: 6});
+                        return false;
+                    }
+                },
+                error: function (data) {
+                    alert("添加失敗");
+                }
+            });
+            return false;
+        });
+    });
+</script>
 {/block}

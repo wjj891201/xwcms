@@ -42,7 +42,7 @@ class ForgetController extends BaseController
             }
             else
             {
-                return output(0, "更改失败");
+                return output(0, "更改失敗");
             }
         }
         else
