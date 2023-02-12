@@ -2,6 +2,12 @@
 {block name="css"}
 <link rel="stylesheet" href="{__STATIC__}/front/css/login.css">
 {/block}
+{block name="style"}
+<style>
+    .code{border: none !important;}
+    .code img{width:183px;height: 61px;}
+</style>
+{/block}
 {block name="body"}
 <section>
     <div class="login_container">
@@ -13,33 +19,31 @@
                 <div class="login_l">
                     <img src="{__STATIC__}/front/images/pc/login_l.png" alt="">
                     <p>ASHA <br /> YOUGA</p>
-                    <p class="tle">会员登入</p>
+                    <p class="tle">會員登入</p>
                 </div>
                 <div class="login_r">
                     <div class="login_form">
                         <p class="tle">登入</p>
-                        <form action="#" method="#">
+                        <form class="layui-form" action="#" id="login-form">
                             <div class="form_item">
-                                <span>账户:</span><input type="text" name="taskName" /><br>
+                                <span>賬戶:</span><input type="text" lay-verify="required" lay-reqText="請輸入帳戶" name="username" /><br>
                             </div>
                             <div class="form_item">
-                                密码:<input type="text" name="srcLink" /><br>
+                                密碼:<input type="password" lay-verify="required" lay-reqText="請輸入密碼" name="password" /><br>
                             </div>
                             <div class="form_item">
-                                圆形验证码:
+                                圖形驗證碼:
                                 <div class="inp_cod">
-                                    <input type="text" name="tarLink" />
-                                    <div class="code">
-
-                                    </div>
+                                    <input type="text" lay-verify="required" lay-reqText="圖形驗證碼" name="captcha" />
+                                    <div class="code">{:captcha_img()}</div>
                                 </div>
                             </div>
                             <div class="form_item">
-                                <p>忘记密码?</p>
+                                <p class="forget_psw">忘記密碼?</p>
                             </div>
-                            <input class="btn" type="submit" value="登入">
+                            <input class="btn" type="submit" lay-submit="" lay-filter="login" value="登入">
                             <div class="no_num">
-                                没有账号<p>立即注册</p>
+                                沒有賬號<p class="register_now">立即註冊</p>
                             </div>
                         </form>
                     </div>
@@ -48,4 +52,44 @@
         </div>
     </div>
 </section>
+{/block}
+{block name="js"}
+<script src="{__STATIC__}/assets/layui/layui.js"></script>
+{/block}
+{block name="script"}
+<script language="javascript">
+    $('.forget_psw').click(function () {
+        window.location.href = "/front/forget/index";
+    });
+    $('.register_now').click(function () {
+        window.location.href = "/front/register/index";
+    });
+    layui.use(['form'], function () {
+        var $ = layui.$, layer = layui.layer, form = layui.form;
+        form.on('submit(login)', function (data) {
+            data = data.field;
+            $.ajax({
+                async: false,
+                type: 'post',
+                url: '/front/login/check',
+                data: $('#login-form').serialize(),
+                dataType: 'json',
+                success: function (res) {
+                    if (res.code == 1) {
+                        layer.msg('登录成功', function () {
+                            window.location = '/front/yoga/index';
+                        });
+                    } else {
+                        layer.msg(res.msg, {icon: 5, shift: 6});
+                        return false;
+                    }
+                },
+                error: function (data) {
+                    alert("添加失败");
+                }
+            });
+            return false;
+        });
+    });
+</script>
 {/block}

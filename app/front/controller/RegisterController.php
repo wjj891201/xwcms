@@ -8,6 +8,7 @@ use app\front\validate\User as UserValidate;
 use app\front\service\User as UserService;
 use Carbon\Carbon;
 use think\facade\Cookie;
+use app\front\facade\ApiFacade;
 
 class RegisterController extends BaseController
 {
@@ -74,16 +75,25 @@ class RegisterController extends BaseController
             $email_captcha = set_salt(6);
             $content = '本次验证码为：' . $email_captcha;
             Cookie::set('email_captcha', $email_captcha, 3600);
+            try
+            {
+                ApiFacade::sendEmail(["email" => $email, "subject" => '驗證碼', "content" => $content]);
+            } catch (\Exception $e)
+            {
+                return output(0, $e->getMessage());
+            }
+            output(1, '发送成功');
+//            tp6发邮件
 //            $result = send_email($email, '验证码', $content);
-            $result = true;
-            if ($result)
-            {
-                output(1, '发送成功');
-            }
-            else
-            {
-                output(0, '发送失败');
-            }
+//            $result = true;
+//            if ($result)
+//            {
+//                output(1, '发送成功');
+//            }
+//            else
+//            {
+//                output(0, '发送失败');
+//            }
         }
     }
 

@@ -11,6 +11,7 @@
     </head>
     <body>
         <header>
+            {if !empty(get_login_user())}
             <div class="header">
                 <div class="header_l">
                     <img src="" alt="头像">
@@ -18,9 +19,18 @@
                 </div>
                 <div class="header_r">
                     <p>會員升級</p>
-                    <p>登出</p>
+                    <p class="dengchu">登出</p>
                 </div>
             </div>
+            {else/}
+            <div class="header">
+                <div class="header_l"></div>
+                <div class="header_r">
+                    <p>會員升級</p>
+                    <p class="dengru">登入</p>
+                </div>
+            </div>
+            {/if}
         </header>
         <section>
             <div class="banner">
@@ -35,7 +45,16 @@
                 <p>ASHA <br /> YOUGA</p>
             </div>
         </footer>
+        <script src="{__STATIC__}/front/js/jquery.js"></script>
         {block name="js"}{/block}
+        <script>
+            $('.dengchu').click(function () {
+                window.location.href = "/front/logout/index";
+            });
+            $('.dengru').click(function () {
+                window.location.href = "/front/login/index";
+            });
+        </script>
         {block name="script"}{/block}
     </body>
 </html>

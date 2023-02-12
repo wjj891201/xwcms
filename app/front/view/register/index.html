@@ -2,6 +2,12 @@
 {block name="css"}
 <link rel="stylesheet" href="{__STATIC__}/front/css/login.css">
 {/block}
+{block name="style"}
+<style>
+    .code{border: none !important;}
+    .code img{width:183px;height: 61px;}
+</style>
+{/block}
 {block name="body"}
 <section>
     <div class="login_container">
@@ -18,44 +24,40 @@
                 <div class="login_r">
                     <div class="login_form">
                         <p class="tle">註冊</p>
-                        <form action="#" method="#">
+                        <form class="layui-form" action="#" id="register-form">
                             <div class="form_item">
-                                <span>账户:</span><input type="text" name="taskName" /><br>
+                                <span>帳戶:</span><input type="text" lay-verify="required" lay-reqText="請輸入帳戶" name="username" /><br>
                             </div>
                             <div class="form_item">
-                                密码:<input type="text" name="srcLink" /><br>
+                                密碼:<input type="password" lay-verify="required" lay-reqText="請輸入密碼" name="password" /><br>
                             </div>
                             <div class="form_item">
-                                <span>確認密碼:</span><input type="text" name="taskName" /><br>
+                                <span>確認密碼:</span><input type="password" lay-verify="required" lay-reqText="請輸入確認密碼" name="repassword" /><br>
                             </div>
                             <div class="form_item">
-                                Email:<input type="text" name="srcLink" /><br>
+                                Email:<input type="text" lay-verify="required|email" lay-reqText="請輸入正確的Email" name="email" /><br>
                             </div>
                             <div class="form_item">
-                                圆形验证码:
+                                圖形驗證碼:
                                 <div class="inp_cod">
-                                    <input type="text" name="tarLink" />
-                                    <div class="code">
-
-                                    </div>
+                                    <input type="text" lay-verify="required" lay-reqText="請輸入圖形驗證碼" name="captcha" />
+                                    <div class="code">{:captcha_img()}</div>
                                 </div>
                             </div>
                             <div class="form_item">
-                                Email验证码:
+                                Email驗證碼:
                                 <div class="inp_cod">
-                                    <input type="text" name="tarLink" />
-                                    <div class="send_code">
-                                        獲取驗證碼
-                                    </div>
+                                    <input type="text" lay-verify="required" lay-reqText="請輸入Email驗證碼" name="email_captcha" />
+                                    <div class="send_code" id="receipt">獲取驗證碼</div>
                                 </div>
                             </div>
                             <div class="agrees">
-                                <input type="radio" class="agreesinp">
+                                <input type="checkbox" value="1" class="agreesinp" name="agreement">
                                 <p>我已閲讀同意 <span>《《用户協議》》</span></p>
                             </div>
-                            <input class="btn" type="submit" value="立即注册">
+                            <input class="btn" type="submit" lay-submit="" lay-filter="register" value="立即注册">
                             <div class="no_num">
-                                已有账号<p>立即登入</p>
+                                已有賬號<p>立即登入</p>
                             </div>
                         </form>
                     </div>
@@ -64,4 +66,73 @@
         </div>
     </div>
 </section>
+{/block}
+{block name="js"}
+<script src="{__STATIC__}/assets/layui/layui.js"></script>
+{/block}
+{block name="script"}
+<script language="javascript">
+    layui.use(['form'], function () {
+        var $ = layui.$, layer = layui.layer, form = layui.form;
+        $('#receipt').click(function () {
+            var email = $("input[name='email']").val();
+            var email_reg = /^([\.a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/;
+            if (!email || !email_reg.test(email)) {
+                layer.msg('请正确填写Email', {icon: 5, shift: 6});
+                return false;
+            } else {
+                $.ajax({
+                    async: false,
+                    type: 'post',
+                    url: '/front/register/send_mail',
+                    data: {email: email},
+                    dataType: 'json',
+                    success: function (res) {
+                        if (res.code == 1) {
+                            layer.msg(res.msg, {icon: 5, shift: 6});
+                        } else {
+                            layer.msg(res.msg, {icon: 5, shift: 6});
+                            return false;
+                        }
+                    },
+                    error: function (data) {
+                        alert("操作失败");
+                    }
+                });
+            }
+            return false;
+        });
+
+        form.on('submit(register)', function (data) {
+            data = data.field;
+            if (data.agreement != 1) {
+                layer.msg('請勾選用戶協議', {icon: 5, shift: 6});
+                return false;
+            } else {
+                $.ajax({
+                    async: false,
+                    type: 'post',
+                    url: '/front/register/index',
+                    data: $('#register-form').serialize(),
+                    dataType: 'json',
+                    success: function (res) {
+                        if (res.code == 1) {
+                            layer.msg('注册成功', function () {
+                                window.location = '/front/login/index';
+                            });
+                        } else {
+                            layer.msg(res.msg, {icon: 5, shift: 6});
+                            $('[alt="captcha"]').click();
+                            return false;
+                        }
+                    },
+                    error: function (data) {
+                        alert("添加失败");
+                    }
+                });
+            }
+            return false;
+        });
+    });
+</script>
 {/block}

@@ -17,24 +17,24 @@ class User extends Validate
         'captcha' => 'require|checkCapcha',
     ];
     protected $message = [
-        'username' => '用户名必须,请重新输入',
-        'username.length' => '用户名长度6-10位',
-        'username.unique' => '该账号已注册',
-        'password' => '密码必须',
-        'repassword' => '确认密码必须',
-        'repassword.confirm' => '两次密码不一致',
-        'email' => 'Email必须',
-        'email.unique' => '该Email已注册',
-        'email.email' => 'Email格式不正确',
-        'email_captcha' => 'Email验证码必填',
-        'captcha' => '验证码必须',
+        'username' => '賬戶名必填，請重新輸入',
+        'username.length' => '賬戶長度6-10位',
+        'username.unique' => '該賬戶已註冊',
+        'password' => '密碼必填',
+        'repassword' => '確認密碼必填',
+        'repassword.confirm' => '兩次密碼不一致',
+        'email' => 'Email必填',
+        'email.unique' => '該Email已註冊',
+        'email.email' => 'Email格式不正確',
+        'email_captcha' => 'Email驗證碼必填',
+        'captcha' => '圖形驗證碼必填',
     ];
 
     protected function checkEmailCapcha($value, $rule, $data = [])
     {
         if ($value != Cookie::get('email_captcha'))
         {
-            return "Email验证码不正确";
+            return "Email驗證碼不正確";
         }
         return true;
     }
@@ -43,7 +43,7 @@ class User extends Validate
     {
         if (!captcha_check($value))
         {
-            return "验证码不正确";
+            return "圖形驗證碼不正確";
         }
         return true;
     }
