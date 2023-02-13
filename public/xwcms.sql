@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50529
 File Encoding         : 65001
 
-Date: 2023-02-13 02:03:55
+Date: 2023-02-14 02:00:44
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -8100,7 +8100,7 @@ CREATE TABLE `xw_user` (
 -- Records of xw_user
 -- ----------------------------
 INSERT INTO `xw_user` VALUES ('4', 'xuwen', 'd6ba76561f818fc9eb3146f547b8818d', '517987404@qq.com', '1', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '1675738469', '127.0.0.1');
-INSERT INTO `xw_user` VALUES ('11', 'wujiepeng', 'e10adc3949ba59abbe56e057f20f883e', '873525227@qq.com', '1', '2023-02-08 16:26:37', '0000-00-00 00:00:00', '1676202554', '');
+INSERT INTO `xw_user` VALUES ('11', 'wujiepeng', 'e10adc3949ba59abbe56e057f20f883e', '873525227@qq.com', '1', '2023-02-08 16:26:37', '0000-00-00 00:00:00', '1676299086', '');
 
 -- ----------------------------
 -- Table structure for xw_verify_code
@@ -8457,7 +8457,6 @@ INSERT INTO `xw_yoga_cate` VALUES ('1', '0', '上班族', '1980', '瑜伽課程'
 INSERT INTO `xw_yoga_cate` VALUES ('2', '0', '家庭主婦', '1980', '瑜伽課程', '2', '2023-02-11 23:24:39', '2023-02-11 23:31:05', '0000-00-00 00:00:00');
 INSERT INTO `xw_yoga_cate` VALUES ('3', '0', '孕婦', '1980', '瑜伽課程', '3', '2023-02-11 23:25:00', '2023-02-11 23:31:12', '0000-00-00 00:00:00');
 INSERT INTO `xw_yoga_cate` VALUES ('4', '0', '全套課程', '3960', '贈送一條瑜伽褲', '4', '2023-02-11 23:25:37', '2023-02-11 23:31:20', '0000-00-00 00:00:00');
-INSERT INTO `xw_yoga_cate` VALUES ('5', '0', '121', '1212', '12121', '0', '2023-02-11 23:31:55', '0000-00-00 00:00:00', '2023-02-11 23:34:00');
 
 -- ----------------------------
 -- Table structure for xw_yoga_course
