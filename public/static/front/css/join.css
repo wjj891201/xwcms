@@ -572,7 +572,7 @@ header .header .header_r p {
   height: auto;
   background: #e0d9d3;
   box-sizing: border-box;
-  padding: 130px 100px ;
+  padding: 130px 70px ;
 }
 @media screen and (max-width: 1660px) {
   .symptom .container .asha_question {

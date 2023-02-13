@@ -18,7 +18,8 @@
                     <p>XXXXXXX</p>
                 </div>
                 <div class="header_r">
-                    <p>會員升級</p>
+                    <p class="join_us">JOIN US</p>
+                    <p class="member-upgrade">會員升級</p>
                     <p class="dengchu">登出</p>
                 </div>
             </div>
@@ -26,6 +27,7 @@
             <div class="header">
                 <div class="header_l"></div>
                 <div class="header_r">
+                    <p class="join_us">JOIN US</p>
                     <p class="member-upgrade">會員升級</p>
                     <p class="dengru">登入</p>
                 </div>
@@ -48,6 +50,9 @@
         <script src="{__STATIC__}/front/js/jquery.js"></script>
         {block name="js"}{/block}
         <script>
+            $('.join_us').click(function () {
+                window.location.href = "{:url('/front/yoga/join')}";
+            });
             $('.dengchu').click(function () {
                 window.location.href = "{:url('/front/logout/index')}";
             });
