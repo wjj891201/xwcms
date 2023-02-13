@@ -13,7 +13,7 @@
         <div class="main"> 
             <p>全球唯一針對<br>「家庭主婦、孕婦、上班族」<br>線上瑜伽教學課程</p>
             <p>無經驗也能輕鬆學習</p>
-            <div class="btn">JOIN &nbsp; US</div>
+            <div class="btn hy-join">JOIN &nbsp; US</div>
         </div>
     </div>
 </section>
@@ -229,4 +229,11 @@
 
     </div>
 </section>
+{/block}
+{block name="script"}
+<script language="javascript">
+    $('.hy-join').click(function () {
+        window.location.href = "{:url('/front/yoga/course')}";
+    });
+</script>
 {/block}

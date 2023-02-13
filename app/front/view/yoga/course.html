@@ -55,7 +55,7 @@
                     只有一次機會！ <br/>
                     讓你擁有更多瑜伽課程選擇
                 </div>
-                <div class="btn">立即購買課程</div>
+                <div class="btn ljgm">立即購買課程</div>
                 <div class="num">$3960</div>
             </div>
         </div>
@@ -146,7 +146,7 @@
                         限時優惠價：<span>$3960</span>
                     </div>
                     <div class="all_slims">（共計60部影片,送瑜伽褲）</div>
-                    <div class="btn">立即購買課程</div>
+                    <div class="btn ljgm">立即購買課程</div>
                 </div>
                 <div class="bot_r">
                     <img src="{__STATIC__}/front/images/pc/lesbg.png" alt="">
@@ -155,4 +155,11 @@
         </div>
     </div>
 </section>
+{/block}
+{block name="script"}
+<script language="javascript">
+    $('.ljgm').click(function () {
+        window.location.href = "{:url('/front/yoga/cart_l')}";
+    });
+</script>
 {/block}

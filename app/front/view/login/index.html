@@ -54,7 +54,7 @@
 </section>
 {/block}
 {block name="js"}
-<script src="{__STATIC__}/assets/layui/layui.js"></script>
+
 {/block}
 {block name="script"}
 <script language="javascript">
@@ -77,7 +77,7 @@
                 success: function (res) {
                     if (res.code == 1) {
                         layer.msg('登录成功', function () {
-                            window.location = '/front/yoga/index';
+                            window.location = '/front/index/index';
                         });
                     } else {
                         layer.msg(res.msg, {icon: 5, shift: 6});

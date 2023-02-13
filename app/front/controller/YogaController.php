@@ -6,34 +6,19 @@ namespace app\front\controller;
 
 use think\facade\View;
 use app\front\BaseController;
+use think\facade\Db;
 
 class YogaController extends BaseController
 {
 
     public function course()
     {
-//        $data = [
-//            'smtp' => 'smtp.163.com',
-//            'smtp_port' => '465',
-//            'smtp_user' => '15195861092',
-//            'smtp_pwd' => 'KETCZPYTXMWARSPR',
-//            'email' => '15195861092@163.com',
-//            'title' => '测试'
-//        ];
-//        var_dump(serialize($data));
-//        exit;
-//        $result = send_email('517987404@qq.com', '找回密码', '已经发给你了');
-//        var_dump($result);
-//        exit;
-
         View::assign('title', '全套課程');
         return View::fetch();
     }
 
     public function join()
     {
-
-
         View::assign('title', '加入');
         return View::fetch();
     }
@@ -52,7 +37,23 @@ class YogaController extends BaseController
 
     public function cart_l()
     {
-        View::assign('title', '購物車');
+        $user_session = get_login_user();
+        if (empty($user_session))
+        {
+            return redirect('/front/login/index');
+        }
+
+        $cate = Db::name('yoga_cate')->order(['sort_order' => 'asc'])->select()->toArray();
+        $temp = [];
+        foreach ($cate as $key => $vo)
+        {
+            $vo['course'] = Db::name('yoga_course')->where(['cate_id' => $vo['id']])->order(['sort_order' => 'asc'])->select()->toArray();
+            $temp[] = $vo;
+        }
+        $cate = $temp;
+//        var_dump($cate);
+//        exit;
+        View::assign(['title' => '購物車', 'cate' => $cate]);
         return View::fetch();
     }
 
