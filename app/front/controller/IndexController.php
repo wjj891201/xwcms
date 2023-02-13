@@ -4,13 +4,16 @@ declare (strict_types = 1);
 
 namespace app\front\controller;
 
-class IndexController extends FrontBaseController
+use think\facade\View;
+use app\front\BaseController;
+
+class IndexController extends BaseController
 {
 
     public function index()
     {
-        echo 'hello-user';
-        exit;
+        View::assign('title', '首頁');
+        return View::fetch();
     }
 
 }

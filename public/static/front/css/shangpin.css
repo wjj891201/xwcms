@@ -237,9 +237,9 @@ header .header .header_r p {
   }
 }
 .shop_main .container .shop_product .product_r .content {
-  font-size: 30px;
+  font-size: 26px;
   font-weight: 100;
-  letter-spacing: 10px;
+  letter-spacing: 8px;
 }
 @media screen and (max-width: 1220px) {
   .shop_main .container .shop_product .product_r .content {
@@ -334,7 +334,7 @@ header .header .header_r p {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  padding-top: 60px;
+  padding-top: 30px;
 }
 @media screen and (max-width: 1680px) {
   .shop_main .container .price_list .price .content {

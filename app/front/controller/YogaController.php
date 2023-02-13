@@ -10,12 +10,6 @@ use app\front\BaseController;
 class YogaController extends BaseController
 {
 
-    public function index()
-    {
-        View::assign('title', '首頁');
-        return View::fetch();
-    }
-
     public function course()
     {
 //        $data = [
