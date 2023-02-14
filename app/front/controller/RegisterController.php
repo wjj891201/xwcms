@@ -57,11 +57,6 @@ class RegisterController extends BaseController
         }
         else
         {
-//            $now = (string)Carbon::now();
-//            echo $now;
-//            var_dump($now);
-//            exit;
-//            var_dump(Cookie::get('email_captcha'));
             View::assign('title', '註冊');
             return View::fetch();
         }

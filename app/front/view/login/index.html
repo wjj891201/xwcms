@@ -77,7 +77,7 @@
                 success: function (res) {
                     if (res.code == 1) {
                         layer.msg('登录成功', function () {
-                            window.location = '/front/index/index';
+                            window.location = '{:$url}';
                         });
                     } else {
                         layer.msg(res.msg, {icon: 5, shift: 6});

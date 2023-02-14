@@ -1,0 +1,145 @@
+{extend name="layout/layout"/}
+{block name="css"}
+<link rel="stylesheet" href="{__STATIC__}/front/css/gouwuche.css">
+{/block}
+{block name="style"}
+<style>
+    .not_click{pointer-events: none;background-color: #bbbbbb !important;}
+</style>
+{/block}
+{block name="body"}
+<section>
+    <div class="login_container">
+        <div class="login_box">
+            <div class="tle">
+                我的购物车
+            </div>
+            <div class="container">
+                <div class="check_shop">
+                    <div class="tle">勾选项目内容</div>
+                    <div class="subNavBox">
+                        {foreach $cate as $key => $vo}
+                        <div class="subNav currentDd currentDt">
+                            <div class="checkeds"><input type="checkbox" name="cate_id" value="{$vo['id']}" class="pick-t" id="cate_{$vo['id']}" data-price="{$vo['price']}" data-cate_id="{$vo['id']}"></div>
+                            <div class="sop_b">
+                                <div class="pro_l">
+                                    <p>{$vo['title']}</p>
+                                    <p>{$vo['desc']}</p>
+                                </div>
+                                <div class="pro_price">
+                                    ${$vo['price']}
+                                </div>
+                                <div class="pro_r">
+                                    <p>{if $key==3}全{else/}{:count($vo['course'])}{/if}部影片</p>
+                                    <div class="img">
+                                        <img src="{__STATIC__}/front/images/pc/select_bot.png" alt="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <ul class="navContent" {if $key==0}style="display: block;"{/if}>
+                            {notempty name="$vo['course']"}
+                            {foreach $vo['course'] as $k => $v}
+                            <li>
+                                <p>Action {$k+1}</p>
+                                {$v['title']}
+                            </li>
+                            {/foreach}
+                            <li>
+                                <div class="more">
+                                    <img src="{__STATIC__}/front/images/pc/more.png" alt="">
+                                    更多影片
+                                    <img src="{__STATIC__}/front/images/pc/more.png" alt="">
+                                </div>
+                            </li>
+                            {/notempty}
+                        </ul>
+                        {/foreach}
+                    </div>
+                    <div class="all_pre">
+                        <p>
+                            总计: <span id="total_price_here">$0</span>
+                        </p>
+                    </div>
+                    <div class="next_ click_next">
+                        <p>下一步</p>
+                    </div>
+                </div>
+                <div class="login_r">
+                    <img src="{__STATIC__}/front/images/pc/login_l.png" alt="" style="display: block;width: 88%">
+                    <p style="padding-top: 20px;text-align: center;font-size: 100px;letter-spacing: 20px;">ASHA <br /> YOUGA</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{/block}
+{block name="js"}
+
+{/block}
+{block name="script"}
+<script type="text/javascript">
+    $(function () {
+        $(".pro_r").click(function () {
+            $(this).parent(".sop_b").parent(".subNav").next(".navContent").slideToggle(300).siblings(".navContent").slideUp(500);
+        });
+        let total_price = 0;
+        var arr = new Array();
+        $(".pick-t").click(function () {
+            var price = $(this).data('price');
+            var cate_id = $(this).data('cate_id');
+            if (cate_id != 4 && $.inArray(4, arr) != -1) {
+                layer.msg('已經選擇全套課程', {icon: 5, shift: 6});
+                return false;
+            }
+            if (cate_id == 4 && $.inArray(4, arr)) {
+                arr = new Array();
+                total_price = 0;
+                // 取消之前选中的
+                $.each(['cate_1', 'cate_2', 'cate_3'], function (index, item) {
+                    $('#' + item).attr("checked", false);
+                });
+            }
+            if ($(this).is(':checked') == true) {
+                total_price += price;
+                arr.push(cate_id);
+            } else {
+                total_price -= price;
+                $.each(arr, function (index, item) {
+                    if (item == cate_id) {
+                        arr.splice(index, 1);
+                    }
+                });
+            }
+//            console.log(arr);
+            $('#total_price_here').html('$' + total_price);
+        });
+
+        $('.click_next').click(function () {
+            var arr = new Array();
+            $("input:checkbox[name='cate_id']:checked").each(function (i) {
+                arr[i] = $(this).val();
+            });
+            var cate_id = arr.join(",");
+            if (cate_id === '' || cate_id.trim().length === 0) {
+                layer.msg('请選擇課程', {icon: 5, shift: 6});
+                return false;
+            } else {
+                $(this).addClass("not_click");
+                $.get("/front/yoga/generate_order", {'cate_id': cate_id}, function (res) {
+                    if (res.code == 1) {
+                        layer.msg(res.msg, function () {
+                            window.location = "/front/pay/index?order_id=" + res.data.order_id;
+                        });
+                    } else {
+                        layer.msg(res.msg, {icon: 5, shift: 6}, function () {
+                            window.location = "/front/login/index?url=" + res.url;
+                        });
+                    }
+                }, 'json');
+            }
+            return false;
+        });
+    });
+</script>
+{/block}

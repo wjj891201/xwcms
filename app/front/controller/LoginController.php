@@ -19,7 +19,8 @@ class LoginController extends FrontBaseController
 
     public function index()
     {
-        View::assign('title', '登入');
+        $url = get_params('url');
+        View::assign(['title' => '登入', 'url' => $url]);
         return View::fetch();
     }
 

@@ -34,16 +34,14 @@
                     <a href="#">點我升級會員</a>
                 </div>
             </div>
-            <div class="intro_course">
+            <div class="intro_course" id="bofang">
                 <div class="intro_ve" style="width:100%">
                     <div class="intro_tle">
-                        <div class="tle_l"><p></p><p></p></div>
-                        <div class="tle_r"><p></p></div>
+                        <div class="tle_l"><p>{:isset($info['cate_title'])?$info['cate_title']:''}</p><p>{:isset($info['desc'])?$info['desc']:''}</p></div>
+                        <div class="tle_r"><p>{:isset($info['title'])?$info['title']:''}</p></div>
                     </div>
                     <div class="video">
-                        <video src="https://video.yun.jxntv.cn/fs/livecut/20230202/bXjIYXvh.mp4" id="video_here" width="100%" controls="controls" autoplay="autoplay">
-                            <!--<source type="video/mp4">-->
-                        </video>
+                        <video id="video_here" width="100%" poster controls src="{:isset($info['course_url'])?$info['course_url']:''}"></video>
                     </div>
                 </div>
             </div>
@@ -114,6 +112,8 @@
             var course_id = $(this).data('course_id');
             $.get("/front/yoga/get_order", {'course_id': course_id}, function (res) {
                 if (res.code == 1) {
+                    var target_top = $("#bofang").offset().top;
+                    $("html,body").animate({scrollTop: target_top}, 500);
                     layer.msg(res.msg, function () {
                         $('.tle_l p:first').html(res.data.info.cate_title);
                         $('.tle_l p:last').html(res.data.info.desc);

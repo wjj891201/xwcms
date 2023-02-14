@@ -18,9 +18,8 @@
                     <p>{:get_login_user('username')}</p>
                 </div>
                 <div class="header_r">
-                    <p class="join_us">JOIN US</p>
-                    <p class="member-upgrade">會員升級</p>
-                    <p class="my_video">我的課程</p>
+                    <!--<p class="member-upgrade">會員升級</p>-->
+                    <p class="huiyuan">會員中心</p>
                     <p class="dengchu">登出</p>
                 </div>
             </div>
@@ -28,9 +27,9 @@
             <div class="header">
                 <div class="header_l"></div>
                 <div class="header_r">
-                    <p class="join_us">JOIN US</p>
-                    <p class="member-upgrade">會員升級</p>
-                    <p class="my_video">我的課程</p>
+                    <!--<p class="member-upgrade">會員升級</p>-->
+                    <!--                    <p class="my_video">我的課程</p>-->
+                    <p class="zhuce">註冊</p>
                     <p class="dengru">登入</p>
                 </div>
             </div>
@@ -53,21 +52,25 @@
         <script src="{__STATIC__}/assets/layui/layui.js"></script>
         {block name="js"}{/block}
         <script>
-            $('.join_us').click(function () {
-                window.location.href = "{:url('/front/yoga/join')}";
-            });
             $('.dengchu').click(function () {
                 window.location.href = "{:url('/front/logout/index')}";
             });
             $('.dengru').click(function () {
                 window.location.href = "{:url('/front/login/index')}";
             });
-            $('.member-upgrade').click(function () {
-                window.location.href = "{:url('/front/yoga/course')}";
+            $('.zhuce').click(function () {
+                window.location.href = "{:url('/front/register/index')}";
             });
-            $('.my_video').click(function () {
-                window.location.href = "{:url('/front/yoga/video')}";
+            $('.huiyuan').click(function () {
+                window.location.href = "{:url('/front/yoga/member_center')}";
             });
+
+//            $('.member-upgrade').click(function () {
+//                window.location.href = "{:url('/front/yoga/course')}";
+//            });
+//            $('.my_video').click(function () {
+//                window.location.href = "{:url('/front/yoga/video')}";
+//            });
         </script>
         {block name="script"}{/block}
     </body>
