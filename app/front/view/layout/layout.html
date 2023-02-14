@@ -14,12 +14,13 @@
             {if !empty(get_login_user())}
             <div class="header">
                 <div class="header_l">
-                    <img src="" alt="头像">
-                    <p>XXXXXXX</p>
+                    <!--<img src="" alt="头像">-->
+                    <p>{:get_login_user('username')}</p>
                 </div>
                 <div class="header_r">
                     <p class="join_us">JOIN US</p>
                     <p class="member-upgrade">會員升級</p>
+                    <p class="my_video">我的課程</p>
                     <p class="dengchu">登出</p>
                 </div>
             </div>
@@ -29,6 +30,7 @@
                 <div class="header_r">
                     <p class="join_us">JOIN US</p>
                     <p class="member-upgrade">會員升級</p>
+                    <p class="my_video">我的課程</p>
                     <p class="dengru">登入</p>
                 </div>
             </div>
@@ -62,6 +64,9 @@
             });
             $('.member-upgrade').click(function () {
                 window.location.href = "{:url('/front/yoga/course')}";
+            });
+            $('.my_video').click(function () {
+                window.location.href = "{:url('/front/yoga/video')}";
             });
         </script>
         {block name="script"}{/block}

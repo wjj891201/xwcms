@@ -32,8 +32,30 @@ class YogaController extends BaseController
 
     public function video()
     {
-        View::assign('title', '視頻');
-        return View::fetch();
+        $user_session = get_login_user();
+        if (empty($user_session))
+        {
+            return redirect('/front/login/index');
+        }
+        else
+        {
+            $user_id = $user_session['id'];
+
+            $orderIdArr = Db::name('order')->where(['user_id' => $user_id])->column('id');
+            $cateIdArr = Db::name('order_course')->group("cate_id")->where('order_id', 'in', $orderIdArr)->column('cate_id');
+
+            $cate = Db::name('yoga_cate')->where('id', 'in', $cateIdArr)->order(['sort_order' => 'asc'])->select()->toArray();
+            $temp = [];
+            foreach ($cate as $key => $vo)
+            {
+                $vo['course'] = Db::name('yoga_course')->where(['cate_id' => $vo['id']])->order(['sort_order' => 'asc'])->select()->toArray();
+                $temp[] = $vo;
+            }
+            $cate = $temp;
+
+            View::assign(['title' => '視頻', 'cate' => $cate]);
+            return View::fetch();
+        }
     }
 
     public function cart_l()
@@ -99,6 +121,17 @@ class YogaController extends BaseController
     {
         View::assign('title', '購物車');
         return View::fetch();
+    }
+
+    public function get_order()
+    {
+        if ($this->request->isAjax())
+        {
+            $course_id = get_params('course_id');
+            $info = Db::table('xw_yoga_course')->alias('y')->field('y.title,y.course_url,c.title as cate_title,c.desc')
+                            ->join('xw_yoga_cate c', 'y.cate_id = c.id')->where(['y.id' => $course_id])->find();
+            return output(1, "選擇成功", ['info' => $info]);
+        }
     }
 
 }
