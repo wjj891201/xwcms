@@ -4,7 +4,7 @@
 {/block}
 {block name="style"}
 <style>
-
+    .not_click{pointer-events: none;background-color: #bbbbbb !important;}
 </style>
 {/block}
 {block name="body"}
@@ -20,7 +20,7 @@
                     <div class="subNavBox">
                         {foreach $cate as $key => $vo}
                         <div class="subNav currentDd currentDt">
-                            <div class="checkeds"><input type="checkbox" name="" class="pick-t" id="cate_{$vo['id']}" data-price="{$vo['price']}" data-cate_id="{$vo['id']}"></div>
+                            <div class="checkeds"><input type="checkbox" name="cate_id" value="{$vo['id']}" class="pick-t" id="cate_{$vo['id']}" data-price="{$vo['price']}" data-cate_id="{$vo['id']}"></div>
                             <div class="sop_b">
                                 <div class="pro_l">
                                     <p>{$vo['title']}</p>
@@ -30,7 +30,7 @@
                                     ${$vo['price']}
                                 </div>
                                 <div class="pro_r">
-                                    <p>{:count($vo['course'])}部影片</p>
+                                    <p>{if $key==3}全{else/}{:count($vo['course'])}{/if}部影片</p>
                                     <div class="img">
                                         <img src="{__STATIC__}/front/images/pc/select_bot.png" alt="">
                                     </div>
@@ -150,7 +150,7 @@
                             总计: <span id="total_price_here">$0</span>
                         </p>
                     </div>
-                    <div class="next_">
+                    <div class="next_ click_next">
                         <p>下一步</p>
                     </div>
                 </div>
@@ -225,8 +225,30 @@
                     }
                 });
             }
-            console.log(arr);
+//            console.log(arr);
             $('#total_price_here').html('$' + total_price);
+        });
+
+        $('.click_next').click(function () {
+            var arr = new Array();
+            $("input:checkbox[name='cate_id']:checked").each(function (i) {
+                arr[i] = $(this).val();
+            });
+            var cate_id = arr.join(",");
+            if (cate_id === '' || cate_id.trim().length === 0) {
+                layer.msg('请選擇課程', {icon: 5, shift: 6});
+                return false;
+            } else {
+                $(this).addClass("not_click");
+                $.get("/front/yoga/generate_order", {'cate_id': cate_id}, function (res) {
+                    if (res.code == 1) {
+                        layer.msg(res.msg, function () {
+                            window.location = "/front/pay/index?order_id=" + res.data.order_id;
+                        });
+                    }
+                }, 'json');
+            }
+            return false;
         });
     });
 </script>
