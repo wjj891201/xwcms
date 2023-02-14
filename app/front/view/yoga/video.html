@@ -74,12 +74,21 @@
                                 </div>
                                 <div class="action_r">
                                     時長：{$v['course_duration']}
+
+                                    {if $v['had_watch']}
+                                    <div class="player">
+                                        <div class="play_btn">
+                                            <img src="{__STATIC__}/front/images/pc/player.png" alt="">
+                                        </div>
+                                    </div>
+                                    {else/}
                                     <div class="player click_player" data-course_id="{$v['id']}">
                                         最新課程
                                         <div class="play_btn">
                                             <img src="{__STATIC__}/front/images/pc/cour01.png" alt="">
                                         </div>
                                     </div>
+                                    {/if}
                                 </div>
                             </li>
                             {/foreach}
@@ -120,6 +129,7 @@
                         $('.tle_r p').html(res.data.info.title);
                         $('#video_here').attr('src', res.data.info.course_url);
                     });
+                } else {
                 }
             }, 'json');
             return false;

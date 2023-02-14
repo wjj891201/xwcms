@@ -75,11 +75,28 @@ class YogaController extends BaseController
             $temp = [];
             foreach ($cate as $key => $vo)
             {
-                $vo['course'] = Db::name('yoga_course')->where(['cate_id' => $vo['id']])->order(['sort_order' => 'asc'])->select()->toArray();
+
+                $course = Db::name('yoga_course')->where(['cate_id' => $vo['id']])->order(['sort_order' => 'asc'])->select()->toArray();
+                $d = [];
+                foreach ($course as $k => $v)
+                {
+                    $watch = Db::name('watch_course')->where(['user_id' => $user_id, 'course_id' => $v['id']])->find();
+                    if (!empty($watch))
+                    {
+                        $v['had_watch'] = true;
+                    }
+                    else
+                    {
+                        $v['had_watch'] = false;
+                    }
+                    $d[] = $v;
+                }
+                $course = $d;
+
+                $vo['course'] = $course;
                 $temp[] = $vo;
             }
             $cate = $temp;
-
             View::assign(['title' => '視頻', 'cate' => $cate, 'info' => $info]);
             return View::fetch();
         }
@@ -154,6 +171,24 @@ class YogaController extends BaseController
         if ($this->request->isAjax())
         {
             $course_id = get_params('course_id');
+            $user_id = get_login_user('id');
+            if (empty($user_id))
+            {
+                return output(0, "賬戶没有登入");
+            }
+            else
+            {
+                $watch = Db::name('watch_course')->where(['user_id' => $user_id, 'course_id' => $course_id])->find();
+                if (empty($watch))
+                {
+                    $data = [
+                        'user_id' => $user_id,
+                        'course_id' => $course_id,
+                        'add_time' => Carbon::now()->toDateTimeString()
+                    ];
+                    Db::name('watch_course')->insert($data);
+                }
+            }
             $info = Db::table('xw_yoga_course')->alias('y')->field('y.title,y.course_url,c.title as cate_title,c.desc')
                             ->join('xw_yoga_cate c', 'y.cate_id = c.id')->where(['y.id' => $course_id])->find();
             return output(1, "選擇成功", ['info' => $info]);
