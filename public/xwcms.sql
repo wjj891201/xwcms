@@ -2,15 +2,15 @@
 Navicat MySQL Data Transfer
 
 Source Server         : localhost
-Source Server Version : 50529
+Source Server Version : 50726
 Source Host           : localhost:3306
 Source Database       : xwcms
 
 Target Server Type    : MYSQL
-Target Server Version : 50529
+Target Server Version : 50726
 File Encoding         : 65001
 
-Date: 2023-02-14 02:00:44
+Date: 2023-02-14 17:43:10
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -8051,6 +8051,71 @@ INSERT INTO `xw_member_role` VALUES ('5', '白金會員', '', '1', '2023-02-02 1
 INSERT INTO `xw_member_role` VALUES ('6', '鑽石會員', '', '1', '2023-02-02 10:12:21', '2023-02-02 10:12:21');
 
 -- ----------------------------
+-- Table structure for xw_order
+-- ----------------------------
+DROP TABLE IF EXISTS `xw_order`;
+CREATE TABLE `xw_order` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_no` varchar(20) NOT NULL COMMENT '订单号',
+  `user_id` int(11) NOT NULL COMMENT '外键，用户id，注意并不是openid',
+  `total_price` int(6) NOT NULL,
+  `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1:未支付， 2：已支付',
+  `create_time` varchar(50) DEFAULT NULL,
+  `update_time` varchar(50) DEFAULT NULL,
+  `delete_time` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `order_no` (`order_no`) USING BTREE,
+  KEY `user_id` (`user_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
+
+-- ----------------------------
+-- Records of xw_order
+-- ----------------------------
+INSERT INTO `xw_order` VALUES ('1', 'nE1676343706', '11', '3960', '1', '2023-02-14', null, null);
+INSERT INTO `xw_order` VALUES ('2', 'ie1676344490', '11', '3960', '1', '2023-02-14', null, null);
+INSERT INTO `xw_order` VALUES ('3', 'Mn1676345094', '11', '3960', '1', '2023-02-14', null, null);
+INSERT INTO `xw_order` VALUES ('4', 'dn1676345165', '11', '3960', '1', '2023-02-14', null, null);
+INSERT INTO `xw_order` VALUES ('5', '2B1676347764', '11', '3960', '1', '2023-02-14', null, null);
+INSERT INTO `xw_order` VALUES ('6', 'i31676347928', '11', '3960', '1', '2023-02-14', null, null);
+INSERT INTO `xw_order` VALUES ('7', 'uw1676348264', '11', '3960', '2', '2023-02-14 12:17:44', '2023-02-14 13:51:23', null);
+
+-- ----------------------------
+-- Table structure for xw_order_course
+-- ----------------------------
+DROP TABLE IF EXISTS `xw_order_course`;
+CREATE TABLE `xw_order_course` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_id` int(11) NOT NULL COMMENT '联合主键，订单id',
+  `cate_id` int(11) NOT NULL COMMENT '联合主键，商品id',
+  `price` int(6) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4;
+
+-- ----------------------------
+-- Records of xw_order_course
+-- ----------------------------
+INSERT INTO `xw_order_course` VALUES ('1', '1', '2', '1980');
+INSERT INTO `xw_order_course` VALUES ('2', '1', '3', '1980');
+INSERT INTO `xw_order_course` VALUES ('3', '2', '1', '1980');
+INSERT INTO `xw_order_course` VALUES ('4', '2', '2', '1980');
+INSERT INTO `xw_order_course` VALUES ('5', '2', '3', '1980');
+INSERT INTO `xw_order_course` VALUES ('6', '3', '1', '1980');
+INSERT INTO `xw_order_course` VALUES ('7', '3', '2', '1980');
+INSERT INTO `xw_order_course` VALUES ('8', '3', '3', '1980');
+INSERT INTO `xw_order_course` VALUES ('9', '4', '1', '1980');
+INSERT INTO `xw_order_course` VALUES ('10', '4', '2', '1980');
+INSERT INTO `xw_order_course` VALUES ('11', '4', '3', '1980');
+INSERT INTO `xw_order_course` VALUES ('12', '5', '1', '1980');
+INSERT INTO `xw_order_course` VALUES ('13', '5', '2', '1980');
+INSERT INTO `xw_order_course` VALUES ('14', '5', '3', '1980');
+INSERT INTO `xw_order_course` VALUES ('15', '6', '1', '1980');
+INSERT INTO `xw_order_course` VALUES ('16', '6', '2', '1980');
+INSERT INTO `xw_order_course` VALUES ('17', '6', '3', '1980');
+INSERT INTO `xw_order_course` VALUES ('18', '7', '1', '1980');
+INSERT INTO `xw_order_course` VALUES ('19', '7', '2', '1980');
+INSERT INTO `xw_order_course` VALUES ('20', '7', '3', '1980');
+
+-- ----------------------------
 -- Table structure for xw_pages
 -- ----------------------------
 DROP TABLE IF EXISTS `xw_pages`;
@@ -8434,6 +8499,22 @@ INSERT INTO `xw_verify_code` VALUES ('709', 'realize21@gmail.com', '706723', '20
 INSERT INTO `xw_verify_code` VALUES ('711', 'teruyo2575@gmail.com', '476973', '2023-01-28 23:10:33', '2023-01-28 23:20:33');
 
 -- ----------------------------
+-- Table structure for xw_watch_course
+-- ----------------------------
+DROP TABLE IF EXISTS `xw_watch_course`;
+CREATE TABLE `xw_watch_course` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL,
+  `course_id` int(11) DEFAULT NULL,
+  `add_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of xw_watch_course
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for xw_yoga_cate
 -- ----------------------------
 DROP TABLE IF EXISTS `xw_yoga_cate`;
@@ -8481,7 +8562,7 @@ CREATE TABLE `xw_yoga_course` (
 -- ----------------------------
 -- Records of xw_yoga_course
 -- ----------------------------
-INSERT INTO `xw_yoga_course` VALUES ('1', '1', '（坐姿）伸展頸部_（斜方肌）', 'http://www.baidu.com', '36:25', '0', '1', '1', '1', '2023-02-12 00:33:53', '2023-02-13 02:03:24', '0000-00-00 00:00:00');
-INSERT INTO `xw_yoga_course` VALUES ('2', '1', '（坐姿）肩部環繞', 'http://www.baidu.com', '15:26', '0', '2', '1', '1', '2023-02-12 01:12:50', '2023-02-13 02:03:14', '0000-00-00 00:00:00');
-INSERT INTO `xw_yoga_course` VALUES ('3', '1', '（坐姿）伸展肩胛骨', 'http://www.baidu.com', '20:26', '0', '3', '1', '1', '2023-02-12 01:14:14', '2023-02-13 02:03:06', '0000-00-00 00:00:00');
-INSERT INTO `xw_yoga_course` VALUES ('4', '1', '（坐姿）伸展手臂', 'http://www.baidu.com', '15:23', '0', '4', '1', '1', '2023-02-12 01:15:06', '2023-02-13 02:01:19', '0000-00-00 00:00:00');
+INSERT INTO `xw_yoga_course` VALUES ('1', '1', '（坐姿）伸展頸部_（斜方肌）', 'https://video.yun.jxntv.cn/fs/livecut/20230214/prRiTgYw.mp4', '36:25', '0', '1', '1', '1', '2023-02-12 00:33:53', '2023-02-13 02:03:24', '0000-00-00 00:00:00');
+INSERT INTO `xw_yoga_course` VALUES ('2', '1', '（坐姿）肩部環繞', 'https://video.yun.jxntv.cn/fs/livecut/20230213/tFUNwMRQ.mp4', '15:26', '0', '2', '1', '1', '2023-02-12 01:12:50', '2023-02-13 02:03:14', '0000-00-00 00:00:00');
+INSERT INTO `xw_yoga_course` VALUES ('3', '1', '（坐姿）伸展肩胛骨', 'https://video.yun.jxntv.cn/fs/livecut/20230210/OXLaHUGc.mp4', '20:26', '0', '3', '1', '1', '2023-02-12 01:14:14', '2023-02-13 02:03:06', '0000-00-00 00:00:00');
+INSERT INTO `xw_yoga_course` VALUES ('4', '1', '（坐姿）伸展手臂', 'https://video.yun.jxntv.cn/fs/livecut/20230202/bXjIYXvh.mp4', '15:23', '0', '4', '1', '1', '2023-02-12 01:15:06', '2023-02-13 02:01:19', '0000-00-00 00:00:00');
