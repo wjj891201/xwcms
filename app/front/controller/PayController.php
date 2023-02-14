@@ -32,8 +32,7 @@ class PayController extends BaseController
                 $cateIdArr = Db::name('order_course')->where(['order_id' => $order_id])->column('cate_id');
                 if (empty($cateIdArr))
                 {
-                    echo '訂單信息錯誤';
-                    exit;
+                    return output(0, '訂單信息錯誤');
                 }
                 $ItemNameArr = Db::name('yoga_cate')->where('id', 'in', $cateIdArr)->column('title');
                 $ItemName = implode(',', $ItemNameArr);
@@ -63,8 +62,7 @@ class PayController extends BaseController
             }
             else
             {
-                echo '訂單信息錯誤';
-                exit;
+                return output(0, '訂單信息錯誤');
             }
         }
     }
@@ -92,7 +90,23 @@ class PayController extends BaseController
 //            'TradeNo' => '1905090000188278',
 //            'CheckMacValue' => '59B085BAEC4269DC1182D48DEF106B431055D95622EB285DECD400337144C698',
 //        ];
-        var_dump($checkoutResponse->get($_POST));
+        try
+        {
+            $checkoutResponse->get($_POST);
+            $order_no = $_POST['MerchantTradeNo'];
+            $total_price = Db::name('order')->where(['order_no' => $order_no])->value('total_price');
+            if ($total_price == $_POST['TradeAmt'])
+            {
+                Db::name('order')->where(['order_no' => $order_no])->update(['status' => 2, 'update_time' => Carbon::now()->toDateTimeString()]);
+            }
+            else
+            {
+                return output(0, '訂單金額不等');
+            }
+        } catch (\Exception $e)
+        {
+            return output(0, $e->getMessage());
+        }
     }
 
 }
