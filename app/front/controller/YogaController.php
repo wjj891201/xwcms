@@ -18,11 +18,6 @@ class YogaController extends BaseController
         return View::fetch();
     }
 
-//    public function my_course()
-//    {
-//        View::assign('title', '我的課程');
-//        return View::fetch();
-//    }
     // 會員中心
     public function member_center()
     {
@@ -35,7 +30,7 @@ class YogaController extends BaseController
         {
             $user_id = $user_session['id'];
 
-            $orderIdArr = Db::name('order')->where(['user_id' => $user_id])->column('id');
+            $orderIdArr = Db::name('order')->where(['user_id' => $user_id, 'status' => 2])->column('id');
             $cateIdArr = Db::name('order_course')->group("cate_id")->where('order_id', 'in', $orderIdArr)->column('cate_id');
 
             $cate = Db::name('yoga_cate')->where('id', 'in', $cateIdArr)->order(['sort_order' => 'asc'])->select()->toArray();
@@ -47,7 +42,7 @@ class YogaController extends BaseController
             }
             $cate = $temp;
 
-            View::assign(['title' => '會員中心', 'cate' => $cate]);
+            View::assign(['title' => '會員中心', 'cate' => $cate, 'orderIdArr' => $orderIdArr]);
             return View::fetch();
         }
     }
@@ -68,7 +63,7 @@ class YogaController extends BaseController
                             ->join('xw_yoga_cate c', 'y.cate_id = c.id')->where(['y.id' => $course_id])->find();
 
             $user_id = $user_session['id'];
-            $orderIdArr = Db::name('order')->where(['user_id' => $user_id])->column('id');
+            $orderIdArr = Db::name('order')->where(['user_id' => $user_id, 'status' => 2])->column('id');
             $cateIdArr = Db::name('order_course')->group("cate_id")->where('order_id', 'in', $orderIdArr)->column('cate_id');
 
             $cate = Db::name('yoga_cate')->where('id', 'in', $cateIdArr)->order(['sort_order' => 'asc'])->select()->toArray();
@@ -104,12 +99,6 @@ class YogaController extends BaseController
 
     public function cart()
     {
-//        $user_session = get_login_user();
-//        if (empty($user_session))
-//        {
-//            return redirect('/front/login/index');
-//        }
-
         $cate = Db::name('yoga_cate')->order(['sort_order' => 'asc'])->select()->toArray();
         $temp = [];
         foreach ($cate as $key => $vo)
@@ -159,12 +148,6 @@ class YogaController extends BaseController
             return output(1, "訂單生成成功", ['order_id' => $order_id]);
         }
     }
-
-//    public function cart_r()
-//    {
-//        View::assign('title', '購物車');
-//        return View::fetch();
-//    }
 
     public function get_order()
     {

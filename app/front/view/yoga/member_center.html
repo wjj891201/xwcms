@@ -16,23 +16,23 @@
                 <div class="int_l">
                     <div class="intro_pro" >
                         會員名稱
-                        <p>XXXXXX</p>
+                        <p>{:get_login_user('username')}</p>
                     </div>
                     <div class="intro_pro">
                         會員賬號
-                        <p>1233333</p>
+                        <p>{:get_login_user('email')}</p>
                     </div>
 
                     <div class="intro_pro">
                         會員資格
-                        <p>XXXXXX</p>
+                        <p>{if !empty($orderIdArr)}付費會員{else/}免費會員{/if}</p>
                     </div>
-                    <div class="upgrade">
-                        <a href="#">點我升級會員</a>
-                    </div>
+<!--                    <div class="upgrade">
+                        <a href="{:url('/front/yoga/cart')}">點我升級會員</a>
+                    </div>-->
                 </div>
                 <div class="upgrade2">
-                    <a href="#">點我升級會員</a>
+                    <a href="{:url('/front/yoga/cart')}">點我升級會員</a>
                 </div>
             </div>
             <div class="intro_course">
