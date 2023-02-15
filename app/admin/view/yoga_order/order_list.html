@@ -1,0 +1,90 @@
+{extend name="common/base"/}
+<!-- 主體 -->
+{block name="body"}
+
+<div class="p-3">
+    <table class="layui-hide" id="order_list" lay-filter="order_list"></table>
+</div>
+
+<script type="text/html" id="status">
+    <i class="layui-icon {{#  if(d.status == 2){ }}layui-icon-ok{{#  } else { }}layui-icon-close{{#  } }}"></i>
+</script>
+<script type="text/html" id="totalPriceTpl">
+    ${{ d.total_price }}
+</script>
+<!--<script type="text/html" id="is_home">
+    <i class="layui-icon {{#  if(d.is_home == 1){ }}layui-icon-ok{{#  } else { }}layui-icon-close{{#  } }}"></i>
+</script>
+
+<script type="text/html" id="barDemo">
+    <div class="layui-btn-group"><a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="read">查看</a><a class="layui-btn layui-btn-xs" lay-event="edit">編輯</a><a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">刪除</a></div>
+</script>-->
+
+{/block}
+<!-- /主體 -->
+
+<!-- 腳本 -->
+{block name="script"}
+<script>
+    const moduleInit = ['tool'];
+    function xuwenInit() {
+        var table = layui.table, tool = layui.tool, form = layui.form;
+        layui.pageTable = table.render({
+            elem: '#order_list',
+            title: '訂單列表',
+            toolbar: '#toolbarDemo',
+            url: '/admin/yoga_order/order_list',
+            page: true,
+            limit: 20,
+            cellMinWidth: 300,
+            cols: [
+                [
+                    {
+                        fixed: 'left',
+                        field: 'id',
+                        title: '編號',
+                        align: 'center',
+                        width: 100
+                    }, {
+                        field: 'order_no',
+                        title: '訂單號',
+                        align: 'center'
+                    }, {
+                        field: 'total_price',
+                        title: '總價',
+                        templet: '#totalPriceTpl',
+                        width: 200
+                    }, {
+                        field: 'status',
+                        title: '支付狀態',
+                        toolbar: '#status',
+                        align: 'center',
+                        width: 100
+                    }, {
+                        field: 'goods',
+                        title: '項目',
+                        align: 'center',
+                        width: 200
+                    }, {
+                        field: 'username',
+                        title: '賬戶',
+                        align: 'center',
+                        width: 200
+                    }, {
+                        field: 'email',
+                        title: 'Email',
+                        align: 'center',
+                        width: 200
+                    }, {
+                        field: 'created_time',
+                        title: '創建時間',
+                        align: 'center',
+                        width: 200
+                    }
+                ]
+            ]
+        });
+    }
+</script>
+{/block}
+<!-- /腳本 -->
