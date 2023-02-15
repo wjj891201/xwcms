@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50726
 File Encoding         : 65001
 
-Date: 2023-02-14 17:43:10
+Date: 2023-02-15 16:56:19
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -7210,7 +7210,7 @@ CREATE TABLE `xw_admin` (
 -- ----------------------------
 -- Records of xw_admin
 -- ----------------------------
-INSERT INTO `xw_admin` VALUES ('1', 'admin', '248e1768163ee229e1ff1ee49da6ea2c', '1yzEMdm76Unr9hsNq0FH', '超级管理员', '/static/admin/images/icon.png', 'black', '0', '', null, '1', '1', '2023-01-28 16:04:49', '2023-01-28 16:04:49', '2023-02-11 21:07:58', '29', '127.0.0.1', '1');
+INSERT INTO `xw_admin` VALUES ('1', 'admin', '248e1768163ee229e1ff1ee49da6ea2c', '1yzEMdm76Unr9hsNq0FH', '超级管理员', '/static/admin/images/icon.png', 'black', '0', '', null, '1', '1', '2023-01-28 16:04:49', '2023-01-28 16:04:49', '2023-02-15 14:51:04', '30', '127.0.0.1', '1');
 
 -- ----------------------------
 -- Table structure for xw_admin_department
@@ -7271,7 +7271,7 @@ CREATE TABLE `xw_admin_log` (
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '0删除 1正常',
   `created_at` datetime NOT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=250 DEFAULT CHARSET=utf8mb4 COMMENT='后台操作日志表';
+) ENGINE=InnoDB AUTO_INCREMENT=255 DEFAULT CHARSET=utf8mb4 COMMENT='后台操作日志表';
 
 -- ----------------------------
 -- Records of xw_admin_log
@@ -7525,6 +7525,11 @@ INSERT INTO `xw_admin_log` VALUES ('246', '1', '超级管理员', 'edit', '編�
 INSERT INTO `xw_admin_log` VALUES ('247', '1', '超级管理员', 'edit', '編輯', '編輯', '編輯', '超级管理员在2023-02-13 02:03:06編輯了編輯', 'admin', 'yoga_course', 'edit', '', '127.0.0.1', '3', '{\"title\":\"\\uff08\\u5750\\u59ff\\uff09\\u4f38\\u5c55\\u80a9\\u80db\\u9aa8\",\"cate_id\":\"1\",\"course_url\":\"http:\\/\\/www.baidu.com\",\"course_duration\":\"20:26\",\"status\":\"1\",\"sort_order\":\"3\",\"id\":\"3\",\"updated_at\":\"2023-02-13 02:03:06\"}', '1', '2023-02-13 02:03:06');
 INSERT INTO `xw_admin_log` VALUES ('248', '1', '超级管理员', 'edit', '編輯', '編輯', '編輯', '超级管理员在2023-02-13 02:03:14編輯了編輯', 'admin', 'yoga_course', 'edit', '', '127.0.0.1', '2', '{\"title\":\"\\uff08\\u5750\\u59ff\\uff09\\u80a9\\u90e8\\u74b0\\u7e5e\",\"cate_id\":\"1\",\"course_url\":\"http:\\/\\/www.baidu.com\",\"course_duration\":\"15:26\",\"status\":\"1\",\"sort_order\":\"2\",\"id\":\"2\",\"updated_at\":\"2023-02-13 02:03:14\"}', '1', '2023-02-13 02:03:14');
 INSERT INTO `xw_admin_log` VALUES ('249', '1', '超级管理员', 'edit', '編輯', '編輯', '編輯', '超级管理员在2023-02-13 02:03:24編輯了編輯', 'admin', 'yoga_course', 'edit', '', '127.0.0.1', '1', '{\"title\":\"\\uff08\\u5750\\u59ff\\uff09\\u4f38\\u5c55\\u9838\\u90e8_\\uff08\\u659c\\u65b9\\u808c\\uff09\",\"cate_id\":\"1\",\"course_url\":\"http:\\/\\/www.baidu.com\",\"course_duration\":\"36:25\",\"status\":\"1\",\"sort_order\":\"1\",\"id\":\"1\",\"updated_at\":\"2023-02-13 02:03:24\"}', '1', '2023-02-13 02:03:24');
+INSERT INTO `xw_admin_log` VALUES ('250', '1', '超级管理员', 'login', '登錄', '系統', '', '超级管理员在2023-02-15 14:51:05登錄了系統', 'admin', 'login', 'do_login', '', '127.0.0.1', '1', '{\"last_login_at\":\"2023-02-15 14:51:04\",\"last_login_ip\":\"127.0.0.1\",\"login_num\":30}', '1', '2023-02-15 14:51:05');
+INSERT INTO `xw_admin_log` VALUES ('251', '1', '超级管理员', 'edit', '編輯', '功能菜單', '新建/編輯', '超级管理员在2023-02-15 14:52:41編輯了功能菜單', 'admin', 'adminmenu', 'add', '', '127.0.0.1', '120', '{\"pid\":\"0\",\"menu\":\"2\",\"title\":\"\\u745c\\u4f3d\\u7ba1\\u7406\",\"name\":\"\\u745c\\u4f3d\\u7ba1\\u7406\",\"src\":\"\",\"sort\":\"9999\",\"icon\":\"bi-bezier\",\"id\":\"120\"}', '1', '2023-02-15 14:52:41');
+INSERT INTO `xw_admin_log` VALUES ('252', '1', '超级管理员', 'edit', '編輯', '功能菜單', '新建/編輯', '超级管理员在2023-02-15 14:52:54編輯了功能菜單', 'admin', 'adminmenu', 'add', '', '127.0.0.1', '120', '{\"pid\":\"0\",\"menu\":\"1\",\"title\":\"\\u745c\\u4f3d\\u7ba1\\u7406\",\"name\":\"\\u745c\\u4f3d\\u7ba1\\u7406\",\"src\":\"\",\"sort\":\"9999\",\"icon\":\"bi-bezier\",\"id\":\"120\"}', '1', '2023-02-15 14:52:54');
+INSERT INTO `xw_admin_log` VALUES ('253', '1', '超级管理员', 'add', '新增', '功能菜單', '新建/編輯', '超级管理员在2023-02-15 14:57:15新增了功能菜單', 'admin', 'adminmenu', 'add', '', '127.0.0.1', '130', '{\"pid\":\"120\",\"menu\":\"1\",\"title\":\"\\u8a02\\u55ae\\u5217\\u8868\",\"name\":\"\\u8a02\\u55ae\\u5217\\u8868\",\"src\":\"admin\\/yoga_order\\/index\",\"sort\":\"0\",\"icon\":\"\",\"id\":\"0\",\"created_at\":\"2023-02-15\"}', '1', '2023-02-15 14:57:15');
+INSERT INTO `xw_admin_log` VALUES ('254', '1', '超级管理员', 'edit', '編輯', '功能菜單', '新建/編輯', '超级管理员在2023-02-15 14:57:51編輯了功能菜單', 'admin', 'adminmenu', 'add', '', '127.0.0.1', '130', '{\"pid\":\"120\",\"menu\":\"1\",\"title\":\"\\u8a02\\u55ae\\u5217\\u8868\",\"name\":\"\\u8a02\\u55ae\\u5217\\u8868\",\"src\":\"admin\\/yoga_order\\/order_list\",\"sort\":\"9999\",\"icon\":\"\",\"id\":\"130\"}', '1', '2023-02-15 14:57:51');
 
 -- ----------------------------
 -- Table structure for xw_admin_menu
@@ -7545,7 +7550,7 @@ CREATE TABLE `xw_admin_menu` (
   `created_at` datetime NOT NULL COMMENT '創建時間',
   `updated_at` datetime NOT NULL COMMENT '更新時間',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=130 DEFAULT CHARSET=utf8mb4 COMMENT='菜單及許可權表';
+) ENGINE=InnoDB AUTO_INCREMENT=131 DEFAULT CHARSET=utf8mb4 COMMENT='菜單及許可權表';
 
 -- ----------------------------
 -- Records of xw_admin_menu
@@ -7615,6 +7620,7 @@ INSERT INTO `xw_admin_menu` VALUES ('126', '122', 'admin/yoga_course/add', '新�
 INSERT INTO `xw_admin_menu` VALUES ('127', '122', 'admin/yoga_course/edit', '編輯', '編輯', '', '2', '9999', '1', '', '', '2023-02-12 00:00:00', '0000-00-00 00:00:00');
 INSERT INTO `xw_admin_menu` VALUES ('128', '122', 'admin/yoga_course/del', '刪除', '刪除', '', '2', '9999', '1', '', '', '2023-02-12 00:00:00', '0000-00-00 00:00:00');
 INSERT INTO `xw_admin_menu` VALUES ('129', '122', 'admin/yoga_course/read', '查看', '查看', '', '2', '9999', '1', '', '', '2023-02-12 00:00:00', '0000-00-00 00:00:00');
+INSERT INTO `xw_admin_menu` VALUES ('130', '120', 'admin/yoga_order/order_list', '訂單列表', '訂單列表', '', '1', '9999', '1', '', '', '2023-02-15 00:00:00', '0000-00-00 00:00:00');
 
 -- ----------------------------
 -- Table structure for xw_admin_position
@@ -7657,7 +7663,7 @@ CREATE TABLE `xw_admin_role` (
 -- ----------------------------
 -- Records of xw_admin_role
 -- ----------------------------
-INSERT INTO `xw_admin_role` VALUES ('1', '超级管理员', '1', '1,9,10,11,12,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,2,33,3,58,59,60,61,62,63,112,4,72,73,74,75,76,77,78,80,113,114,117,118,119,115,120,121,122,116,123,124,125,126,127,128,129,130,131,132,5,81,82,83,84,85,86,87,88,89,8,108,109,110,111,120,121,122,123,124,125,126,127,128,129', '超级管理员，系统自动分配所有可操作权限及菜单。', '2023-01-30 21:09:03', '2023-01-30 21:09:06');
+INSERT INTO `xw_admin_role` VALUES ('1', '超级管理员', '1', '1,9,10,11,12,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,2,33,3,58,59,60,61,62,63,112,4,72,73,74,75,76,77,78,80,113,114,117,118,119,115,120,121,122,116,123,124,125,126,127,128,129,130,131,132,5,81,82,83,84,85,86,87,88,89,8,108,109,110,111,120,121,122,123,124,125,126,127,128,129,130', '超级管理员，系统自动分配所有可操作权限及菜单。', '2023-01-30 21:09:03', '2023-01-30 21:09:06');
 INSERT INTO `xw_admin_role` VALUES ('2', '测试角色', '1', '1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,81,83', '测试角色', '2023-01-30 21:09:08', '2023-01-30 21:09:10');
 
 -- ----------------------------
@@ -8066,18 +8072,12 @@ CREATE TABLE `xw_order` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `order_no` (`order_no`) USING BTREE,
   KEY `user_id` (`user_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of xw_order
 -- ----------------------------
-INSERT INTO `xw_order` VALUES ('1', 'nE1676343706', '11', '3960', '1', '2023-02-14', null, null);
-INSERT INTO `xw_order` VALUES ('2', 'ie1676344490', '11', '3960', '1', '2023-02-14', null, null);
-INSERT INTO `xw_order` VALUES ('3', 'Mn1676345094', '11', '3960', '1', '2023-02-14', null, null);
-INSERT INTO `xw_order` VALUES ('4', 'dn1676345165', '11', '3960', '1', '2023-02-14', null, null);
-INSERT INTO `xw_order` VALUES ('5', '2B1676347764', '11', '3960', '1', '2023-02-14', null, null);
-INSERT INTO `xw_order` VALUES ('6', 'i31676347928', '11', '3960', '1', '2023-02-14', null, null);
-INSERT INTO `xw_order` VALUES ('7', 'uw1676348264', '11', '3960', '2', '2023-02-14 12:17:44', '2023-02-14 13:51:23', null);
+INSERT INTO `xw_order` VALUES ('1', 'vN1676450693', '11', '3960', '1', '2023-02-15 16:44:53', null, null);
 
 -- ----------------------------
 -- Table structure for xw_order_course
@@ -8089,31 +8089,14 @@ CREATE TABLE `xw_order_course` (
   `cate_id` int(11) NOT NULL COMMENT '联合主键，商品id',
   `price` int(6) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of xw_order_course
 -- ----------------------------
-INSERT INTO `xw_order_course` VALUES ('1', '1', '2', '1980');
-INSERT INTO `xw_order_course` VALUES ('2', '1', '3', '1980');
-INSERT INTO `xw_order_course` VALUES ('3', '2', '1', '1980');
-INSERT INTO `xw_order_course` VALUES ('4', '2', '2', '1980');
-INSERT INTO `xw_order_course` VALUES ('5', '2', '3', '1980');
-INSERT INTO `xw_order_course` VALUES ('6', '3', '1', '1980');
-INSERT INTO `xw_order_course` VALUES ('7', '3', '2', '1980');
-INSERT INTO `xw_order_course` VALUES ('8', '3', '3', '1980');
-INSERT INTO `xw_order_course` VALUES ('9', '4', '1', '1980');
-INSERT INTO `xw_order_course` VALUES ('10', '4', '2', '1980');
-INSERT INTO `xw_order_course` VALUES ('11', '4', '3', '1980');
-INSERT INTO `xw_order_course` VALUES ('12', '5', '1', '1980');
-INSERT INTO `xw_order_course` VALUES ('13', '5', '2', '1980');
-INSERT INTO `xw_order_course` VALUES ('14', '5', '3', '1980');
-INSERT INTO `xw_order_course` VALUES ('15', '6', '1', '1980');
-INSERT INTO `xw_order_course` VALUES ('16', '6', '2', '1980');
-INSERT INTO `xw_order_course` VALUES ('17', '6', '3', '1980');
-INSERT INTO `xw_order_course` VALUES ('18', '7', '1', '1980');
-INSERT INTO `xw_order_course` VALUES ('19', '7', '2', '1980');
-INSERT INTO `xw_order_course` VALUES ('20', '7', '3', '1980');
+INSERT INTO `xw_order_course` VALUES ('1', '1', '1', '1980');
+INSERT INTO `xw_order_course` VALUES ('2', '1', '2', '1980');
+INSERT INTO `xw_order_course` VALUES ('3', '1', '3', '1980');
 
 -- ----------------------------
 -- Table structure for xw_pages
@@ -8165,7 +8148,7 @@ CREATE TABLE `xw_user` (
 -- Records of xw_user
 -- ----------------------------
 INSERT INTO `xw_user` VALUES ('4', 'xuwen', 'd6ba76561f818fc9eb3146f547b8818d', '517987404@qq.com', '1', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '1675738469', '127.0.0.1');
-INSERT INTO `xw_user` VALUES ('11', 'wujiepeng', 'e10adc3949ba59abbe56e057f20f883e', '873525227@qq.com', '1', '2023-02-08 16:26:37', '0000-00-00 00:00:00', '1676299086', '');
+INSERT INTO `xw_user` VALUES ('11', 'wujiepeng', 'e10adc3949ba59abbe56e057f20f883e', '873525227@qq.com', '1', '2023-02-08 16:26:37', '0000-00-00 00:00:00', '1676441345', '');
 
 -- ----------------------------
 -- Table structure for xw_verify_code
@@ -8508,11 +8491,14 @@ CREATE TABLE `xw_watch_course` (
   `course_id` int(11) DEFAULT NULL,
   `add_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of xw_watch_course
 -- ----------------------------
+INSERT INTO `xw_watch_course` VALUES ('1', '11', '2', '2023-02-15 09:08:34');
+INSERT INTO `xw_watch_course` VALUES ('2', '11', '3', '2023-02-15 14:31:06');
+INSERT INTO `xw_watch_course` VALUES ('3', '11', '1', '2023-02-15 14:43:40');
 
 -- ----------------------------
 -- Table structure for xw_yoga_cate
@@ -8529,7 +8515,7 @@ CREATE TABLE `xw_yoga_cate` (
   `updated_at` datetime NOT NULL COMMENT '修改时间',
   `deleted_at` datetime NOT NULL COMMENT '删除时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COMMENT='文章分类';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COMMENT='文章分类';
 
 -- ----------------------------
 -- Records of xw_yoga_cate
@@ -8562,7 +8548,7 @@ CREATE TABLE `xw_yoga_course` (
 -- ----------------------------
 -- Records of xw_yoga_course
 -- ----------------------------
-INSERT INTO `xw_yoga_course` VALUES ('1', '1', '（坐姿）伸展頸部_（斜方肌）', 'https://video.yun.jxntv.cn/fs/livecut/20230214/prRiTgYw.mp4', '36:25', '0', '1', '1', '1', '2023-02-12 00:33:53', '2023-02-13 02:03:24', '0000-00-00 00:00:00');
-INSERT INTO `xw_yoga_course` VALUES ('2', '1', '（坐姿）肩部環繞', 'https://video.yun.jxntv.cn/fs/livecut/20230213/tFUNwMRQ.mp4', '15:26', '0', '2', '1', '1', '2023-02-12 01:12:50', '2023-02-13 02:03:14', '0000-00-00 00:00:00');
-INSERT INTO `xw_yoga_course` VALUES ('3', '1', '（坐姿）伸展肩胛骨', 'https://video.yun.jxntv.cn/fs/livecut/20230210/OXLaHUGc.mp4', '20:26', '0', '3', '1', '1', '2023-02-12 01:14:14', '2023-02-13 02:03:06', '0000-00-00 00:00:00');
-INSERT INTO `xw_yoga_course` VALUES ('4', '1', '（坐姿）伸展手臂', 'https://video.yun.jxntv.cn/fs/livecut/20230202/bXjIYXvh.mp4', '15:23', '0', '4', '1', '1', '2023-02-12 01:15:06', '2023-02-13 02:01:19', '0000-00-00 00:00:00');
+INSERT INTO `xw_yoga_course` VALUES ('1', '1', '（坐姿）伸展頸部_（斜方肌）', 'https://visionlife.oss-ap-northeast-1.aliyuncs.com/2022TA/05/%E4%BA%A4%E9%80%9A-Tractor%20Kubota%20%E5%86%9C%E6%9C%BA%E5%B9%BF%E5%91%8A%5B%E6%B3%B0%E5%9B%BD%5D%5B2022.5%5D.mp4', '36:25', '0', '1', '1', '1', '2023-02-12 00:33:53', '2023-02-13 02:03:24', '0000-00-00 00:00:00');
+INSERT INTO `xw_yoga_course` VALUES ('2', '1', '（坐姿）肩部環繞', 'https://visionlife.oss-ap-northeast-1.aliyuncs.com/2022TA/05/%E4%BA%A4%E9%80%9A-Tractor%20Kubota%20%E5%86%9C%E6%9C%BA%E5%B9%BF%E5%91%8A%5B%E6%B3%B0%E5%9B%BD%5D%5B2022.5%5D.mp4', '15:26', '0', '2', '1', '1', '2023-02-12 01:12:50', '2023-02-13 02:03:14', '0000-00-00 00:00:00');
+INSERT INTO `xw_yoga_course` VALUES ('3', '1', '（坐姿）伸展肩胛骨', 'https://visionlife.oss-ap-northeast-1.aliyuncs.com/2022TA/05/%E4%BA%A4%E9%80%9A-Tractor%20Kubota%20%E5%86%9C%E6%9C%BA%E5%B9%BF%E5%91%8A%5B%E6%B3%B0%E5%9B%BD%5D%5B2022.5%5D.mp4', '20:26', '0', '3', '1', '1', '2023-02-12 01:14:14', '2023-02-13 02:03:06', '0000-00-00 00:00:00');
+INSERT INTO `xw_yoga_course` VALUES ('4', '1', '（坐姿）伸展手臂', 'https://visionlife.oss-ap-northeast-1.aliyuncs.com/2022TA/05/%E4%BA%A4%E9%80%9A-Tractor%20Kubota%20%E5%86%9C%E6%9C%BA%E5%B9%BF%E5%91%8A%5B%E6%B3%B0%E5%9B%BD%5D%5B2022.5%5D.mp4', '15:23', '0', '4', '1', '1', '2023-02-12 01:15:06', '2023-02-13 02:01:19', '0000-00-00 00:00:00');
