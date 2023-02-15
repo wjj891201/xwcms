@@ -57,12 +57,25 @@ class YogaController extends BaseController
         }
         else
         {
+            $user_id = $user_session['id'];
             // 會員中心傳遞過來的課程
             $course_id = get_params('course_id');
+
+            $watch = Db::name('watch_course')->where(['user_id' => $user_id, 'course_id' => $course_id])->find();
+            if (empty($watch))
+            {
+                $data = [
+                    'user_id' => $user_id,
+                    'course_id' => $course_id,
+                    'add_time' => Carbon::now()->toDateTimeString()
+                ];
+                Db::name('watch_course')->insert($data);
+            }
+
             $info = Db::table('xw_yoga_course')->alias('y')->field('y.title,y.course_url,c.title as cate_title,c.desc')
                             ->join('xw_yoga_cate c', 'y.cate_id = c.id')->where(['y.id' => $course_id])->find();
 
-            $user_id = $user_session['id'];
+
             $orderIdArr = Db::name('order')->where(['user_id' => $user_id, 'status' => 2])->column('id');
             $cateIdArr = Db::name('order_course')->group("cate_id")->where('order_id', 'in', $orderIdArr)->column('cate_id');
 
